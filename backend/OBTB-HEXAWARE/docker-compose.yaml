@@ -1,0 +1,66 @@
+
+services:
+
+  config-service:
+    build: ./Config-Server
+    container_name: config-service
+    ports:
+      - "8083:8083"
+    networks:
+      - obtb-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  auth-service:
+    build: ./OauthService
+    container_name: auth-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=stage
+      - CONFIG_SERVER_URL=http://config-service:8083/
+    depends_on:
+      config-service:
+        condition: service_healthy
+    networks:
+      - obtb-network
+
+  user-service:
+    build: ./USER-SERVICE
+    container_name: user-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=stage
+      - CONFIG_SERVER_URL=http://config-service:8083/
+    depends_on:
+      config-service:
+        condition: service_healthy
+    networks:
+      - obtb-network
+
+  notification-service:
+    build: ./NotificationService
+    container_name: notification-service
+    ports:
+      - "8084:8084"
+    volumes:
+      # Map your local Mac path to a path inside the container
+      - /Users/mihirjoshi/Desktop/Hexaware/code-base/obtb-certs:/app/certs
+    environment:
+      - SPRING_PROFILES_ACTIVE=stage
+      - CONFIG_SERVER_URL=http://config-service:8083/
+      - KAFKA_SSL_KEYSTORE_LOCATION=/app/certs/client.keystore.p12
+      - KAFKA_SSL_TRUSTSTORE_LOCATION=/app/certs/client.truststore.jks
+    depends_on:
+      config-service:
+        condition: service_healthy
+    networks:
+      - obtb-network
+
+networks:
+  obtb-network:
+    driver: bridge
