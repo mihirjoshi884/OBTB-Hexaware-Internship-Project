@@ -35,6 +35,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             AuthenticationException exception) throws IOException {
 
         String username = request.getParameter("username");
+        String message = "Invalid username or password";
+        int status = HttpServletResponse.SC_UNAUTHORIZED;
 
         if (username == null || username.isBlank()) {
             send(response, HttpServletResponse.SC_BAD_REQUEST,
@@ -48,7 +50,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         // ✅ USER NOT FOUND
         if (identityOptional.isEmpty()) {
             send(response, HttpServletResponse.SC_UNAUTHORIZED,
-                    "Invalid username or password");
+                    "Either username or password is missing");
             return;
         }
 

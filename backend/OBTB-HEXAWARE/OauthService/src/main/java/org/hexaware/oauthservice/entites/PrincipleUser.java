@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 
 public class PrincipleUser implements UserDetails {
@@ -22,6 +23,25 @@ public class PrincipleUser implements UserDetails {
         this.authIdentity = authIdentity;
         this.accountNonLocked = accountNonLocked;
         this.authorities = authorities;
+    }
+
+    public UUID getUserId(){
+        return authIdentity.getUserId();
+    }
+
+    public UUID getAuthId(){
+        return authIdentity.getAuthId();
+    }
+
+    public UUID getRoleMappingId(){
+        return authIdentity.getRoleMappingId();
+    }
+
+    public boolean is_AccountNonVerified(){
+        if(!authIdentity.is_Verified()){
+            return false;
+        }
+        return true;
     }
 
     @Override

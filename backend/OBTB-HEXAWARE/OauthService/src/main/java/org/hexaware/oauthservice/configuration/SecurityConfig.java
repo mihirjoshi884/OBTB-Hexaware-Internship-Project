@@ -5,6 +5,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import jakarta.servlet.http.HttpServletResponse;
+import org.hexaware.oauthservice.entites.PrincipleUser;
 import org.hexaware.oauthservice.services.CustomAuthenticationFailureHandler;
 import org.hexaware.oauthservice.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import com.nimbusds.jose.proc.SecurityContext;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -48,13 +51,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.nio.charset.StandardCharsets;
-import java.security.KeyPair;
-import java.security.MessageDigest;
+import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.security.KeyPairGenerator;
 import java.security.KeyPair;
 
 @Configuration
@@ -229,17 +230,27 @@ public class SecurityConfig {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource); // For verifying JWTs
     }
 
+
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> jwtTokenCustomizer() {
         return (context) -> {
-            if (context.getTokenType().equals(OAuth2TokenType.ACCESS_TOKEN)) {
+            if (context.getTokenType().equals(OAuth2TokenType.ACCESS_TOKEN)||
+            "id_token".equals(context.getTokenType().getValue())) {
+                Authentication principal = context.getPrincipal();
                 context.getClaims().claims((claims) -> {
                     // For users logging in via Authorization Code flow (our Angular app)
                     if (context.getAuthorizationGrantType().equals(AuthorizationGrantType.AUTHORIZATION_CODE)) {
                         Set<String> roles = AuthorityUtils.authorityListToSet(context.getPrincipal().getAuthorities())
                                 .stream()
                                 .collect(Collectors.collectingAndThen(Collectors.toSet(), Collections::unmodifiableSet));
-                        claims.put("authority", roles); // Add user's authorities/roles to the token
+                        claims.put("authority", roles);// Add user's authorities/roles to the token
+
+                        Object userPrincipal = principal.getPrincipal();
+                        if(userPrincipal instanceof PrincipleUser customUser) {
+                            claims.put("username", customUser.getUsername());
+                            claims.put("userId",customUser.getUserId().toString());
+                            claims.put("roleMappingId", customUser.getRoleMappingId().toString());
+                        }
                     }
                 });
             }

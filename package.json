@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "ngx-toastr": "^19.1.0",
+    "sweetalert2": "^11.26.17"
+  }
+}

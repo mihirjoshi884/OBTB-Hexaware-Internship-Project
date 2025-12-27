@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-
-
+import Swal from 'sweetalert2';
 import { environment } from '../../../../environments/environment';
 import { DataStore } from '../../../core/data-store/data-store';
 import { Step1PersonalInfo } from '../steps/step1-personal-info/step1-personal-info';
@@ -46,6 +45,7 @@ export class SignupWizardComponent implements OnInit {
   private readonly http = inject(HttpClient);
   private readonly dataStore = inject(DataStore);
   private readonly router = inject(Router);
+
 
 
   ngOnInit(): void {
@@ -97,14 +97,25 @@ export class SignupWizardComponent implements OnInit {
       // Make API call to register user
       const signupPayload = this.signupForm.value;
       
-      this.http.post( environment.baseUrls['authservice.base-uri'] + '/user/signup', signupPayload)
+      this.http.post( environment.baseUrls['authservice.base-uri'] + '/auth-api/v1/register', signupPayload)
         .subscribe({
           next: (response: any) => {
             console.log('✓ Signup successful:', response);
             // Hide loader
             this.dataStore.setLoading(false);
-            // Navigate to verify-account page
-            this.router.navigate(['/verify-account']);
+            Swal.fire({
+              title:'Account Created Successfully!',
+              text: 'Please verify your account and  activate your account. Check your email for verification link.',
+              icon: 'success',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#2563EB',
+            }).then((result)=>{
+              if (result.isConfirmed){
+                this.router.navigate(['/login']);
+              }
+            });
+            
+            
           },
           error: (error: any) => {
             console.error('✗ Signup failed:', error);

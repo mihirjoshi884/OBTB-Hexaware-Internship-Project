@@ -37,7 +37,7 @@ export class VerifyAccount implements OnInit {
     this.dataStore.setUserId(userId);
     this.activeAccount(userId);
 
-    this.http.patch(environment.baseUrls['userservice.base-uri'] + `/user/verify/${userId}`, {})
+    this.http.patch(environment.baseUrls['authservice.base-uri'] + `/auth-api/v1/user/verify/${userId}`, {})
       .subscribe({
         next: (response: any) => {
           console.log('Verification successful:', response);
@@ -60,7 +60,7 @@ export class VerifyAccount implements OnInit {
   }
 
   activeAccount(userId: string): void {
-    this.http.get<boolean>(environment.baseUrls['authservice.base-uri'] + `/user/is-active/${userId}`)
+    this.http.get<boolean>(environment.baseUrls['authservice.base-uri'] + `/auth-api/v1/user/is-active/${userId}`,{})
       .subscribe({
         next: (isActive: boolean) => {
           console.log('Is user active? ', isActive);
@@ -74,7 +74,7 @@ export class VerifyAccount implements OnInit {
   }
 
   activateAccount(): void {
-    this.http.patch(environment.baseUrls['authservice.base-uri'] + `/user/activate/${this.dataStore.getUserId()}`, {})
+    this.http.patch(environment.baseUrls['authservice.base-uri'] + `/auth-api/v1/user/activate/${this.dataStore.getUserId()}`, {})
       .subscribe({
         next: (response: any) => {
           console.log('user has successfully activated his account', response);
