@@ -1,0 +1,25 @@
+# OS Metadata
+.DS_Store
+**/.DS_Store
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.iml
+
+# Java & Spring Boot
+**/target/
+**/build/
+*.class
+**/.mvn/wrapper/maven-wrapper.jar
+
+# Angular & Node
+**/node_modules/
+**/dist/
+**/.angular/
+.npm/
+package-lock.json
+
+# Environment/Certs (optional: uncomment if you want to keep certs private)
+obtb-certs/
