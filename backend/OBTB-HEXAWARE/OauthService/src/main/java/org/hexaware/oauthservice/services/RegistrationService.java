@@ -53,11 +53,13 @@ public class RegistrationService {
     private UserLockOutRepository userLockOutRepository;
     @Value("${userservice.base-uri}")
     private String userServiceBaseUrl;
+    @Autowired
+    private AuthMapper mapper;
 
     public Summary userRegistration(AuthUserCreationRequest authUserCreationRequest) throws Exception {
 
         // 1. External Call: Create User in User Service
-        UserCreationRequest userCreationRequest = AuthMapper.INSTANCE.toUserCreationRequest(authUserCreationRequest);
+        UserCreationRequest userCreationRequest = mapper.toUserCreationRequest(authUserCreationRequest);
         UserSummary userResponse = createUser(userCreationRequest);
 
         // Guard Clause: Validate User Service Response
@@ -69,25 +71,25 @@ public class RegistrationService {
             throw new RuntimeException("User creation failed or returned an inconsistent response from User Service.");
         }
 
-        UUID newUserId = userResponse.getUserId();
+
 
         // 2. Prepare and Save Security Questions
         SecurityQuestion securityQuestionEntity = storeHashQuestion(
                 authUserCreationRequest.getSecQA(),
-                newUserId
+                userResponse.getUserId()
         );
         secRepository.save(securityQuestionEntity);
 
         // 3. Prepare and Save User Lockout Record
         UserLockout userLockout = new UserLockout();
         userLockout.setLoginCounter(0);
-        userLockout.setUserId(newUserId);
+        userLockout.setUserId(userResponse.getUserId());
         userLockout.setLocked(false);
         // Attempt fields (LocalDateTime) will be NULL by default, indicating no failures.
         userLockOutRepository.save(userLockout);
 
         // 4. Prepare and Save AuthIdentity Record
-        AuthIdentity authIdentity = AuthMapper.INSTANCE.toAuthIdentity(userResponse);
+        AuthIdentity authIdentity = mapper.toAuthIdentity(authUserCreationRequest);
 
 
         // Hashed Password
@@ -95,9 +97,11 @@ public class RegistrationService {
 
         // Initial Activation State
         authIdentity.set_Active(false);
+        authIdentity.setUserId(userResponse.getUserId());
+        authIdentity.setRoleMappingId(userResponse.getRoleMappingId());
 
         AuthIdentity savedAuthIdentity = authIdentityRepository.save(authIdentity);
-        var result = AuthMapper.INSTANCE.toSummary(savedAuthIdentity);
+        var result = mapper.toSummary(savedAuthIdentity);
         String topic = "producer_oauth.urgent.user_created";
         NotificationEvent notificationEvent = new NotificationEvent();
         notificationEvent.setData(result);

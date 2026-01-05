@@ -83,16 +83,21 @@ public class SecurityConfig {
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfigurer configurer = new OAuth2AuthorizationServerConfigurer();
 
-        http.securityMatcher(configurer.getEndpointsMatcher())
+        http.securityMatcher(request ->
+                        configurer.getEndpointsMatcher().matches(request) ||
+                        request.getServletPath().startsWith("/.well-known/") || request.getServletPath().startsWith("/oauth2/"))
                 .with(configurer, (authorizationServer) -> {
                     authorizationServer
                             .authorizationEndpoint(endpoint -> endpoint.consentPage("/oauth2/consent"))
-                            .oidc(Customizer.withDefaults());
+                            .oidc(Customizer.withDefaults()); // This enables /.well-known/openid-configuration
                 })
-                // Use the shared CORS config
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable()) // Auth endpoints handle security via tokens
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        // Allow public access to discovery and keys so Angular can initialize
+                        .requestMatchers("/.well-known/**", "/oauth2/jwks").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .oauth2ResourceServer(resourceServer -> resourceServer.jwt(Customizer.withDefaults()))
                 .exceptionHandling(exceptions -> exceptions
                         .defaultAuthenticationEntryPointFor(
@@ -119,6 +124,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/login", "/auth-api/v1/user/**",
                                 "/auth-api/v1/register").permitAll()
                         .anyRequest().authenticated()
@@ -194,9 +200,18 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(angularBaseUri)); // Allow your Angular App
+
+        // Use the variable from your application properties
+        configuration.setAllowedOrigins(List.of(angularBaseUri));
+
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
+
+        // FIX: Allow all headers to ensure preflight doesn't fail on "Origin", "Accept", etc.
+        configuration.setAllowedHeaders(List.of("*"));
+
+        // FIX: Expose headers if your frontend needs to read things like Authorization from the response
+        configuration.setExposedHeaders(List.of("Authorization"));
+
         configuration.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", configuration);
         return source;

@@ -37,7 +37,6 @@ public class UserService {
         String roleName = user.getRoleName();
         Roles roleEnum = Roles.valueOf(roleName.toUpperCase());
         User toBeSaved = mapper.toUser(user);
-
         Role roleEntity = roleRepository.findByRole(roleEnum)
                 .orElseThrow(() -> new RoleNotFoundException("Role not found in DB: " + roleEnum));
         User savedUser =  userRepository.save(toBeSaved);
