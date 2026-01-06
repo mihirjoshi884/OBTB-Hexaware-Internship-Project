@@ -1,34 +1,6 @@
 services:
   # 1. REMOVED the 'kafka' service entirely since it runs on your Mac.
 
-  auth-db:
-    image: postgres:15
-    environment:
-      - POSTGRES_DB=auth_db
-      - POSTGRES_USER=auth_user
-      - POSTGRES_PASSWORD=auth_pass
-    networks:
-      - obtb-network
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U auth_user -d auth_db" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-  user-db:
-    image: postgres:15
-    environment:
-      - POSTGRES_DB=user_db
-      - POSTGRES_USER=user_user
-      - POSTGRES_PASSWORD=user_pass
-    networks:
-      - obtb-network
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U user_user -d user_db" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   config-service:
     build: ./Config-Server
     container_name: config-service
@@ -47,36 +19,35 @@ services:
     container_name: auth-service
     ports:
       - "8081:8081"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     environment:
       - SPRING_PROFILES_ACTIVE=stage
       - CONFIG_SERVER_URL=http://config-service:8083/
-      # 2. Point to your MacBook's Kafka
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=host.docker.internal:9092
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - KAFKA_SSL_KEYSTORE_LOCATION=/app/certs/client.keystore.p12
+      - KAFKA_SSL_TRUSTSTORE_LOCATION=/app/certs/client.truststore.jks
     depends_on:
-      # 3. Removed kafka condition
-      auth-db:
-        condition: service_healthy
+
       config-service:
         condition: service_healthy
     networks:
       - obtb-network
+    volumes:
+      - /Users/mihirjoshi/desktop/HEXAWARE/code-base-fresh/obtb-certs:/app/certs
 
   user-service:
     build: ./USER-SERVICE
     container_name: user-service
     ports:
       - "8082:8082"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     environment:
       - SPRING_PROFILES_ACTIVE=stage
       - CONFIG_SERVER_URL=http://config-service:8083/
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=host.docker.internal:9092
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     depends_on:
-      user-db:
-        condition: service_healthy
       config-service:
         condition: service_healthy
     networks:
@@ -87,17 +58,17 @@ services:
     container_name: notification-service
     ports:
       - "8084:8084"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     volumes:
-      - /Users/mihirjoshi/Desktop/Hexaware/code-base/obtb-certs:/app/certs
+      - /Users/mihirjoshi/desktop/HEXAWARE/code-base-fresh/obtb-certs:/app/certs
     environment:
       - SPRING_PROFILES_ACTIVE=stage
       - CONFIG_SERVER_URL=http://config-service:8083/
-      # 2. Point to your MacBook's Kafka
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=host.docker.internal:9092
-    extra_hosts:
-      - "localhost:host-gateway"
+      - KAFKA_SSL_KEYSTORE_LOCATION=/app/certs/client.keystore.p12
+      - KAFKA_SSL_TRUSTSTORE_LOCATION=/app/certs/client.truststore.jks
     depends_on:
-      # 3. Removed kafka condition
       config-service:
         condition: service_healthy
     networks:

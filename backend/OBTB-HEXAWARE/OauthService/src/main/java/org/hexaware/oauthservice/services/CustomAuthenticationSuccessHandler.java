@@ -10,38 +10,39 @@ import org.hexaware.oauthservice.repositories.UserLockOutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 
 
 @Service
-public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    @Autowired
-    AuthIdentityRepository authIdentityRepository;
     @Autowired
     UserLockOutRepository userLockOutRepository;
 
-
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                        Authentication authentication) throws IOException, ServletException {
 
         var userId = ((PrincipleUser) authentication.getPrincipal()).getUserId();
-        var userLockOut = userLockOutRepository.findById(userId).orElse(null);
-        if(userLockOut == null){
-            throw new ServletException("User not found");
-        }else {
-            if(userLockOut.getLoginCounter() == 0){
-                return ;
-            } else {
-                userLockOut.setAttempt1(null);
-                userLockOut.setAttempt2(null);
-                userLockOut.setAttempt3(null);
-                userLockOut.setLoginCounter(0);
-                userLockOutRepository.save(userLockOut);
-            }
-        }
 
+        // Use findByUserId instead of findById
+        userLockOutRepository.findByUserId(userId).ifPresent(lockout -> {
+            if (lockout.getLoginCounter() > 0) {
+                lockout.setAttempt1(null);
+                lockout.setAttempt2(null);
+                lockout.setAttempt3(null);
+                lockout.setLoginCounter(0);
+                lockout.setLocked(false);
+                userLockOutRepository.save(lockout);
+            }
+        });
+
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"status\": \"SUCCESS\"}");
+        response.getWriter().flush();
     }
 }

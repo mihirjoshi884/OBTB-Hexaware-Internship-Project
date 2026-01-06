@@ -15,17 +15,14 @@ public class ResourceServerConfig {
 
     @Bean
     public SecurityFilterChain resourceServerSecurityFilterChain(HttpSecurity http) throws Exception {
-
-        http.authorizeHttpRequests(
-                authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers("/user-api/v1/create-user").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/user-api/v1/create-user").permitAll()
-                                .anyRequest().authenticated()
-
-        ).oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(Customizer.withDefaults())).csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/user-api/v1/create-user").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
 
         return http.build();
     }

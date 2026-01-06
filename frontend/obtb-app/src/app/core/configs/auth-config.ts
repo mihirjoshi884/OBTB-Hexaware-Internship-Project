@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 
 
 export const authConfig: AuthConfig = {
-  issuer: environment.baseUrls['authservice.base-uri'],
+  issuer: environment.baseUrls['authservice.issuer'],
   clientId: 'obtb-client-001',
   responseType: 'code',
   redirectUri: globalThis.location.origin + '/login/callback',
@@ -18,7 +18,9 @@ export const authConfig: AuthConfig = {
   
   disablePKCE: false,
   timeoutFactor: 0.75,
-  sessionChecksEnabled: false
+  sessionChecksEnabled: false,
+  strictDiscoveryDocumentValidation: false,
+  skipIssuerCheck: false
 };
 
 

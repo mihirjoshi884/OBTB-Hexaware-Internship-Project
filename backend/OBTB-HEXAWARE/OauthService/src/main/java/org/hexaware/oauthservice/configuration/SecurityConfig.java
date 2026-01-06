@@ -7,12 +7,14 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.hexaware.oauthservice.entites.PrincipleUser;
 import org.hexaware.oauthservice.services.CustomAuthenticationFailureHandler;
+import org.hexaware.oauthservice.services.CustomAuthenticationSuccessHandler;
 import org.hexaware.oauthservice.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -74,27 +76,31 @@ public class SecurityConfig {
     private CustomUserDetailsService customUserDetailsService;
     @Autowired
     private CustomAuthenticationFailureHandler authenticationFailureHandler;
-
+    @Autowired
+    private CustomAuthenticationSuccessHandler authenticationSuccessHandler;
 
 
 
     @Bean
-    @Order(1)
+    @Order(Ordered.HIGHEST_PRECEDENCE) // Always order 0
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfigurer configurer = new OAuth2AuthorizationServerConfigurer();
 
-        http.securityMatcher(request ->
+        http
+                // Combined Matcher: Matches internal endpoints + discovery + jwks
+                .securityMatcher(request ->
                         configurer.getEndpointsMatcher().matches(request) ||
-                        request.getServletPath().startsWith("/.well-known/") || request.getServletPath().startsWith("/oauth2/"))
+                                request.getServletPath().startsWith("/.well-known/") ||
+                                request.getServletPath().startsWith("/oauth2/")
+                )
                 .with(configurer, (authorizationServer) -> {
                     authorizationServer
                             .authorizationEndpoint(endpoint -> endpoint.consentPage("/oauth2/consent"))
-                            .oidc(Customizer.withDefaults()); // This enables /.well-known/openid-configuration
+                            .oidc(Customizer.withDefaults());
                 })
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Allow public access to discovery and keys so Angular can initialize
                         .requestMatchers("/.well-known/**", "/oauth2/jwks").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -105,6 +111,7 @@ public class SecurityConfig {
                                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                         )
                 );
+
         return http.build();
     }
 
@@ -132,10 +139,7 @@ public class SecurityConfig {
                 .logout(logout -> logout.logoutUrl("/logout").permitAll())
                 .formLogin(form -> form
                         .loginProcessingUrl("/login")
-                        .successHandler((request, response, authentication) -> {
-                            // Return 200 OK so Angular knows the session is created
-                            response.setStatus(HttpServletResponse.SC_OK);
-                        })
+                        .successHandler(authenticationSuccessHandler)
                         .failureHandler(authenticationFailureHandler)
                         .permitAll()
                 );
@@ -185,7 +189,26 @@ public class SecurityConfig {
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .build();
-        return new InMemoryRegisteredClientRepository( angularClient,authClient,notificationClient);
+
+        var apiGatewayClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("obtb-api-gateway")
+                .clientName("OBTB API Gateway")
+                // Use {noop} for plain text in development
+                .clientSecret("{noop}obtb-api-gateway-secret")
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                // Gateway usually uses basic auth to talk to Auth Service
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                // CRITICAL: This must match the resolved {baseUrl} pattern
+                .redirectUri("http://localhost:9090/login/oauth2/code/api-gateway")
+                .scope(OidcScopes.OPENID)
+                .scope(OidcScopes.PROFILE)
+                .clientSettings(ClientSettings.builder()
+                        .requireAuthorizationConsent(false)
+                        .build())
+                .build();
+
+        return new InMemoryRegisteredClientRepository( angularClient,authClient,notificationClient, apiGatewayClient);
     }
 
     @Bean
@@ -202,8 +225,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // Use the variable from your application properties
-        configuration.setAllowedOrigins(List.of(angularBaseUri));
-
+        configuration.setAllowedOrigins(List.of(angularBaseUri, "null"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
 
         // FIX: Allow all headers to ensure preflight doesn't fail on "Origin", "Accept", etc.

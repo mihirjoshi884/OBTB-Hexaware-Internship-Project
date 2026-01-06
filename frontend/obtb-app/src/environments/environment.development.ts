@@ -4,10 +4,8 @@ export const environment = {
     featureFlag: true,
     // ✅ Hardcoded URLs for DEV profile
     baseUrls: {
-        'userservice.base-uri': 'http://localhost:8082',
-        'angular.base-uri': 'http://localhost:4200',
-        'authservice.base-uri': 'http://localhost:8081',
-        'configserver.base-uri': 'http://localhost:8083',
-        'notificationservice.base-uri': 'http://localhost:8084'
+        'userservice.base-uri': 'http://localhost:9090/user',
+        'authservice.base-uri': 'http://localhost:9090/auth',
+        'authservice.issuer': 'http://localhost:8081'
     }
 };
