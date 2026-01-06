@@ -1,6 +1,7 @@
 services:
   # 1. REMOVED the 'kafka' service entirely since it runs on your Mac.
 
+
   config-service:
     build: ./Config-Server
     container_name: config-service
@@ -35,6 +36,19 @@ services:
       - obtb-network
     volumes:
       - /Users/mihirjoshi/desktop/HEXAWARE/code-base-fresh/obtb-certs:/app/certs
+  api-gateway:
+    build: ./API-GATEWAY
+    container_name: api-gateway
+    ports:
+      - "9090:9090"
+    networks:
+      - obtb-network
+    environment:
+      - SPRING_PROFILE_ACTIVE=stage
+      - CONFIG_SERVER_URL=http://config-service:8083/
+    depends_on:
+      config-service:
+        condition: service_healthy
 
   user-service:
     build: ./USER-SERVICE

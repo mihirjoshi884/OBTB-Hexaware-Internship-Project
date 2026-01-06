@@ -14,7 +14,11 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults()) // Matches the YAML globalcors
                 .csrf(csrf -> csrf.disable())    // Disable for dev; use tokens for prod
                 .authorizeExchange(exchanges -> exchanges
+                        // ADD your verification and activation paths here
                         .pathMatchers("/auth/**", "/login/**", "/oauth2/**").permitAll()
+                        .pathMatchers("/auth/auth-api/v1/user/verify/**").permitAll()
+                        .pathMatchers("/auth/auth-api/v1/user/is-active/**").permitAll()
+                        .pathMatchers("/auth/auth-api/v1/user/activate/**").permitAll()
                         .anyExchange().authenticated()
                 )
                 .oauth2Login(Customizer.withDefaults());

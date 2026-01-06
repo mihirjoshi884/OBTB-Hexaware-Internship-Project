@@ -272,7 +272,7 @@ public class SecurityConfig {
     public OAuth2TokenCustomizer<JwtEncodingContext> jwtTokenCustomizer() {
         return (context) -> {
             if (context.getTokenType().equals(OAuth2TokenType.ACCESS_TOKEN)||
-            "id_token".equals(context.getTokenType().getValue())) {
+                    "id_token".equals(context.getTokenType().getValue())) {
                 Authentication principal = context.getPrincipal();
                 context.getClaims().claims((claims) -> {
                     // For users logging in via Authorization Code flow (our Angular app)
