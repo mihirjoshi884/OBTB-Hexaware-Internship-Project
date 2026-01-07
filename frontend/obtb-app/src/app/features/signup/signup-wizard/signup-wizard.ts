@@ -109,7 +109,7 @@ export class SignupWizardComponent implements OnInit {
               icon: 'success',
               confirmButtonText: 'OK',
               confirmButtonColor: '#2563EB',
-            }).then((result)=>{
+            }).then((result: any)=>{
               if (result.isConfirmed){
                 this.router.navigate(['/login']);
               }

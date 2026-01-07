@@ -33,11 +33,12 @@
     "angular-oauth2-oidc": "^20.0.2",
     "ngx-toastr": "^19.1.0",
     "rxjs": "~7.8.2",
+    "sweetalert2": "^11.26.17",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular/build": "^21.0.1",
-    "@angular/cli": "^21.0.1",
+    "@angular/cli": "^20.0.6",
     "@angular/compiler-cli": "^21.0.0",
     "@tailwindcss/postcss": "^4.1.12",
     "jsdom": "^27.1.0",
