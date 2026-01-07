@@ -26,6 +26,7 @@
         <module>OauthService</module>
         <module>Config-Server</module>
         <module>NotificationService</module>
+        <module>API-GATEWAY</module>
     </modules>
 
     <dependencies>

@@ -11,6 +11,7 @@ spring:
   config:
     import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8083/}
     fail-fast: true
+
 management:
   endpoints:
     web:
