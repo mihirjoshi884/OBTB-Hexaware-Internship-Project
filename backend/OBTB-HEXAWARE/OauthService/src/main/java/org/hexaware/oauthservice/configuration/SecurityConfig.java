@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -82,16 +83,17 @@ public class SecurityConfig {
 
 
     @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE) // Always order 0
+    @Order(Ordered.HIGHEST_PRECEDENCE) // Order 0
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfigurer configurer = new OAuth2AuthorizationServerConfigurer();
 
         http
-                // Combined Matcher: Matches internal endpoints + discovery + jwks
+                // 1. Updated Matcher: Ensure it captures the user API correctly
                 .securityMatcher(request ->
                         configurer.getEndpointsMatcher().matches(request) ||
                                 request.getServletPath().startsWith("/.well-known/") ||
-                                request.getServletPath().startsWith("/oauth2/")
+                                request.getServletPath().startsWith("/oauth2/") ||
+                                request.getServletPath().startsWith("/auth-api/v1/user")
                 )
                 .with(configurer, (authorizationServer) -> {
                     authorizationServer
@@ -99,9 +101,14 @@ public class SecurityConfig {
                             .oidc(Customizer.withDefaults());
                 })
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                // 2. CRITICAL: Disable CSRF globally for this chain to allow PATCH without tokens
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/.well-known/**", "/oauth2/jwks").permitAll()
+                        // 3. Specific Method Permits FIRST
+                        .requestMatchers(HttpMethod.PATCH, "/auth-api/v1/user/verify/**", "/auth-api/v1/user/activate/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/auth-api/v1/user/is-active/**").permitAll()
+                        // 4. General Permits
+                        .requestMatchers("/.well-known/**", "/oauth2/jwks", "/auth-api/v1/user/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(resourceServer -> resourceServer.jwt(Customizer.withDefaults()))
@@ -113,6 +120,20 @@ public class SecurityConfig {
                 );
 
         return http.build();
+    }
+
+    /**
+     * FINAL FIX: Bypasses the entire Security Filter Chain for these public endpoints.
+     * This prevents any 302 redirects from happening for verification and registration.
+     */
+    @Bean
+    public org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers(
+                "/auth-api/v1/user/verify/**",
+                "/auth-api/v1/user/activate/**",
+                "/auth-api/v1/user/is-active/**",
+                "/auth-api/v1/register"
+        );
     }
 
     @Bean
