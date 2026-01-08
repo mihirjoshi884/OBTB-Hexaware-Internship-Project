@@ -1,0 +1,386 @@
+------------------------------------------
+🚀 SESSION START: 2026-01-08 15:06:43
+------------------------------------------
+[INFO] Scanning for projects...
+[ERROR] [ERROR] Some problems were encountered while processing the POMs:
+[FATAL] Non-readable POM /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/USER-SERVICE/pom.xml: Operation timed out @ 
+[FATAL] Non-readable POM /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/OauthService/pom.xml: Operation timed out @ 
+[FATAL] Non-readable POM /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/Config-Server/pom.xml: Operation timed out @ 
+[FATAL] Non-readable POM /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/NotificationService/pom.xml: Operation timed out @ 
+[FATAL] Non-readable POM /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/API-GATEWAY/pom.xml: Operation timed out @ 
+ @ 
+[ERROR] The build could not read 5 projects -> [Help 1]
+[ERROR]   
+[ERROR]   The project  (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/USER-SERVICE/pom.xml) has 1 error
+[ERROR]     Non-readable POM /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/USER-SERVICE/pom.xml: Operation timed out
+[ERROR]   
+[ERROR]   The project  (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/OauthService/pom.xml) has 1 error
+[ERROR]     Non-readable POM /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/OauthService/pom.xml: Operation timed out
+[ERROR]   
+[ERROR]   The project  (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/Config-Server/pom.xml) has 1 error
+[ERROR]     Non-readable POM /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/Config-Server/pom.xml: Operation timed out
+[ERROR]   
+[ERROR]   The project  (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/NotificationService/pom.xml) has 1 error
+[ERROR]     Non-readable POM /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/NotificationService/pom.xml: Operation timed out
+[ERROR]   
+[ERROR]   The project  (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/API-GATEWAY/pom.xml) has 1 error
+[ERROR]     Non-readable POM /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/API-GATEWAY/pom.xml: Operation timed out
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/ProjectBuildingException
+🚀 SESSION START: 2026-01-08 15:12:26
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< org.Hexaware:Config-Server >---------------------
+[INFO] Building Config-Server 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ Config-Server >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ Config-Server ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ Config-Server ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 2 source files with javac [debug parameters release 17] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ Config-Server ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ Config-Server ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ Config-Server <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ Config-Server ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  16.967 s
+[INFO] Finished at: 2026-01-08T15:12:44+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project Config-Server: Unable to find a suitable main class, please add a 'mainClass' property -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+------------------------------------------
+🚀 SESSION START: 2026-01-08 15:18:45
+------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< org.Hexaware:Config-Server >---------------------
+[INFO] Building Config-Server 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ Config-Server >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ Config-Server ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ Config-Server ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 2 source files with javac [debug parameters release 17] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ Config-Server ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ Config-Server ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ Config-Server <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ Config-Server ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2026-01-08T15:18:48.742+05:30  INFO 51338 --- [Config-Server] [           main] o.h.c.ConfigServerApplication            : Starting ConfigServerApplication using Java 17.0.17 with PID 51338 (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/Config-Server/target/classes started by mihirjoshi in /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/Config-Server)
+2026-01-08T15:18:48.743+05:30  INFO 51338 --- [Config-Server] [           main] o.h.c.ConfigServerApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-01-08T15:18:49.355+05:30  INFO 51338 --- [Config-Server] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=6431cbc0-0b4b-371f-acfb-da89222a0fd1
+2026-01-08T15:18:49.580+05:30  INFO 51338 --- [Config-Server] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8083 (http)
+2026-01-08T15:18:49.590+05:30  INFO 51338 --- [Config-Server] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-08T15:18:49.590+05:30  INFO 51338 --- [Config-Server] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2026-01-08T15:18:49.645+05:30  INFO 51338 --- [Config-Server] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 877 ms
+2026-01-08T15:18:51.744+05:30  INFO 51338 --- [Config-Server] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-01-08T15:18:51.775+05:30  INFO 51338 --- [Config-Server] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8083 (http) with context path '/'
+2026-01-08T15:18:51.785+05:30  INFO 51338 --- [Config-Server] [           main] o.h.c.ConfigServerApplication            : Started ConfigServerApplication in 3.304 seconds (process running for 3.758)
+------------------------------------------
+🚀 SESSION START: 2026-01-08 15:23:37
+------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< org.Hexaware:Config-Server >---------------------
+[INFO] Building Config-Server 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ Config-Server >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ Config-Server ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ Config-Server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ Config-Server ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ Config-Server ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ Config-Server <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ Config-Server ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2026-01-08T15:23:40.845+05:30  INFO 52841 --- [Config-Server] [           main] o.h.c.ConfigServerApplication            : Starting ConfigServerApplication using Java 17.0.17 with PID 52841 (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/Config-Server/target/classes started by mihirjoshi in /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/Config-Server)
+2026-01-08T15:23:40.848+05:30  INFO 52841 --- [Config-Server] [           main] o.h.c.ConfigServerApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-01-08T15:23:41.903+05:30  INFO 52841 --- [Config-Server] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=6431cbc0-0b4b-371f-acfb-da89222a0fd1
+2026-01-08T15:23:42.229+05:30  INFO 52841 --- [Config-Server] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8083 (http)
+2026-01-08T15:23:42.247+05:30  INFO 52841 --- [Config-Server] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-08T15:23:42.247+05:30  INFO 52841 --- [Config-Server] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2026-01-08T15:23:42.306+05:30  INFO 52841 --- [Config-Server] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1401 ms
+2026-01-08T15:23:43.893+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-08T15:23:43.894+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-08T15:23:43.901+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2026-01-08T15:23:44.663+05:30  INFO 52841 --- [Config-Server] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-01-08T15:23:44.695+05:30  WARN 52841 --- [Config-Server] [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-01-08T15:23:44.711+05:30  INFO 52841 --- [Config-Server] [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-08T15:23:44.721+05:30 ERROR 52841 --- [Config-Server] [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8083 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8083 or configure this application to listen on another port.
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  6.336 s
+[INFO] Finished at: 2026-01-08T15:23:44+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project Config-Server: Process terminated with exit code: 1 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+2026-01-08T15:23:45.262+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-2] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/AuthService-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/'
+2026-01-08T15:23:45.262+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-2] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/Common-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/'
+2026-01-08T15:23:45.263+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-2] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/baseurls-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/'
+------------------------------------------
+🚀 SESSION START: 2026-01-08 15:32:38
+------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< org.Hexaware:Config-Server >---------------------
+[INFO] Building Config-Server 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ Config-Server >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ Config-Server ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ Config-Server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ Config-Server ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ Config-Server ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ Config-Server <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ Config-Server ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2026-01-08T15:32:42.952+05:30  INFO 55057 --- [Config-Server] [           main] o.h.c.ConfigServerApplication            : Starting ConfigServerApplication using Java 17.0.17 with PID 55057 (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/Config-Server/target/classes started by mihirjoshi in /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/Config-Server)
+2026-01-08T15:32:42.956+05:30  INFO 55057 --- [Config-Server] [           main] o.h.c.ConfigServerApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-01-08T15:32:44.207+05:30  INFO 55057 --- [Config-Server] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=6431cbc0-0b4b-371f-acfb-da89222a0fd1
+2026-01-08T15:32:44.495+05:30  INFO 55057 --- [Config-Server] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8083 (http)
+2026-01-08T15:32:44.505+05:30  INFO 55057 --- [Config-Server] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-08T15:32:44.505+05:30  INFO 55057 --- [Config-Server] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2026-01-08T15:32:44.556+05:30  INFO 55057 --- [Config-Server] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1543 ms
+2026-01-08T15:32:47.343+05:30  INFO 55057 --- [Config-Server] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-01-08T15:32:47.370+05:30  WARN 55057 --- [Config-Server] [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-01-08T15:32:47.380+05:30  INFO 55057 --- [Config-Server] [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-08T15:32:47.389+05:30 ERROR 55057 --- [Config-Server] [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8083 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8083 or configure this application to listen on another port.
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.334 s
+[INFO] Finished at: 2026-01-08T15:32:47+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project Config-Server: Process terminated with exit code: 1 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+2026-01-08T15:32:47.951+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-6] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/AuthService-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/'
+2026-01-08T15:32:47.952+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-6] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/Common-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/'
+2026-01-08T15:32:47.952+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-6] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/baseurls-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/'
+2026-01-08T15:32:48.478+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-7] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/API-GATEWAY-dev.yaml]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/'
+2026-01-08T15:32:49.848+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-9] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/API-GATEWAY-dev.yaml]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/'
+2026-01-08T15:33:25.135+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-3] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/UserService-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/'
+2026-01-08T15:33:25.136+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-3] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/Common-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/'
+2026-01-08T15:33:25.136+05:30  INFO 51338 --- [Config-Server] [nio-8083-exec-3] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/baseurls-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-1019269786257524997/'
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  15:51 min
+[INFO] Finished at: 2026-01-08T15:34:38+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project Config-Server: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+------------------------------------------
+🚀 SESSION START: 2026-01-08 15:35:46
+------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< org.Hexaware:Config-Server >---------------------
+[INFO] Building Config-Server 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ Config-Server >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ Config-Server ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ Config-Server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ Config-Server ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ Config-Server ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ Config-Server <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ Config-Server ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2026-01-08T15:35:48.998+05:30  INFO 56049 --- [Config-Server] [           main] o.h.c.ConfigServerApplication            : Starting ConfigServerApplication using Java 17.0.17 with PID 56049 (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/Config-Server/target/classes started by mihirjoshi in /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/Config-Server)
+2026-01-08T15:35:48.999+05:30  INFO 56049 --- [Config-Server] [           main] o.h.c.ConfigServerApplication            : No active profile set, falling back to 1 default profile: "default"
+2026-01-08T15:35:49.498+05:30  INFO 56049 --- [Config-Server] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=6431cbc0-0b4b-371f-acfb-da89222a0fd1
+2026-01-08T15:35:49.646+05:30  INFO 56049 --- [Config-Server] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8083 (http)
+2026-01-08T15:35:49.654+05:30  INFO 56049 --- [Config-Server] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-08T15:35:49.654+05:30  INFO 56049 --- [Config-Server] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2026-01-08T15:35:49.697+05:30  INFO 56049 --- [Config-Server] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 676 ms
+2026-01-08T15:35:51.500+05:30  INFO 56049 --- [Config-Server] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-01-08T15:35:51.535+05:30  INFO 56049 --- [Config-Server] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8083 (http) with context path '/'
+2026-01-08T15:35:51.545+05:30  INFO 56049 --- [Config-Server] [           main] o.h.c.ConfigServerApplication            : Started ConfigServerApplication in 2.783 seconds (process running for 3.083)
+2026-01-08T15:35:55.435+05:30  INFO 56049 --- [Config-Server] [nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-08T15:35:55.435+05:30  INFO 56049 --- [Config-Server] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-08T15:35:55.437+05:30  INFO 56049 --- [Config-Server] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-01-08T15:35:58.783+05:30  INFO 56049 --- [Config-Server] [nio-8083-exec-2] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/AuthService-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/'
+2026-01-08T15:35:58.784+05:30  INFO 56049 --- [Config-Server] [nio-8083-exec-2] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/Common-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/'
+2026-01-08T15:35:58.784+05:30  INFO 56049 --- [Config-Server] [nio-8083-exec-2] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/baseurls-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/'
+2026-01-08T15:36:08.725+05:30  INFO 56049 --- [Config-Server] [nio-8083-exec-4] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/API-GATEWAY-dev.yaml]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/'
+2026-01-08T15:36:10.065+05:30  INFO 56049 --- [Config-Server] [nio-8083-exec-6] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/API-GATEWAY-dev.yaml]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/'
+2026-01-08T15:36:20.589+05:30  INFO 56049 --- [Config-Server] [io-8083-exec-10] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/NotificationService-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/'
+2026-01-08T15:36:20.590+05:30  INFO 56049 --- [Config-Server] [io-8083-exec-10] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/baseurls-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/'
+2026-01-08T15:36:21.099+05:30  INFO 56049 --- [Config-Server] [nio-8083-exec-1] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/UserService-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/'
+2026-01-08T15:36:21.099+05:30  INFO 56049 --- [Config-Server] [nio-8083-exec-1] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/Common-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/'
+2026-01-08T15:36:21.099+05:30  INFO 56049 --- [Config-Server] [nio-8083-exec-1] o.s.c.c.s.e.NativeEnvironmentRepository  : Adding property source: Config resource 'file [/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/baseurls-dev.properties]' via location 'file:/var/folders/w6/f208_ggn23l46686wz2jwg_00000gn/T/config-repo-110570356965199968/'
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  07:44 min
+[INFO] Finished at: 2026-01-08T15:43:31+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project Config-Server: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

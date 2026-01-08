@@ -1,0 +1,395 @@
+------------------------------------------
+🚀 SESSION START: 2026-01-08 15:32:38
+------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< org.Hexaware:USER-SERVICE >----------------------
+[INFO] Building USER-SERVICE 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ USER-SERVICE >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ USER-SERVICE ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.8.1:compile (default-compile) @ USER-SERVICE ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 24 source files to /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/USER-SERVICE/target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ USER-SERVICE ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.8.1:testCompile (default-testCompile) @ USER-SERVICE ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ USER-SERVICE <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ USER-SERVICE ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2026-01-08T15:33:25.423+05:30  INFO 55483 --- [UserService] [  restartedMain] o.h.userservice.UserServiceApplication   : Starting UserServiceApplication using Java 17.0.17 with PID 55483 (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/USER-SERVICE/target/classes started by mihirjoshi in /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/USER-SERVICE)
+2026-01-08T15:33:25.425+05:30  INFO 55483 --- [UserService] [  restartedMain] o.h.userservice.UserServiceApplication   : The following 1 profile is active: "dev"
+2026-01-08T15:33:25.482+05:30  INFO 55483 --- [UserService] [  restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8083/
+2026-01-08T15:33:25.482+05:30  INFO 55483 --- [UserService] [  restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=baseurls,Common,UserService, profiles=[default], label=null, version=5e6fa4b7dd11567f7d8b584957447f57a8746f55, state=
+2026-01-08T15:33:25.486+05:30  INFO 55483 --- [UserService] [  restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8083/
+2026-01-08T15:33:25.486+05:30  INFO 55483 --- [UserService] [  restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=baseurls,Common,UserService, profiles=[dev], label=null, version=5e6fa4b7dd11567f7d8b584957447f57a8746f55, state=
+2026-01-08T15:33:25.489+05:30  INFO 55483 --- [UserService] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-08T15:33:25.489+05:30  INFO 55483 --- [UserService] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-08T15:33:25.975+05:30  INFO 55483 --- [UserService] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-08T15:33:25.987+05:30  INFO 55483 --- [UserService] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 JPA repository interfaces.
+2026-01-08T15:33:26.102+05:30  INFO 55483 --- [UserService] [  restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=cf47029a-fb20-371e-80f8-3237a355c00c
+2026-01-08T15:33:26.381+05:30  INFO 55483 --- [UserService] [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8082 (http)
+2026-01-08T15:33:26.392+05:30  INFO 55483 --- [UserService] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-08T15:33:26.392+05:30  INFO 55483 --- [UserService] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2026-01-08T15:33:26.421+05:30  INFO 55483 --- [UserService] [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 931 ms
+2026-01-08T15:33:26.519+05:30 DEBUG 55483 --- [UserService] [  restartedMain] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
+2026-01-08T15:33:26.591+05:30  INFO 55483 --- [UserService] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-08T15:33:26.634+05:30  INFO 55483 --- [UserService] [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 7.1.8.Final
+2026-01-08T15:33:26.929+05:30  INFO 55483 --- [UserService] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-08T15:33:26.957+05:30  INFO 55483 --- [UserService] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-08T15:33:27.067+05:30  INFO 55483 --- [UserService] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@73bebeb5
+2026-01-08T15:33:27.068+05:30  INFO 55483 --- [UserService] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-08T15:33:27.119+05:30  INFO 55483 --- [UserService] [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5433/OBTB_UserDB?sslmode=prefer]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.0
+	Default catalog/schema: OBTB_UserDB/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-08T15:33:27.461+05:30  INFO 55483 --- [UserService] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-08T15:33:27.468+05:30  INFO 55483 --- [UserService] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-08T15:33:27.514+05:30  WARN 55483 --- [UserService] [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-08T15:33:27.620+05:30 DEBUG 55483 --- [UserService] [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 2 mappings in 'requestMappingHandlerMapping'
+2026-01-08T15:33:27.643+05:30 DEBUG 55483 --- [UserService] [  restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-08T15:33:27.664+05:30 DEBUG 55483 --- [UserService] [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-08T15:33:27.694+05:30 DEBUG 55483 --- [UserService] [  restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-08T15:33:28.011+05:30  INFO 55483 --- [UserService] [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-01-08T15:33:28.067+05:30  INFO 55483 --- [UserService] [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8082 (http) with context path '/'
+2026-01-08T15:33:28.078+05:30  INFO 55483 --- [UserService] [  restartedMain] o.h.userservice.UserServiceApplication   : Started UserServiceApplication in 6.2 seconds (process running for 6.947)
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:42 min
+[INFO] Finished at: 2026-01-08T15:34:38+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project USER-SERVICE: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+------------------------------------------
+🚀 SESSION START: 2026-01-08 15:35:46
+------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< org.Hexaware:USER-SERVICE >----------------------
+[INFO] Building USER-SERVICE 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ USER-SERVICE >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ USER-SERVICE ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.8.1:compile (default-compile) @ USER-SERVICE ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 24 source files to /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/USER-SERVICE/target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ USER-SERVICE ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.8.1:testCompile (default-testCompile) @ USER-SERVICE ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ USER-SERVICE <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ USER-SERVICE ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2026-01-08T15:36:21.187+05:30  INFO 57015 --- [UserService] [  restartedMain] o.h.userservice.UserServiceApplication   : Starting UserServiceApplication using Java 17.0.17 with PID 57015 (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/USER-SERVICE/target/classes started by mihirjoshi in /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/USER-SERVICE)
+2026-01-08T15:36:21.189+05:30  INFO 57015 --- [UserService] [  restartedMain] o.h.userservice.UserServiceApplication   : The following 1 profile is active: "dev"
+2026-01-08T15:36:21.217+05:30  INFO 57015 --- [UserService] [  restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8083/
+2026-01-08T15:36:21.217+05:30  INFO 57015 --- [UserService] [  restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=baseurls,Common,UserService, profiles=[default], label=null, version=5e6fa4b7dd11567f7d8b584957447f57a8746f55, state=
+2026-01-08T15:36:21.219+05:30  INFO 57015 --- [UserService] [  restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8083/
+2026-01-08T15:36:21.219+05:30  INFO 57015 --- [UserService] [  restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=baseurls,Common,UserService, profiles=[dev], label=null, version=5e6fa4b7dd11567f7d8b584957447f57a8746f55, state=
+2026-01-08T15:36:21.220+05:30  INFO 57015 --- [UserService] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-08T15:36:21.221+05:30  INFO 57015 --- [UserService] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-08T15:36:21.702+05:30  INFO 57015 --- [UserService] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-08T15:36:21.738+05:30  INFO 57015 --- [UserService] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 28 ms. Found 3 JPA repository interfaces.
+2026-01-08T15:36:21.885+05:30  INFO 57015 --- [UserService] [  restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=c3c59694-6626-3319-8524-18199f9eed2f
+2026-01-08T15:36:22.201+05:30  INFO 57015 --- [UserService] [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8082 (http)
+2026-01-08T15:36:22.213+05:30  INFO 57015 --- [UserService] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-08T15:36:22.213+05:30  INFO 57015 --- [UserService] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2026-01-08T15:36:22.250+05:30  INFO 57015 --- [UserService] [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1028 ms
+2026-01-08T15:36:22.379+05:30 DEBUG 57015 --- [UserService] [  restartedMain] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
+2026-01-08T15:36:22.486+05:30  INFO 57015 --- [UserService] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-08T15:36:22.526+05:30  INFO 57015 --- [UserService] [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 7.1.8.Final
+2026-01-08T15:36:22.847+05:30  INFO 57015 --- [UserService] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-08T15:36:22.869+05:30  INFO 57015 --- [UserService] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-08T15:36:23.027+05:30  INFO 57015 --- [UserService] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6804c01a
+2026-01-08T15:36:23.028+05:30  INFO 57015 --- [UserService] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-08T15:36:23.070+05:30  INFO 57015 --- [UserService] [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5433/OBTB_UserDB?sslmode=prefer]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.0
+	Default catalog/schema: OBTB_UserDB/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-08T15:36:23.757+05:30  INFO 57015 --- [UserService] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-08T15:36:23.857+05:30  INFO 57015 --- [UserService] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-08T15:36:23.909+05:30  INFO 57015 --- [UserService] [  restartedMain] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-08T15:36:24.048+05:30  WARN 57015 --- [UserService] [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-08T15:36:24.254+05:30 DEBUG 57015 --- [UserService] [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 7 mappings in 'requestMappingHandlerMapping'
+2026-01-08T15:36:24.270+05:30 DEBUG 57015 --- [UserService] [  restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-08T15:36:24.287+05:30 DEBUG 57015 --- [UserService] [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-08T15:36:24.313+05:30 DEBUG 57015 --- [UserService] [  restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-08T15:36:24.435+05:30  INFO 57015 --- [UserService] [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-01-08T15:36:24.476+05:30  INFO 57015 --- [UserService] [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8082 (http) with context path '/'
+2026-01-08T15:36:24.487+05:30  INFO 57015 --- [UserService] [  restartedMain] o.h.userservice.UserServiceApplication   : Started UserServiceApplication in 5.722 seconds (process running for 6.166)
+Hibernate: 
+    select
+        r1_0.role_id,
+        r1_0.role 
+    from
+        role_table r1_0 
+    where
+        r1_0.role=?
+Hibernate: 
+    select
+        r1_0.role_id,
+        r1_0.role 
+    from
+        role_table r1_0 
+    where
+        r1_0.role=?
+Hibernate: 
+    select
+        r1_0.role_id,
+        r1_0.role 
+    from
+        role_table r1_0 
+    where
+        r1_0.role=?
+2026-01-08T15:37:26.994+05:30  INFO 57015 --- [UserService] [nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-08T15:37:26.996+05:30  INFO 57015 --- [UserService] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-08T15:37:26.996+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-08T15:37:26.996+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-08T15:37:27.019+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@3c002dc1
+2026-01-08T15:37:27.020+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@6a15fae9
+2026-01-08T15:37:27.020+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-08T15:37:27.020+05:30  INFO 57015 --- [UserService] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 24 ms
+2026-01-08T15:37:27.061+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] org.springframework.web.HttpLogging      : HTTP GET http://localhost:8081/.well-known/openid-configuration
+2026-01-08T15:37:27.062+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] org.springframework.web.HttpLogging      : Accept=[application/json, application/*+json]
+2026-01-08T15:37:27.066+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] org.springframework.web.HttpLogging      : Response 200 OK
+2026-01-08T15:37:27.067+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] org.springframework.web.HttpLogging      : Reading to [java.util.Map<java.lang.String, java.lang.Object>]
+2026-01-08T15:37:27.082+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] org.springframework.web.HttpLogging      : HTTP GET http://localhost:8081/oauth2/jwks
+2026-01-08T15:37:27.082+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] org.springframework.web.HttpLogging      : Accept=[text/plain, application/json, application/*+json, */*]
+2026-01-08T15:37:27.087+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] org.springframework.web.HttpLogging      : Response 200 OK
+2026-01-08T15:37:27.088+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] org.springframework.web.HttpLogging      : Reading to [java.lang.String] as "application/json;charset=ISO-8859-1"
+2026-01-08T15:37:27.152+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/user-api/v1/user-role/2682af7e-cbfe-4f60-8fe6-c85cec071f6a", parameters={}
+2026-01-08T15:37:27.171+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.hexaware.userservice.controller.UserController#getUserRole(UUID)
+Hibernate: 
+    select
+        rm1_0.role_mapping_id,
+        rm1_0.role_id,
+        rm1_0.user_id 
+    from
+        role_mapping rm1_0 
+    where
+        rm1_0.role_mapping_id=?
+Hibernate: 
+    select
+        r1_0.role_id,
+        r1_0.role 
+    from
+        role_table r1_0 
+    where
+        r1_0.role_id=?
+2026-01-08T15:37:27.288+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2026-01-08T15:37:27.289+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing ["CUSTOMER"]
+2026-01-08T15:37:27.294+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-08T15:38:09.516+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/user-api/v1/user-role/2682af7e-cbfe-4f60-8fe6-c85cec071f6a", parameters={}
+2026-01-08T15:38:09.523+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.hexaware.userservice.controller.UserController#getUserRole(UUID)
+Hibernate: 
+    select
+        rm1_0.role_mapping_id,
+        rm1_0.role_id,
+        rm1_0.user_id 
+    from
+        role_mapping rm1_0 
+    where
+        rm1_0.role_mapping_id=?
+Hibernate: 
+    select
+        r1_0.role_id,
+        r1_0.role 
+    from
+        role_table r1_0 
+    where
+        r1_0.role_id=?
+2026-01-08T15:38:09.542+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2026-01-08T15:38:09.543+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing ["CUSTOMER"]
+2026-01-08T15:38:09.547+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-08T15:39:51.005+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/user-api/v1/create-user", parameters={}
+2026-01-08T15:39:51.020+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.hexaware.userservice.controller.UserController#createUser(UserCreationRequest)
+2026-01-08T15:39:51.050+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [org.hexaware.userservice.dtos.UserCreationRequest@5f8a360c]
+Hibernate: 
+    select
+        r1_0.role_id,
+        r1_0.role 
+    from
+        role_table r1_0 
+    where
+        r1_0.role=?
+Hibernate: 
+    insert 
+    into
+        app_user
+        (contact, created_at, email, first_name, last_name, "profile-picture-url", updated_at, username, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        role_mapping
+        (role_id, user_id, role_mapping_id) 
+    values
+        (?, ?, ?)
+2026-01-08T15:39:51.289+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-08T15:39:51.291+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [org.hexaware.userservice.dtos.UserSummary@5e88c674]
+2026-01-08T15:39:51.356+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-08T15:39:53.073+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/user-api/v1/user-info/email/c12506f7-42dd-4a20-92c5-6822668254f7", parameters={}
+2026-01-08T15:39:53.073+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.hexaware.userservice.controller.UserController#getUserEmail(UUID)
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.contact,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0."profile-picture-url",
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        app_user u1_0 
+    where
+        u1_0.user_id=?
+2026-01-08T15:39:53.094+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2026-01-08T15:39:53.094+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing ["test1_user1_final@gmail.com"]
+2026-01-08T15:39:53.095+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-08T15:40:40.138+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/user-api/v1/user-role/908c9cc7-de83-4eb8-ab16-0502cdad1cc0", parameters={}
+2026-01-08T15:40:40.140+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.hexaware.userservice.controller.UserController#getUserRole(UUID)
+Hibernate: 
+    select
+        rm1_0.role_mapping_id,
+        rm1_0.role_id,
+        rm1_0.user_id 
+    from
+        role_mapping rm1_0 
+    where
+        rm1_0.role_mapping_id=?
+Hibernate: 
+    select
+        r1_0.role_id,
+        r1_0.role 
+    from
+        role_table r1_0 
+    where
+        r1_0.role_id=?
+2026-01-08T15:40:40.154+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2026-01-08T15:40:40.154+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing ["CUSTOMER"]
+2026-01-08T15:40:40.156+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-08T15:41:05.869+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/user-api/v1/user-role/908c9cc7-de83-4eb8-ab16-0502cdad1cc0", parameters={}
+2026-01-08T15:41:05.873+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.hexaware.userservice.controller.UserController#getUserRole(UUID)
+Hibernate: 
+    select
+        rm1_0.role_mapping_id,
+        rm1_0.role_id,
+        rm1_0.user_id 
+    from
+        role_mapping rm1_0 
+    where
+        rm1_0.role_mapping_id=?
+Hibernate: 
+    select
+        r1_0.role_id,
+        r1_0.role 
+    from
+        role_table r1_0 
+    where
+        r1_0.role_id=?
+2026-01-08T15:41:05.896+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2026-01-08T15:41:05.897+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing ["CUSTOMER"]
+2026-01-08T15:41:05.898+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-08T15:41:16.052+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/user-api/v1/user-role/908c9cc7-de83-4eb8-ab16-0502cdad1cc0", parameters={}
+2026-01-08T15:41:16.053+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.hexaware.userservice.controller.UserController#getUserRole(UUID)
+Hibernate: 
+    select
+        rm1_0.role_mapping_id,
+        rm1_0.role_id,
+        rm1_0.user_id 
+    from
+        role_mapping rm1_0 
+    where
+        rm1_0.role_mapping_id=?
+Hibernate: 
+    select
+        r1_0.role_id,
+        r1_0.role 
+    from
+        role_table r1_0 
+    where
+        r1_0.role_id=?
+2026-01-08T15:41:16.066+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2026-01-08T15:41:16.066+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing ["CUSTOMER"]
+2026-01-08T15:41:16.070+05:30 DEBUG 57015 --- [UserService] [nio-8082-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  07:16 min
+[INFO] Finished at: 2026-01-08T15:43:31+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project USER-SERVICE: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

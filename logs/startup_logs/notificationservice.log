@@ -1,0 +1,401 @@
+------------------------------------------
+🚀 SESSION START: 2026-01-08 15:32:38
+------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< org.Hexaware:NotificationService >------------------
+[INFO] Building NotificationService 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ NotificationService >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ NotificationService ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ NotificationService ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 12 source files with javac [debug parameters release 17] to target/classes
+[INFO] /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/NotificationService/src/main/java/org/hexaware/notificationservice/configs/OauthClientConfig.java: /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/NotificationService/src/main/java/org/hexaware/notificationservice/configs/OauthClientConfig.java uses unchecked or unsafe operations.
+[INFO] /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/NotificationService/src/main/java/org/hexaware/notificationservice/configs/OauthClientConfig.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ NotificationService ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ NotificationService ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ NotificationService <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ NotificationService ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  15.087 s
+[INFO] Finished at: 2026-01-08T15:33:10+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project NotificationService: Unable to find a suitable main class, please add a 'mainClass' property -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+------------------------------------------
+🚀 SESSION START: 2026-01-08 15:35:46
+------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< org.Hexaware:NotificationService >------------------
+[INFO] Building NotificationService 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ NotificationService >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ NotificationService ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ NotificationService ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 12 source files with javac [debug parameters release 17] to target/classes
+[INFO] /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/NotificationService/src/main/java/org/hexaware/notificationservice/configs/OauthClientConfig.java: /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/NotificationService/src/main/java/org/hexaware/notificationservice/configs/OauthClientConfig.java uses unchecked or unsafe operations.
+[INFO] /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/NotificationService/src/main/java/org/hexaware/notificationservice/configs/OauthClientConfig.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ NotificationService ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ NotificationService ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ NotificationService <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ NotificationService ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2026-01-08T15:36:20.682+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.h.n.NotificationServiceApplication     : Starting NotificationServiceApplication using Java 17.0.17 with PID 57014 (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/NotificationService/target/classes started by mihirjoshi in /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/NotificationService)
+2026-01-08T15:36:20.684+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.h.n.NotificationServiceApplication     : The following 1 profile is active: "dev"
+2026-01-08T15:36:20.707+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8083/
+2026-01-08T15:36:20.707+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=baseurls,NotificationService, profiles=[default], label=null, version=5e6fa4b7dd11567f7d8b584957447f57a8746f55, state=
+2026-01-08T15:36:20.707+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8083/
+2026-01-08T15:36:20.707+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=baseurls,NotificationService, profiles=[dev], label=null, version=5e6fa4b7dd11567f7d8b584957447f57a8746f55, state=
+2026-01-08T15:36:20.708+05:30  INFO 57014 --- [NotificationService] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-08T15:36:20.709+05:30  INFO 57014 --- [NotificationService] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-08T15:36:21.268+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=ba9ee403-f6f5-3f68-9844-611fe6cdf250
+2026-01-08T15:36:21.526+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8084 (http)
+2026-01-08T15:36:21.533+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-08T15:36:21.534+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2026-01-08T15:36:21.559+05:30  INFO 57014 --- [NotificationService] [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 849 ms
+2026-01-08T15:36:21.646+05:30 DEBUG 57014 --- [NotificationService] [  restartedMain] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
+2026-01-08T15:36:21.663+05:30  WARN 57014 --- [NotificationService] [  restartedMain] o.s.s.o.c.r.ClientRegistration$Builder   : clientSettings.isRequireProofKey=true is only valid with authorizationGrantType=AuthorizationGrantType{value='authorization_code'}. Got authorizationGrantType=AuthorizationGrantType{value='client_credentials'}. Resetting to clientSettings.isRequireProofKey=false
+2026-01-08T15:36:21.899+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.h.n.services.NotificationProcessor     : Initialized NotificationProcessor with 1 Topic Handlers: [user]
+2026-01-08T15:36:22.118+05:30 DEBUG 57014 --- [NotificationService] [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 2 mappings in 'requestMappingHandlerMapping'
+2026-01-08T15:36:22.134+05:30 DEBUG 57014 --- [NotificationService] [  restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-08T15:36:22.153+05:30 DEBUG 57014 --- [NotificationService] [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-08T15:36:22.183+05:30 DEBUG 57014 --- [NotificationService] [  restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-08T15:36:22.637+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-01-08T15:36:22.710+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8084 (http) with context path '/'
+2026-01-08T15:36:22.746+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.a.kafka.common.config.AbstractConfig   : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-notification-urgent-immediate-group-1
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = true
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = notification-urgent-immediate-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metadata.recovery.rebootstrap.trigger.ms = 300000
+	metadata.recovery.strategy = rebootstrap
+	metric.reporters = [org.apache.kafka.common.metrics.JmxReporter]
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.assertion.algorithm = RS256
+	sasl.oauthbearer.assertion.claim.aud = null
+	sasl.oauthbearer.assertion.claim.exp.seconds = 300
+	sasl.oauthbearer.assertion.claim.iss = null
+	sasl.oauthbearer.assertion.claim.jti.include = false
+	sasl.oauthbearer.assertion.claim.nbf.seconds = 60
+	sasl.oauthbearer.assertion.claim.sub = null
+	sasl.oauthbearer.assertion.file = null
+	sasl.oauthbearer.assertion.private.key.file = null
+	sasl.oauthbearer.assertion.private.key.passphrase = null
+	sasl.oauthbearer.assertion.template.file = null
+	sasl.oauthbearer.client.credentials.client.id = null
+	sasl.oauthbearer.client.credentials.client.secret = null
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.jwt.retriever.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtRetriever
+	sasl.oauthbearer.jwt.validator.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtValidator
+	sasl.oauthbearer.scope = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	share.acknowledgement.mode = implicit
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
+
+2026-01-08T15:36:22.778+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-01-08T15:36:22.899+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 4.1.1
+2026-01-08T15:36:22.899+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: be816b82d25370ce
+2026-01-08T15:36:22.899+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1767866782898
+2026-01-08T15:36:22.906+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-notification-urgent-immediate-group-1, groupId=notification-urgent-immediate-group] Subscribed to pattern: '.*\.urgent\..*|.*\.broadcast_urgent\..*'
+2026-01-08T15:36:22.911+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.a.kafka.common.config.AbstractConfig   : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-notification-consumer-group-2
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = true
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = notification-consumer-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metadata.recovery.rebootstrap.trigger.ms = 300000
+	metadata.recovery.strategy = rebootstrap
+	metric.reporters = [org.apache.kafka.common.metrics.JmxReporter]
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.assertion.algorithm = RS256
+	sasl.oauthbearer.assertion.claim.aud = null
+	sasl.oauthbearer.assertion.claim.exp.seconds = 300
+	sasl.oauthbearer.assertion.claim.iss = null
+	sasl.oauthbearer.assertion.claim.jti.include = false
+	sasl.oauthbearer.assertion.claim.nbf.seconds = 60
+	sasl.oauthbearer.assertion.claim.sub = null
+	sasl.oauthbearer.assertion.file = null
+	sasl.oauthbearer.assertion.private.key.file = null
+	sasl.oauthbearer.assertion.private.key.passphrase = null
+	sasl.oauthbearer.assertion.template.file = null
+	sasl.oauthbearer.client.credentials.client.id = null
+	sasl.oauthbearer.client.credentials.client.secret = null
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.jwt.retriever.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtRetriever
+	sasl.oauthbearer.jwt.validator.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtValidator
+	sasl.oauthbearer.scope = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	share.acknowledgement.mode = implicit
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
+
+2026-01-08T15:36:22.912+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-01-08T15:36:22.918+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 4.1.1
+2026-01-08T15:36:22.918+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: be816b82d25370ce
+2026-01-08T15:36:22.918+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1767866782918
+2026-01-08T15:36:22.921+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-notification-consumer-group-2, groupId=notification-consumer-group] Subscribed to pattern: '.*\.lazy\..*|.*\.broadcast_lazy\..*'
+2026-01-08T15:36:22.934+05:30  INFO 57014 --- [NotificationService] [  restartedMain] o.h.n.NotificationServiceApplication     : Started NotificationServiceApplication in 4.272 seconds (process running for 4.844)
+2026-01-08T15:36:23.535+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-notification-urgent-immediate-group-1, groupId=notification-urgent-immediate-group] Cluster ID: 1bVBypAuTm2C9aM6B21WVg
+2026-01-08T15:36:23.535+05:30  INFO 57014 --- [NotificationService] [ntainer#1-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-notification-consumer-group-2, groupId=notification-consumer-group] Cluster ID: 1bVBypAuTm2C9aM6B21WVg
+2026-01-08T15:36:23.608+05:30  INFO 57014 --- [NotificationService] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-consumer-group-2, groupId=notification-consumer-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null isFenced: false)
+2026-01-08T15:36:23.609+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-urgent-immediate-group-1, groupId=notification-urgent-immediate-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null isFenced: false)
+2026-01-08T15:36:23.612+05:30  INFO 57014 --- [NotificationService] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-consumer-group-2, groupId=notification-consumer-group] (Re-)joining group
+2026-01-08T15:36:23.614+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-urgent-immediate-group-1, groupId=notification-urgent-immediate-group] (Re-)joining group
+2026-01-08T15:36:23.703+05:30  INFO 57014 --- [NotificationService] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-consumer-group-2, groupId=notification-consumer-group] Request joining group due to: need to re-join with the given member-id: consumer-notification-consumer-group-2-ee50a3b3-bc62-4b30-922e-46d85945603f
+2026-01-08T15:36:23.703+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-urgent-immediate-group-1, groupId=notification-urgent-immediate-group] Request joining group due to: need to re-join with the given member-id: consumer-notification-urgent-immediate-group-1-ddc848e6-1271-440a-b3bf-7671dd1db8f5
+2026-01-08T15:36:23.704+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-urgent-immediate-group-1, groupId=notification-urgent-immediate-group] (Re-)joining group
+2026-01-08T15:36:23.757+05:30  INFO 57014 --- [NotificationService] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-consumer-group-2, groupId=notification-consumer-group] (Re-)joining group
+2026-01-08T15:36:26.925+05:30  INFO 57014 --- [NotificationService] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-consumer-group-2, groupId=notification-consumer-group] Successfully joined group with generation Generation{generationId=1, memberId='consumer-notification-consumer-group-2-ee50a3b3-bc62-4b30-922e-46d85945603f', protocol='range'}
+2026-01-08T15:36:26.925+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-urgent-immediate-group-1, groupId=notification-urgent-immediate-group] Successfully joined group with generation Generation{generationId=24, memberId='consumer-notification-urgent-immediate-group-1-ddc848e6-1271-440a-b3bf-7671dd1db8f5', protocol='range'}
+2026-01-08T15:36:26.930+05:30  INFO 57014 --- [NotificationService] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-consumer-group-2, groupId=notification-consumer-group] Finished assignment for group at generation 1: {consumer-notification-consumer-group-2-ee50a3b3-bc62-4b30-922e-46d85945603f=Assignment(partitions=[])}
+2026-01-08T15:36:26.930+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-urgent-immediate-group-1, groupId=notification-urgent-immediate-group] Finished assignment for group at generation 24: {consumer-notification-urgent-immediate-group-1-ddc848e6-1271-440a-b3bf-7671dd1db8f5=Assignment(partitions=[producer_oauth.urgent.user_created-0])}
+2026-01-08T15:36:26.977+05:30  INFO 57014 --- [NotificationService] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-consumer-group-2, groupId=notification-consumer-group] Successfully synced group in generation Generation{generationId=1, memberId='consumer-notification-consumer-group-2-ee50a3b3-bc62-4b30-922e-46d85945603f', protocol='range'}
+2026-01-08T15:36:26.978+05:30  INFO 57014 --- [NotificationService] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-consumer-group-2, groupId=notification-consumer-group] Notifying assignor about the new Assignment(partitions=[])
+2026-01-08T15:36:26.978+05:30  INFO 57014 --- [NotificationService] [ntainer#1-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-notification-consumer-group-2, groupId=notification-consumer-group] Adding newly assigned partitions: []
+2026-01-08T15:36:26.979+05:30  INFO 57014 --- [NotificationService] [ntainer#1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : notification-consumer-group: partitions assigned: []
+2026-01-08T15:36:26.982+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-urgent-immediate-group-1, groupId=notification-urgent-immediate-group] Successfully synced group in generation Generation{generationId=24, memberId='consumer-notification-urgent-immediate-group-1-ddc848e6-1271-440a-b3bf-7671dd1db8f5', protocol='range'}
+2026-01-08T15:36:26.982+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-notification-urgent-immediate-group-1, groupId=notification-urgent-immediate-group] Notifying assignor about the new Assignment(partitions=[producer_oauth.urgent.user_created-0])
+2026-01-08T15:36:26.984+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-notification-urgent-immediate-group-1, groupId=notification-urgent-immediate-group] Adding newly assigned partitions: [producer_oauth.urgent.user_created-0]
+2026-01-08T15:36:27.043+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerUtils        : Setting offset for partition producer_oauth.urgent.user_created-0 to the committed offset FetchPosition{offset=4, offsetEpoch=Optional[4], currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null isFenced: false)], epoch=6}}
+2026-01-08T15:36:27.060+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : notification-urgent-immediate-group: partitions assigned: [producer_oauth.urgent.user_created-0]
+2026-01-08T15:39:52.553+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.h.n.services.TopicConsumers            : IMMEDIATE CONSUMER: Received urgent message from topic: producer_oauth.urgent.user_created
+2026-01-08T15:39:52.554+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.h.n.handlers.UserCreationTopicHandler  : Handling URGENT user event from topic: producer_oauth.urgent.user_created for User ID: c12506f7-42dd-4a20-92c5-6822668254f7
+2026-01-08T15:39:52.617+05:30 DEBUG 57014 --- [NotificationService] [oundedElastic-1] o.s.web.client.DefaultRestClient         : Writing [{grant_type=[client_credentials], scope=[openid profile]}] as "application/x-www-form-urlencoded" with org.springframework.http.converter.FormHttpMessageConverter
+2026-01-08T15:39:52.813+05:30 DEBUG 57014 --- [NotificationService] [oundedElastic-1] o.s.web.client.DefaultRestClient         : Reading to [org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse] as "application/json;charset=UTF-8"
+2026-01-08T15:39:52.846+05:30 DEBUG 57014 --- [NotificationService] [oundedElastic-1] o.s.w.r.f.client.ExchangeFunctions       : [576b87cd] HTTP GET http://localhost:8082/user-api/v1/user-info/email/c12506f7-42dd-4a20-92c5-6822668254f7
+2026-01-08T15:39:52.924+05:30 ERROR 57014 --- [NotificationService] [oundedElastic-1] i.n.r.d.DnsServerAddressStreamProviders  : Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'. Use DEBUG level to see the full stack: java.lang.UnsatisfiedLinkError: failed to load the required native library
+2026-01-08T15:39:53.333+05:30 DEBUG 57014 --- [NotificationService] [ctor-http-nio-2] o.s.w.r.f.client.ExchangeFunctions       : [576b87cd] [acc6559d-1] Response 200 OK
+2026-01-08T15:39:53.365+05:30 DEBUG 57014 --- [NotificationService] [ctor-http-nio-2] org.springframework.web.HttpLogging      : [576b87cd] [acc6559d-1] Decoded "test1_user1_final@gmail.com"
+2026-01-08T15:39:53.366+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.h.n.handlers.UserCreationTopicHandler  : Retrieved email: test1_user1_final@gmail.com. Sending notification...
+2026-01-08T15:39:58.108+05:30  INFO 57014 --- [NotificationService] [ntainer#0-0-C-1] o.h.n.services.TopicConsumers            : IMMEDIATE CONSUMER: Finished processing urgent message.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  07:16 min
+[INFO] Finished at: 2026-01-08T15:43:31+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project NotificationService: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

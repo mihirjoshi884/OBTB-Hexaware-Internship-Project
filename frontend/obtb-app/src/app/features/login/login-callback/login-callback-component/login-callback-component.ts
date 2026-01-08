@@ -24,13 +24,20 @@ export class LoginCallbackComponent implements OnInit {
       this.oauthService.setupAutomaticSilentRefresh();
       
       const claims = this.oauthService.getIdentityClaims();
-      
       // Initialize current user service with user data
       this.currentUserService.initializeUser(claims);
-      
       this.notifyLoginSuccess(claims);
-      // Navigate to search-bus instead of profile
-      this.router.navigate(['/search-bus']);
+
+      const savedUrl = sessionStorage.getItem('auth_return_url');
+      sessionStorage.removeItem('auth_return_url');
+      
+      if (savedUrl && savedUrl !== '/' && savedUrl !== '/login') {
+        console.log('🔄 Guard-triggered login: returning to', savedUrl);
+        this.router.navigateByUrl(savedUrl);
+      } else {
+        console.log('🏠 Standard login: going to default /search-bus');
+        this.router.navigate(['/search-bus']);
+      }
     } else {
       console.error('❌ OIDC Login Failed');
       this.router.navigate(['/login']);

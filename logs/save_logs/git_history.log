@@ -1,0 +1,10 @@
+------------------------------------------
+💾 SAVE SESSION: 2026-01-08 15:45:21
+------------------------------------------
+[main 9694f82] auth-gaurd added, shell scripts added for starting, stopping services and saving into github
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 logs/save_logs/.gitkeep
+ create mode 100644 logs/startup_logs/.gitkeep
+ create mode 100644 logs/stop_logs/.gitkeep
+To https://github.com/mihirjoshi884/OBTB-Hexaware-Internship-Project
+   59611dc..9694f82  main -> main

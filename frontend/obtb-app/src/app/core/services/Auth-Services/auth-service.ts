@@ -1,7 +1,10 @@
 import { Injectable, inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { filter, map } from 'rxjs/operators';
 import { CurrentUserService } from './current-user.service';
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -25,6 +28,19 @@ export class AuthService {
     }
   }
 
+  public isReady$ = toObservable(this.currentUserService.isLoading).pipe(
+    filter(isLoading => !isLoading)
+  );
+
+  // Correct: converting the Signal
+  private readonly isLoaded$ = toObservable(this.currentUserService.isLoading).pipe(
+    filter(loading => !loading)
+  );
+
+  // Correct: It's already an observable, just pipe directly!
+  public isAuthenticated$ = this.isLoaded$.pipe(
+    map(() => this.isLoggedIn()) 
+  );
   /**
    * Checks if user has a valid access token
    */

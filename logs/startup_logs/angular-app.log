@@ -1,0 +1,42 @@
+
+> obtb-app@0.0.0 start
+> ng serve
+
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size
+main.js             | main          | 158.18 kB | 
+styles.css          | styles        |  52.30 kB | 
+chunk-AMJXB4EO.js   | -             |   1.65 kB | 
+
+                    | Initial total | 212.12 kB
+
+Lazy chunk files    | Names         |  Raw size
+chunk-RBA75M4X.js   | signup-wizard |  74.16 kB | 
+
+Application bundle generation complete. [3.369 seconds] - 2026-01-08T10:03:36.291Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://localhost:4200/
+
+> obtb-app@0.0.0 start
+> ng serve
+
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size
+main.js             | main          | 158.18 kB | 
+styles.css          | styles        |  52.30 kB | 
+chunk-AMJXB4EO.js   | -             |   1.65 kB | 
+
+                    | Initial total | 212.12 kB
+
+Lazy chunk files    | Names         |  Raw size
+chunk-RBA75M4X.js   | signup-wizard |  74.16 kB | 
+
+Application bundle generation complete. [2.234 seconds] - 2026-01-08T10:06:30.070Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://localhost:4200/

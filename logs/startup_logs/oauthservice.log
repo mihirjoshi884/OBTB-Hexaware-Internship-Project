@@ -1,0 +1,913 @@
+🚀 SESSION START: 2026-01-08 15:12:26
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< org.Hexaware:OauthService >----------------------
+[INFO] Building OauthService 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ OauthService >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ OauthService ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ OauthService ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 30 source files with javac [debug parameters release 17] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ OauthService ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ OauthService ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ OauthService <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ OauthService ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  25.261 s
+[INFO] Finished at: 2026-01-08T15:15:58+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project OauthService: Unable to find a suitable main class, please add a 'mainClass' property -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+------------------------------------------
+🚀 SESSION START: 2026-01-08 15:23:37
+------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< org.Hexaware:OauthService >----------------------
+[INFO] Building OauthService 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ OauthService >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ OauthService ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ OauthService ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 30 source files with javac [debug parameters release 17] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ OauthService ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ OauthService ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ OauthService <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ OauthService ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2026-01-08T15:23:45.363+05:30  INFO 52894 --- [AuthService] [           main] o.h.o.OauthServiceApplication            : Starting OauthServiceApplication using Java 17.0.17 with PID 52894 (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/OauthService/target/classes started by mihirjoshi in /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/OauthService)
+2026-01-08T15:23:45.365+05:30  INFO 52894 --- [AuthService] [           main] o.h.o.OauthServiceApplication            : The following 1 profile is active: "dev"
+2026-01-08T15:23:45.386+05:30  INFO 52894 --- [AuthService] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8083/
+2026-01-08T15:23:45.386+05:30  INFO 52894 --- [AuthService] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=baseurls,Common,AuthService, profiles=[default], label=null, version=5e6fa4b7dd11567f7d8b584957447f57a8746f55, state=
+2026-01-08T15:23:45.387+05:30  INFO 52894 --- [AuthService] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8083/
+2026-01-08T15:23:45.387+05:30  INFO 52894 --- [AuthService] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=baseurls,Common,AuthService, profiles=[dev], label=null, version=5e6fa4b7dd11567f7d8b584957447f57a8746f55, state=
+2026-01-08T15:23:45.898+05:30  INFO 52894 --- [AuthService] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-08T15:23:45.991+05:30  INFO 52894 --- [AuthService] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 87 ms. Found 4 JPA repository interfaces.
+2026-01-08T15:23:46.173+05:30  INFO 52894 --- [AuthService] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=526cd970-14d2-3e36-baa7-bf489a448d8d
+2026-01-08T15:23:46.392+05:30  INFO 52894 --- [AuthService] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2026-01-08T15:23:46.400+05:30  INFO 52894 --- [AuthService] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-08T15:23:46.400+05:30  INFO 52894 --- [AuthService] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2026-01-08T15:23:46.433+05:30  INFO 52894 --- [AuthService] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1045 ms
+2026-01-08T15:23:46.511+05:30 DEBUG 52894 --- [AuthService] [           main] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
+2026-01-08T15:23:46.512+05:30 DEBUG 52894 --- [AuthService] [           main] o.s.web.filter.ForwardedHeaderFilter     : Filter 'forwardedHeaderFilter' configured for use
+2026-01-08T15:23:46.587+05:30  INFO 52894 --- [AuthService] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-08T15:23:46.643+05:30  INFO 52894 --- [AuthService] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 7.1.8.Final
+2026-01-08T15:23:47.098+05:30  INFO 52894 --- [AuthService] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-08T15:23:47.127+05:30  INFO 52894 --- [AuthService] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-08T15:23:47.241+05:30  INFO 52894 --- [AuthService] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@43edd2ea
+2026-01-08T15:23:47.241+05:30  INFO 52894 --- [AuthService] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-08T15:23:47.290+05:30  INFO 52894 --- [AuthService] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5433/OBTB_AUTHDB?sslmode=prefer]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.0
+	Default catalog/schema: OBTB_AUTHDB/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-08T15:23:47.925+05:30  INFO 52894 --- [AuthService] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-08T15:23:47.976+05:30  INFO 52894 --- [AuthService] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-08T15:23:48.047+05:30  INFO 52894 --- [AuthService] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-08T15:23:48.401+05:30  WARN 52894 --- [AuthService] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-08T15:23:48.430+05:30  INFO 52894 --- [AuthService] [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name daoAuthenticationProvider
+2026-01-08T15:23:48.430+05:30  WARN 52894 --- [AuthService] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-08T15:23:49.541+05:30  WARN 52894 --- [AuthService] [           main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/auth-api/v1/user/verify/**]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-01-08T15:23:49.541+05:30  WARN 52894 --- [AuthService] [           main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/auth-api/v1/user/activate/**]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-01-08T15:23:49.541+05:30  WARN 52894 --- [AuthService] [           main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/auth-api/v1/user/is-active/**]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-01-08T15:23:49.541+05:30  WARN 52894 --- [AuthService] [           main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/auth-api/v1/register]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-01-08T15:23:49.605+05:30 DEBUG 52894 --- [AuthService] [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : 8 mappings in 'requestMappingHandlerMapping'
+2026-01-08T15:23:49.625+05:30 DEBUG 52894 --- [AuthService] [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-08T15:23:49.644+05:30 DEBUG 52894 --- [AuthService] [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-08T15:23:49.673+05:30 DEBUG 52894 --- [AuthService] [           main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-08T15:23:49.858+05:30  INFO 52894 --- [AuthService] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-01-08T15:23:49.912+05:30  INFO 52894 --- [AuthService] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2026-01-08T15:23:49.925+05:30  INFO 52894 --- [AuthService] [           main] o.h.o.OauthServiceApplication            : Started OauthServiceApplication in 6.414 seconds (process running for 6.922)
+Hibernate: 
+    select
+        count(*) 
+    from
+        security_question_definition sqd1_0
+Security questions already exist. Skipping seeding.
+------------------------------------------
+🚀 SESSION START: 2026-01-08 15:32:38
+------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< org.Hexaware:OauthService >----------------------
+[INFO] Building OauthService 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ OauthService >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ OauthService ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ OauthService ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ OauthService ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ OauthService ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ OauthService <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ OauthService ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2026-01-08T15:32:48.047+05:30  INFO 55064 --- [AuthService] [           main] o.h.o.OauthServiceApplication            : Starting OauthServiceApplication using Java 17.0.17 with PID 55064 (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/OauthService/target/classes started by mihirjoshi in /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/OauthService)
+2026-01-08T15:32:48.049+05:30  INFO 55064 --- [AuthService] [           main] o.h.o.OauthServiceApplication            : The following 1 profile is active: "dev"
+2026-01-08T15:32:48.071+05:30  INFO 55064 --- [AuthService] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8083/
+2026-01-08T15:32:48.071+05:30  INFO 55064 --- [AuthService] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=baseurls,Common,AuthService, profiles=[default], label=null, version=5e6fa4b7dd11567f7d8b584957447f57a8746f55, state=
+2026-01-08T15:32:48.072+05:30  INFO 55064 --- [AuthService] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8083/
+2026-01-08T15:32:48.072+05:30  INFO 55064 --- [AuthService] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=baseurls,Common,AuthService, profiles=[dev], label=null, version=5e6fa4b7dd11567f7d8b584957447f57a8746f55, state=
+2026-01-08T15:32:48.577+05:30  INFO 55064 --- [AuthService] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-08T15:32:48.690+05:30  INFO 55064 --- [AuthService] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 105 ms. Found 4 JPA repository interfaces.
+2026-01-08T15:32:48.887+05:30  INFO 55064 --- [AuthService] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=526cd970-14d2-3e36-baa7-bf489a448d8d
+2026-01-08T15:32:49.123+05:30  INFO 55064 --- [AuthService] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2026-01-08T15:32:49.131+05:30  INFO 55064 --- [AuthService] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-08T15:32:49.131+05:30  INFO 55064 --- [AuthService] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2026-01-08T15:32:49.164+05:30  INFO 55064 --- [AuthService] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1091 ms
+2026-01-08T15:32:49.247+05:30 DEBUG 55064 --- [AuthService] [           main] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
+2026-01-08T15:32:49.247+05:30 DEBUG 55064 --- [AuthService] [           main] o.s.web.filter.ForwardedHeaderFilter     : Filter 'forwardedHeaderFilter' configured for use
+2026-01-08T15:32:49.315+05:30  INFO 55064 --- [AuthService] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-08T15:32:49.344+05:30  INFO 55064 --- [AuthService] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 7.1.8.Final
+2026-01-08T15:32:49.578+05:30  INFO 55064 --- [AuthService] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-08T15:32:49.599+05:30  INFO 55064 --- [AuthService] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-08T15:32:49.696+05:30  INFO 55064 --- [AuthService] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@43edd2ea
+2026-01-08T15:32:49.697+05:30  INFO 55064 --- [AuthService] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-08T15:32:49.737+05:30  INFO 55064 --- [AuthService] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5433/OBTB_AUTHDB?sslmode=prefer]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.0
+	Default catalog/schema: OBTB_AUTHDB/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-08T15:32:50.357+05:30  INFO 55064 --- [AuthService] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-08T15:32:50.422+05:30  INFO 55064 --- [AuthService] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-08T15:32:50.502+05:30  INFO 55064 --- [AuthService] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-08T15:32:50.880+05:30  WARN 55064 --- [AuthService] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-08T15:32:50.909+05:30  INFO 55064 --- [AuthService] [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name daoAuthenticationProvider
+2026-01-08T15:32:50.909+05:30  WARN 55064 --- [AuthService] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-08T15:32:51.225+05:30  INFO 52894 --- [AuthService] [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-08T15:32:51.225+05:30  INFO 52894 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-08T15:32:51.225+05:30 DEBUG 52894 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-08T15:32:51.226+05:30 DEBUG 52894 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-08T15:32:51.230+05:30 DEBUG 52894 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@993bc47
+2026-01-08T15:32:51.230+05:30 DEBUG 52894 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@67f07fa1
+2026-01-08T15:32:51.230+05:30 DEBUG 52894 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-08T15:32:51.230+05:30  INFO 52894 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2026-01-08T15:32:51.780+05:30  WARN 55064 --- [AuthService] [           main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/auth-api/v1/user/verify/**]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-01-08T15:32:51.780+05:30  WARN 55064 --- [AuthService] [           main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/auth-api/v1/user/activate/**]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-01-08T15:32:51.780+05:30  WARN 55064 --- [AuthService] [           main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/auth-api/v1/user/is-active/**]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-01-08T15:32:51.780+05:30  WARN 55064 --- [AuthService] [           main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/auth-api/v1/register]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-01-08T15:32:51.854+05:30 DEBUG 55064 --- [AuthService] [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : 8 mappings in 'requestMappingHandlerMapping'
+2026-01-08T15:32:51.874+05:30 DEBUG 55064 --- [AuthService] [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-08T15:32:51.893+05:30 DEBUG 55064 --- [AuthService] [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-08T15:32:51.924+05:30 DEBUG 55064 --- [AuthService] [           main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-08T15:32:52.098+05:30  INFO 55064 --- [AuthService] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-01-08T15:32:52.164+05:30  WARN 55064 --- [AuthService] [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-01-08T15:32:52.169+05:30  INFO 55064 --- [AuthService] [           main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-08T15:32:52.170+05:30  INFO 55064 --- [AuthService] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-08T15:32:52.171+05:30  INFO 55064 --- [AuthService] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-01-08T15:32:52.181+05:30  INFO 55064 --- [AuthService] [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-08T15:32:52.190+05:30 ERROR 55064 --- [AuthService] [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8081 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8081 or configure this application to listen on another port.
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  11.830 s
+[INFO] Finished at: 2026-01-08T15:32:52+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project OauthService: Process terminated with exit code: 1 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10:59 min
+[INFO] Finished at: 2026-01-08T15:34:38+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project OauthService: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+------------------------------------------
+🚀 SESSION START: 2026-01-08 15:35:46
+------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< org.Hexaware:OauthService >----------------------
+[INFO] Building OauthService 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ OauthService >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ OauthService ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ OauthService ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ OauthService ---
+[INFO] Not copying test resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ OauthService ---
+[INFO] Not compiling test sources
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ OauthService <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ OauthService ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2026-01-08T15:35:58.885+05:30  INFO 56537 --- [AuthService] [           main] o.h.o.OauthServiceApplication            : Starting OauthServiceApplication using Java 17.0.17 with PID 56537 (/Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/OauthService/target/classes started by mihirjoshi in /Users/mihirjoshi/Desktop/Hexaware/OBTB-HEXAWARE-CODE-BASE/backend/OBTB-HEXAWARE/OauthService)
+2026-01-08T15:35:58.887+05:30  INFO 56537 --- [AuthService] [           main] o.h.o.OauthServiceApplication            : The following 1 profile is active: "dev"
+2026-01-08T15:35:58.910+05:30  INFO 56537 --- [AuthService] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8083/
+2026-01-08T15:35:58.910+05:30  INFO 56537 --- [AuthService] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=baseurls,Common,AuthService, profiles=[default], label=null, version=5e6fa4b7dd11567f7d8b584957447f57a8746f55, state=
+2026-01-08T15:35:58.911+05:30  INFO 56537 --- [AuthService] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8083/
+2026-01-08T15:35:58.911+05:30  INFO 56537 --- [AuthService] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=baseurls,Common,AuthService, profiles=[dev], label=null, version=5e6fa4b7dd11567f7d8b584957447f57a8746f55, state=
+2026-01-08T15:35:59.473+05:30  INFO 56537 --- [AuthService] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-08T15:35:59.579+05:30  INFO 56537 --- [AuthService] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 98 ms. Found 4 JPA repository interfaces.
+2026-01-08T15:35:59.765+05:30  INFO 56537 --- [AuthService] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=526cd970-14d2-3e36-baa7-bf489a448d8d
+2026-01-08T15:36:00.017+05:30  INFO 56537 --- [AuthService] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2026-01-08T15:36:00.028+05:30  INFO 56537 --- [AuthService] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-08T15:36:00.028+05:30  INFO 56537 --- [AuthService] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2026-01-08T15:36:00.072+05:30  INFO 56537 --- [AuthService] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1158 ms
+2026-01-08T15:36:00.209+05:30 DEBUG 56537 --- [AuthService] [           main] o.s.w.f.ServerHttpObservationFilter      : Filter 'webMvcObservationFilter' configured for use
+2026-01-08T15:36:00.209+05:30 DEBUG 56537 --- [AuthService] [           main] o.s.web.filter.ForwardedHeaderFilter     : Filter 'forwardedHeaderFilter' configured for use
+2026-01-08T15:36:00.302+05:30  INFO 56537 --- [AuthService] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-08T15:36:00.338+05:30  INFO 56537 --- [AuthService] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 7.1.8.Final
+2026-01-08T15:36:00.604+05:30  INFO 56537 --- [AuthService] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-08T15:36:00.627+05:30  INFO 56537 --- [AuthService] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-08T15:36:00.723+05:30  INFO 56537 --- [AuthService] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@43edd2ea
+2026-01-08T15:36:00.724+05:30  INFO 56537 --- [AuthService] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-08T15:36:00.766+05:30  INFO 56537 --- [AuthService] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5433/OBTB_AUTHDB?sslmode=prefer]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.0
+	Default catalog/schema: OBTB_AUTHDB/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-08T15:36:01.395+05:30  INFO 56537 --- [AuthService] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-08T15:36:01.438+05:30  INFO 56537 --- [AuthService] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-08T15:36:01.512+05:30  INFO 56537 --- [AuthService] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-08T15:36:01.869+05:30  WARN 56537 --- [AuthService] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-08T15:36:01.898+05:30  INFO 56537 --- [AuthService] [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name daoAuthenticationProvider
+2026-01-08T15:36:01.898+05:30  WARN 56537 --- [AuthService] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-08T15:36:02.855+05:30  WARN 56537 --- [AuthService] [           main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/auth-api/v1/user/verify/**]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-01-08T15:36:02.856+05:30  WARN 56537 --- [AuthService] [           main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/auth-api/v1/user/activate/**]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-01-08T15:36:02.856+05:30  WARN 56537 --- [AuthService] [           main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/auth-api/v1/user/is-active/**]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-01-08T15:36:02.856+05:30  WARN 56537 --- [AuthService] [           main] o.s.s.c.a.web.builders.WebSecurity       : You are asking Spring Security to ignore PathPattern [/auth-api/v1/register]. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+2026-01-08T15:36:02.933+05:30 DEBUG 56537 --- [AuthService] [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : 8 mappings in 'requestMappingHandlerMapping'
+2026-01-08T15:36:02.956+05:30 DEBUG 56537 --- [AuthService] [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-08T15:36:02.974+05:30 DEBUG 56537 --- [AuthService] [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-08T15:36:03.003+05:30 DEBUG 56537 --- [AuthService] [           main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-08T15:36:03.217+05:30  INFO 56537 --- [AuthService] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-01-08T15:36:03.283+05:30  INFO 56537 --- [AuthService] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2026-01-08T15:36:03.296+05:30  INFO 56537 --- [AuthService] [           main] o.h.o.OauthServiceApplication            : Started OauthServiceApplication in 8.219 seconds (process running for 8.552)
+Hibernate: 
+    select
+        count(*) 
+    from
+        security_question_definition sqd1_0
+Security questions already exist. Skipping seeding.
+2026-01-08T15:36:11.423+05:30  INFO 56537 --- [AuthService] [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-08T15:36:11.423+05:30  INFO 56537 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-08T15:36:11.423+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-08T15:36:11.423+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-08T15:36:11.425+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@993bc47
+2026-01-08T15:36:11.425+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@67f07fa1
+2026-01-08T15:36:11.425+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-08T15:36:11.425+05:30  INFO 56537 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+Hibernate: 
+    select
+        ai1_0.auth_id,
+        ai1_0.password,
+        ai1_0.is_active,
+        ai1_0.is_verified,
+        ai1_0.role_mapping_id,
+        ai1_0.user_id,
+        ai1_0.username 
+    from
+        auth_identity ai1_0 
+    where
+        ai1_0.username=?
+Hibernate: 
+    select
+        ul1_0.user_lock_out_id,
+        ul1_0."Attempt-1",
+        ul1_0."Attempt-2",
+        ul1_0."Attempt-3",
+        ul1_0.is_locked,
+        ul1_0."Login-Counter",
+        ul1_0.user_id 
+    from
+        user_lock_out ul1_0 
+    where
+        ul1_0.user_id=?
+2026-01-08T15:37:25.990+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-7] o.s.w.r.f.client.ExchangeFunctions       : [6cbebfcd] HTTP POST http://localhost:8081/oauth2/token
+2026-01-08T15:37:26.075+05:30 ERROR 56537 --- [AuthService] [nio-8081-exec-7] i.n.r.d.DnsServerAddressStreamProviders  : Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'. Use DEBUG level to see the full stack: java.lang.UnsatisfiedLinkError: failed to load the required native library
+2026-01-08T15:37:26.194+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-2] org.springframework.web.HttpLogging      : [6cbebfcd] Writing "grant_type=client_credentials&scope=openid profile"
+2026-01-08T15:37:26.876+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-2] o.s.w.r.f.client.ExchangeFunctions       : [6cbebfcd] [71ece2e1-1] Response 200 OK
+2026-01-08T15:37:26.894+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-2] org.springframework.web.HttpLogging      : [6cbebfcd] [71ece2e1-1] Decoded "{"access_token":"eyJraWQiOiJkZDM5ZWRjYi0xMWQ1LTQyNDctOWJmMy01ZGJmZGJhNGU2N2EiLCJhbGciOiJSUzI1NiJ9.ey (truncated)..."
+2026-01-08T15:37:26.910+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-7] o.s.w.r.f.client.ExchangeFunctions       : [2919452f] HTTP GET http://localhost:8082/user-api/v1/user-role/2682af7e-cbfe-4f60-8fe6-c85cec071f6a
+2026-01-08T15:37:27.295+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-3] o.s.w.r.f.client.ExchangeFunctions       : [2919452f] [a7e18370-1] Response 200 OK
+2026-01-08T15:37:27.297+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-3] org.springframework.web.HttpLogging      : [2919452f] [a7e18370-1] Decoded "CUSTOMER"
+Hibernate: 
+    select
+        ul1_0.user_lock_out_id,
+        ul1_0."Attempt-1",
+        ul1_0."Attempt-2",
+        ul1_0."Attempt-3",
+        ul1_0.is_locked,
+        ul1_0."Login-Counter",
+        ul1_0.user_id 
+    from
+        user_lock_out ul1_0 
+    where
+        ul1_0.user_id=?
+Hibernate: 
+    select
+        ai1_0.auth_id,
+        ai1_0.password,
+        ai1_0.is_active,
+        ai1_0.is_verified,
+        ai1_0.role_mapping_id,
+        ai1_0.user_id,
+        ai1_0.username 
+    from
+        auth_identity ai1_0 
+    where
+        ai1_0.username=?
+Hibernate: 
+    select
+        ul1_0.user_lock_out_id,
+        ul1_0."Attempt-1",
+        ul1_0."Attempt-2",
+        ul1_0."Attempt-3",
+        ul1_0.is_locked,
+        ul1_0."Login-Counter",
+        ul1_0.user_id 
+    from
+        user_lock_out ul1_0 
+    where
+        ul1_0.user_id=?
+2026-01-08T15:38:09.265+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-8] o.s.w.r.f.client.ExchangeFunctions       : [5023f2e8] HTTP POST http://localhost:8081/oauth2/token
+2026-01-08T15:38:09.289+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-2] org.springframework.web.HttpLogging      : [5023f2e8] Writing "grant_type=client_credentials&scope=openid profile"
+2026-01-08T15:38:09.482+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-2] o.s.w.r.f.client.ExchangeFunctions       : [5023f2e8] [71ece2e1-2] Response 200 OK
+2026-01-08T15:38:09.484+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-2] org.springframework.web.HttpLogging      : [5023f2e8] [71ece2e1-2] Decoded "{"access_token":"eyJraWQiOiJkZDM5ZWRjYi0xMWQ1LTQyNDctOWJmMy01ZGJmZGJhNGU2N2EiLCJhbGciOiJSUzI1NiJ9.ey (truncated)..."
+2026-01-08T15:38:09.491+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-8] o.s.w.r.f.client.ExchangeFunctions       : [240e865f] HTTP GET http://localhost:8082/user-api/v1/user-role/2682af7e-cbfe-4f60-8fe6-c85cec071f6a
+2026-01-08T15:38:09.548+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-3] o.s.w.r.f.client.ExchangeFunctions       : [240e865f] [a7e18370-2] Response 200 OK
+2026-01-08T15:38:09.551+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-3] org.springframework.web.HttpLogging      : [240e865f] [a7e18370-2] Decoded "CUSTOMER"
+Hibernate: 
+    select
+        ul1_0.user_lock_out_id,
+        ul1_0."Attempt-1",
+        ul1_0."Attempt-2",
+        ul1_0."Attempt-3",
+        ul1_0.is_locked,
+        ul1_0."Login-Counter",
+        ul1_0.user_id 
+    from
+        user_lock_out ul1_0 
+    where
+        ul1_0.user_id=?
+2026-01-08T15:39:50.835+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : POST "/auth/auth-api/v1/register", parameters={}
+2026-01-08T15:39:50.865+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.hexaware.oauthservice.controller.AuthController#registerUser(AuthUserCreationRequest)
+2026-01-08T15:39:50.942+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [org.hexaware.oauthservice.dtos.AuthUserCreationRequest@4acf32b0]
+2026-01-08T15:39:50.969+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-8] o.s.w.r.f.client.ExchangeFunctions       : [c1bceb1] HTTP POST http://localhost:8082/user-api/v1/create-user
+2026-01-08T15:39:50.977+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-4] org.springframework.web.HttpLogging      : [c1bceb1] Encoding [org.hexaware.oauthservice.dtos.UserCreationRequest@d5d2a54]
+2026-01-08T15:39:51.360+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-4] o.s.w.r.f.client.ExchangeFunctions       : [c1bceb1] [d94e2e96-1] Response 200 OK
+2026-01-08T15:39:51.380+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-4] org.springframework.web.HttpLogging      : [c1bceb1] [d94e2e96-1] Decoded [org.hexaware.oauthservice.dtos.UserSummary@3c9c5594]
+2026-01-08T15:39:51.635+05:30  INFO 56537 --- [AuthService] [nio-8081-exec-8] o.a.kafka.common.config.AbstractConfig   : ProducerConfig values: 
+	acks = -1
+	batch.size = 16384
+	bootstrap.servers = [localhost:9092]
+	buffer.memory = 33554432
+	client.dns.lookup = use_all_dns_ips
+	client.id = AuthService-producer-1
+	compression.gzip.level = -1
+	compression.lz4.level = 9
+	compression.type = none
+	compression.zstd.level = 3
+	connections.max.idle.ms = 540000
+	delivery.timeout.ms = 120000
+	enable.idempotence = true
+	enable.metrics.push = true
+	interceptor.classes = []
+	key.serializer = class org.apache.kafka.common.serialization.StringSerializer
+	linger.ms = 5
+	max.block.ms = 60000
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
+	metadata.max.age.ms = 300000
+	metadata.max.idle.ms = 300000
+	metadata.recovery.rebootstrap.trigger.ms = 300000
+	metadata.recovery.strategy = rebootstrap
+	metric.reporters = [org.apache.kafka.common.metrics.JmxReporter]
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partitioner.adaptive.partitioning.enable = true
+	partitioner.availability.timeout.ms = 0
+	partitioner.class = null
+	partitioner.ignore.keys = false
+	receive.buffer.bytes = 32768
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.assertion.algorithm = RS256
+	sasl.oauthbearer.assertion.claim.aud = null
+	sasl.oauthbearer.assertion.claim.exp.seconds = 300
+	sasl.oauthbearer.assertion.claim.iss = null
+	sasl.oauthbearer.assertion.claim.jti.include = false
+	sasl.oauthbearer.assertion.claim.nbf.seconds = 60
+	sasl.oauthbearer.assertion.claim.sub = null
+	sasl.oauthbearer.assertion.file = null
+	sasl.oauthbearer.assertion.private.key.file = null
+	sasl.oauthbearer.assertion.private.key.passphrase = null
+	sasl.oauthbearer.assertion.template.file = null
+	sasl.oauthbearer.client.credentials.client.id = null
+	sasl.oauthbearer.client.credentials.client.secret = null
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.jwt.retriever.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtRetriever
+	sasl.oauthbearer.jwt.validator.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtValidator
+	sasl.oauthbearer.scope = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transaction.two.phase.commit.enable = false
+	transactional.id = null
+	value.serializer = class org.apache.kafka.common.serialization.StringSerializer
+
+2026-01-08T15:39:51.665+05:30  INFO 56537 --- [AuthService] [nio-8081-exec-8] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-01-08T15:39:51.682+05:30  INFO 56537 --- [AuthService] [nio-8081-exec-8] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=AuthService-producer-1] Instantiated an idempotent producer.
+2026-01-08T15:39:51.716+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.clients.producer.internals.Sender  : [Producer clientId=AuthService-producer-1] Starting Kafka producer I/O thread.
+2026-01-08T15:39:51.717+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.c.p.internals.TransactionManager   : [Producer clientId=AuthService-producer-1] Transition from state UNINITIALIZED to INITIALIZING
+2026-01-08T15:39:51.718+05:30  INFO 56537 --- [AuthService] [nio-8081-exec-8] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 4.1.1
+2026-01-08T15:39:51.718+05:30  INFO 56537 --- [AuthService] [nio-8081-exec-8] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: be816b82d25370ce
+2026-01-08T15:39:51.718+05:30  INFO 56537 --- [AuthService] [nio-8081-exec-8] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1767866991716
+2026-01-08T15:39:51.719+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-8] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=AuthService-producer-1] Kafka producer started
+2026-01-08T15:39:51.921+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.c.p.internals.TransactionManager   : [Producer clientId=AuthService-producer-1] Enqueuing transactional request InitProducerIdRequestData(transactionalId=null, transactionTimeoutMs=2147483647, producerId=-1, producerEpoch=-1, enable2Pc=false, keepPreparedTxn=false)
+2026-01-08T15:39:51.923+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Initialize connection to node localhost:9092 (id: -1 rack: null isFenced: false) for sending metadata request
+2026-01-08T15:39:51.924+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.ClientUtils     : Resolved host localhost as 127.0.0.1
+2026-01-08T15:39:51.925+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.clients.ClusterConnectionStates    : [Producer clientId=AuthService-producer-1] Resolved host localhost to addresses [localhost/127.0.0.1]
+2026-01-08T15:39:51.925+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Initiating connection to node localhost:9092 (id: -1 rack: null isFenced: false) using address localhost/127.0.0.1
+2026-01-08T15:39:51.931+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.apache.kafka.common.network.Selector   : [Producer clientId=AuthService-producer-1] Created socket with SO_RCVBUF = 326640, SO_SNDBUF = 146988, SO_TIMEOUT = 0 to node -1
+2026-01-08T15:39:51.932+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Completed connection to node -1. Fetching API versions.
+2026-01-08T15:39:51.932+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Initiating API versions fetch from node -1.
+2026-01-08T15:39:51.953+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Sending API_VERSIONS request with header RequestHeader(apiKey=API_VERSIONS, apiVersion=4, clientId=AuthService-producer-1, correlationId=0, headerVersion=2) and timeout 30000 to node -1: ApiVersionsRequestData(clientSoftwareName='apache-kafka-java', clientSoftwareVersion='4.1.1')
+2026-01-08T15:39:52.002+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Received API_VERSIONS response from node -1 for request with header RequestHeader(apiKey=API_VERSIONS, apiVersion=4, clientId=AuthService-producer-1, correlationId=0, headerVersion=2): ApiVersionsResponseData(errorCode=0, apiKeys=[ApiVersion(apiKey=0, minVersion=0, maxVersion=13), ApiVersion(apiKey=1, minVersion=4, maxVersion=18), ApiVersion(apiKey=2, minVersion=1, maxVersion=10), ApiVersion(apiKey=3, minVersion=0, maxVersion=13), ApiVersion(apiKey=8, minVersion=2, maxVersion=9), ApiVersion(apiKey=9, minVersion=1, maxVersion=9), ApiVersion(apiKey=10, minVersion=0, maxVersion=6), ApiVersion(apiKey=11, minVersion=0, maxVersion=9), ApiVersion(apiKey=12, minVersion=0, maxVersion=4), ApiVersion(apiKey=13, minVersion=0, maxVersion=5), ApiVersion(apiKey=14, minVersion=0, maxVersion=5), ApiVersion(apiKey=15, minVersion=0, maxVersion=6), ApiVersion(apiKey=16, minVersion=0, maxVersion=5), ApiVersion(apiKey=17, minVersion=0, maxVersion=1), ApiVersion(apiKey=18, minVersion=0, maxVersion=4), ApiVersion(apiKey=19, minVersion=2, maxVersion=7), ApiVersion(apiKey=20, minVersion=1, maxVersion=6), ApiVersion(apiKey=21, minVersion=0, maxVersion=2), ApiVersion(apiKey=22, minVersion=0, maxVersion=5), ApiVersion(apiKey=23, minVersion=2, maxVersion=4), ApiVersion(apiKey=24, minVersion=0, maxVersion=5), ApiVersion(apiKey=25, minVersion=0, maxVersion=4), ApiVersion(apiKey=26, minVersion=0, maxVersion=5), ApiVersion(apiKey=27, minVersion=1, maxVersion=1), ApiVersion(apiKey=28, minVersion=0, maxVersion=5), ApiVersion(apiKey=29, minVersion=1, maxVersion=3), ApiVersion(apiKey=30, minVersion=1, maxVersion=3), ApiVersion(apiKey=31, minVersion=1, maxVersion=3), ApiVersion(apiKey=32, minVersion=1, maxVersion=4), ApiVersion(apiKey=33, minVersion=0, maxVersion=2), ApiVersion(apiKey=34, minVersion=1, maxVersion=2), ApiVersion(apiKey=35, minVersion=1, maxVersion=4), ApiVersion(apiKey=36, minVersion=0, maxVersion=2), ApiVersion(apiKey=37, minVersion=0, maxVersion=3), ApiVersion(apiKey=38, minVersion=1, maxVersion=3), ApiVersion(apiKey=39, minVersion=1, maxVersion=2), ApiVersion(apiKey=40, minVersion=1, maxVersion=2), ApiVersion(apiKey=41, minVersion=1, maxVersion=3), ApiVersion(apiKey=42, minVersion=0, maxVersion=2), ApiVersion(apiKey=43, minVersion=0, maxVersion=2), ApiVersion(apiKey=44, minVersion=0, maxVersion=1), ApiVersion(apiKey=45, minVersion=0, maxVersion=1), ApiVersion(apiKey=46, minVersion=0, maxVersion=0), ApiVersion(apiKey=47, minVersion=0, maxVersion=0), ApiVersion(apiKey=48, minVersion=0, maxVersion=1), ApiVersion(apiKey=49, minVersion=0, maxVersion=1), ApiVersion(apiKey=50, minVersion=0, maxVersion=0), ApiVersion(apiKey=51, minVersion=0, maxVersion=0), ApiVersion(apiKey=55, minVersion=0, maxVersion=2), ApiVersion(apiKey=57, minVersion=0, maxVersion=2), ApiVersion(apiKey=60, minVersion=0, maxVersion=2), ApiVersion(apiKey=61, minVersion=0, maxVersion=0), ApiVersion(apiKey=64, minVersion=0, maxVersion=0), ApiVersion(apiKey=65, minVersion=0, maxVersion=0), ApiVersion(apiKey=66, minVersion=0, maxVersion=2), ApiVersion(apiKey=68, minVersion=0, maxVersion=1), ApiVersion(apiKey=69, minVersion=0, maxVersion=1), ApiVersion(apiKey=74, minVersion=0, maxVersion=1), ApiVersion(apiKey=75, minVersion=0, maxVersion=0), ApiVersion(apiKey=76, minVersion=1, maxVersion=1), ApiVersion(apiKey=77, minVersion=1, maxVersion=1), ApiVersion(apiKey=78, minVersion=1, maxVersion=1), ApiVersion(apiKey=79, minVersion=1, maxVersion=1), ApiVersion(apiKey=80, minVersion=0, maxVersion=0), ApiVersion(apiKey=81, minVersion=0, maxVersion=0), ApiVersion(apiKey=83, minVersion=0, maxVersion=0), ApiVersion(apiKey=84, minVersion=0, maxVersion=0), ApiVersion(apiKey=85, minVersion=0, maxVersion=0), ApiVersion(apiKey=86, minVersion=0, maxVersion=0), ApiVersion(apiKey=87, minVersion=0, maxVersion=0), ApiVersion(apiKey=90, minVersion=0, maxVersion=0), ApiVersion(apiKey=91, minVersion=0, maxVersion=0), ApiVersion(apiKey=92, minVersion=0, maxVersion=0)], throttleTimeMs=0, supportedFeatures=[SupportedFeatureKey(name='group.version', minVersion=0, maxVersion=1), SupportedFeatureKey(name='kraft.version', minVersion=0, maxVersion=1), SupportedFeatureKey(name='metadata.version', minVersion=7, maxVersion=27), SupportedFeatureKey(name='share.version', minVersion=0, maxVersion=1), SupportedFeatureKey(name='transaction.version', minVersion=0, maxVersion=2), SupportedFeatureKey(name='eligible.leader.replicas.version', minVersion=0, maxVersion=1)], finalizedFeaturesEpoch=94700, finalizedFeatures=[FinalizedFeatureKey(name='group.version', maxVersionLevel=1, minVersionLevel=1), FinalizedFeatureKey(name='transaction.version', maxVersionLevel=2, minVersionLevel=2), FinalizedFeatureKey(name='eligible.leader.replicas.version', maxVersionLevel=1, minVersionLevel=1), FinalizedFeatureKey(name='metadata.version', maxVersionLevel=27, minVersionLevel=27)], zkMigrationReady=false)
+2026-01-08T15:39:52.023+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Node -1 has finalized features epoch: 94700, finalized features: [FinalizedFeatureKey(name='group.version', maxVersionLevel=1, minVersionLevel=1), FinalizedFeatureKey(name='transaction.version', maxVersionLevel=2, minVersionLevel=2), FinalizedFeatureKey(name='eligible.leader.replicas.version', maxVersionLevel=1, minVersionLevel=1), FinalizedFeatureKey(name='metadata.version', maxVersionLevel=27, minVersionLevel=27)], supported features: [SupportedFeatureKey(name='group.version', minVersion=0, maxVersion=1), SupportedFeatureKey(name='kraft.version', minVersion=0, maxVersion=1), SupportedFeatureKey(name='metadata.version', minVersion=7, maxVersion=27), SupportedFeatureKey(name='share.version', minVersion=0, maxVersion=1), SupportedFeatureKey(name='transaction.version', minVersion=0, maxVersion=2), SupportedFeatureKey(name='eligible.leader.replicas.version', minVersion=0, maxVersion=1)], ZK migration ready: false, API versions: (Produce(0): 0 to 13 [usable: 13], Fetch(1): 4 to 18 [usable: 18], ListOffsets(2): 1 to 10 [usable: 10], Metadata(3): 0 to 13 [usable: 13], OffsetCommit(8): 2 to 9 [usable: 9], OffsetFetch(9): 1 to 9 [usable: 9], FindCoordinator(10): 0 to 6 [usable: 6], JoinGroup(11): 0 to 9 [usable: 9], Heartbeat(12): 0 to 4 [usable: 4], LeaveGroup(13): 0 to 5 [usable: 5], SyncGroup(14): 0 to 5 [usable: 5], DescribeGroups(15): 0 to 6 [usable: 6], ListGroups(16): 0 to 5 [usable: 5], SaslHandshake(17): 0 to 1 [usable: 1], ApiVersions(18): 0 to 4 [usable: 4], CreateTopics(19): 2 to 7 [usable: 7], DeleteTopics(20): 1 to 6 [usable: 6], DeleteRecords(21): 0 to 2 [usable: 2], InitProducerId(22): 0 to 5 [usable: 5], OffsetForLeaderEpoch(23): 2 to 4 [usable: 4], AddPartitionsToTxn(24): 0 to 5 [usable: 5], AddOffsetsToTxn(25): 0 to 4 [usable: 4], EndTxn(26): 0 to 5 [usable: 5], WriteTxnMarkers(27): 1 [usable: 1], TxnOffsetCommit(28): 0 to 5 [usable: 5], DescribeAcls(29): 1 to 3 [usable: 3], CreateAcls(30): 1 to 3 [usable: 3], DeleteAcls(31): 1 to 3 [usable: 3], DescribeConfigs(32): 1 to 4 [usable: 4], AlterConfigs(33): 0 to 2 [usable: 2], AlterReplicaLogDirs(34): 1 to 2 [usable: 2], DescribeLogDirs(35): 1 to 4 [usable: 4], SaslAuthenticate(36): 0 to 2 [usable: 2], CreatePartitions(37): 0 to 3 [usable: 3], CreateDelegationToken(38): 1 to 3 [usable: 3], RenewDelegationToken(39): 1 to 2 [usable: 2], ExpireDelegationToken(40): 1 to 2 [usable: 2], DescribeDelegationToken(41): 1 to 3 [usable: 3], DeleteGroups(42): 0 to 2 [usable: 2], ElectLeaders(43): 0 to 2 [usable: 2], IncrementalAlterConfigs(44): 0 to 1 [usable: 1], AlterPartitionReassignments(45): 0 to 1 [usable: 1], ListPartitionReassignments(46): 0 [usable: 0], OffsetDelete(47): 0 [usable: 0], DescribeClientQuotas(48): 0 to 1 [usable: 1], AlterClientQuotas(49): 0 to 1 [usable: 1], DescribeUserScramCredentials(50): 0 [usable: 0], AlterUserScramCredentials(51): 0 [usable: 0], DescribeQuorum(55): 0 to 2 [usable: 2], UpdateFeatures(57): 0 to 2 [usable: 2], DescribeCluster(60): 0 to 2 [usable: 2], DescribeProducers(61): 0 [usable: 0], UnregisterBroker(64): 0 [usable: 0], DescribeTransactions(65): 0 [usable: 0], ListTransactions(66): 0 to 2 [usable: 2], ConsumerGroupHeartbeat(68): 0 to 1 [usable: 1], ConsumerGroupDescribe(69): 0 to 1 [usable: 1], GetTelemetrySubscriptions(71): UNSUPPORTED, PushTelemetry(72): UNSUPPORTED, ListConfigResources(74): 0 to 1 [usable: 1], DescribeTopicPartitions(75): 0 [usable: 0], ShareGroupHeartbeat(76): 1 [usable: 1], ShareGroupDescribe(77): 1 [usable: 1], ShareFetch(78): 1 [usable: 1], ShareAcknowledge(79): 1 [usable: 1], AddRaftVoter(80): 0 [usable: 0], RemoveRaftVoter(81): 0 [usable: 0], InitializeShareGroupState(83): 0 [usable: 0], ReadShareGroupState(84): 0 [usable: 0], WriteShareGroupState(85): 0 [usable: 0], DeleteShareGroupState(86): 0 [usable: 0], ReadShareGroupStateSummary(87): 0 [usable: 0], StreamsGroupHeartbeat(88): UNSUPPORTED, StreamsGroupDescribe(89): UNSUPPORTED, DescribeShareGroupOffsets(90): 0 [usable: 0], AlterShareGroupOffsets(91): 0 [usable: 0], DeleteShareGroupOffsets(92): 0 [usable: 0]).
+2026-01-08T15:39:52.024+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Sending metadata request MetadataRequestData(topics=[MetadataRequestTopic(topicId=AAAAAAAAAAAAAAAAAAAAAA, name='producer_oauth.urgent.user_created')], allowAutoTopicCreation=true, includeClusterAuthorizedOperations=false, includeTopicAuthorizedOperations=false) to node localhost:9092 (id: -1 rack: null isFenced: false)
+2026-01-08T15:39:52.024+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Sending METADATA request with header RequestHeader(apiKey=METADATA, apiVersion=13, clientId=AuthService-producer-1, correlationId=1, headerVersion=2) and timeout 30000 to node -1: MetadataRequestData(topics=[MetadataRequestTopic(topicId=AAAAAAAAAAAAAAAAAAAAAA, name='producer_oauth.urgent.user_created')], allowAutoTopicCreation=true, includeClusterAuthorizedOperations=false, includeTopicAuthorizedOperations=false)
+2026-01-08T15:39:52.025+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Give up sending telemetry request since no node is available
+2026-01-08T15:39:52.025+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.clients.producer.internals.Sender  : [Producer clientId=AuthService-producer-1] Sending transactional request InitProducerIdRequestData(transactionalId=null, transactionTimeoutMs=2147483647, producerId=-1, producerEpoch=-1, enable2Pc=false, keepPreparedTxn=false) to node localhost:9092 (id: -1 rack: null isFenced: false) with correlation ID 2
+2026-01-08T15:39:52.025+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Sending INIT_PRODUCER_ID request with header RequestHeader(apiKey=INIT_PRODUCER_ID, apiVersion=5, clientId=AuthService-producer-1, correlationId=2, headerVersion=2) and timeout 30000 to node -1: InitProducerIdRequestData(transactionalId=null, transactionTimeoutMs=2147483647, producerId=-1, producerEpoch=-1, enable2Pc=false, keepPreparedTxn=false)
+2026-01-08T15:39:52.025+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Give up sending telemetry request since no node is available
+2026-01-08T15:39:52.025+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.c.t.i.ClientTelemetryReporter      : Creating telemetry subscription request with client instance id AAAAAAAAAAAAAAAAAAAAAA
+2026-01-08T15:39:52.025+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.c.t.i.ClientTelemetryReporter      : Setting telemetry state from SUBSCRIPTION_NEEDED to SUBSCRIPTION_IN_PROGRESS
+2026-01-08T15:39:52.026+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Version mismatch when attempting to send GetTelemetrySubscriptionsRequestData(clientInstanceId=AAAAAAAAAAAAAAAAAAAAAA) with correlation id 3 to -1
+
+org.apache.kafka.common.errors.UnsupportedVersionException: The node does not support GET_TELEMETRY_SUBSCRIPTIONS
+
+2026-01-08T15:39:52.028+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.c.t.i.ClientTelemetryReporter      : The broker generated an error for the get telemetry network API request
+
+org.apache.kafka.common.errors.UnsupportedVersionException: The node does not support GET_TELEMETRY_SUBSCRIPTIONS
+
+2026-01-08T15:39:52.028+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.c.t.i.ClientTelemetryReporter      : Updating intervalMs: 2147483647, lastRequestMs: 1767866992028
+2026-01-08T15:39:52.028+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.c.t.i.ClientTelemetryReporter      : Setting telemetry state from SUBSCRIPTION_IN_PROGRESS to SUBSCRIPTION_NEEDED
+2026-01-08T15:39:52.055+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Received METADATA response from node -1 for request with header RequestHeader(apiKey=METADATA, apiVersion=13, clientId=AuthService-producer-1, correlationId=1, headerVersion=2): MetadataResponseData(throttleTimeMs=0, brokers=[MetadataResponseBroker(nodeId=1, host='localhost', port=9092, rack=null)], clusterId='1bVBypAuTm2C9aM6B21WVg', controllerId=1, topics=[MetadataResponseTopic(errorCode=0, name='producer_oauth.urgent.user_created', topicId=D5fjT3YBRNOPgRCTW39zrg, isInternal=false, partitions=[MetadataResponsePartition(errorCode=0, partitionIndex=0, leaderId=1, leaderEpoch=6, replicaNodes=[1], isrNodes=[1], offlineReplicas=[])], topicAuthorizedOperations=-2147483648)], clusterAuthorizedOperations=-2147483648, errorCode=0)
+2026-01-08T15:39:52.059+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=AuthService-producer-1] Setting the last seen epoch of partition producer_oauth.urgent.user_created-0 to 6 since the last known epoch was undefined.
+2026-01-08T15:39:52.060+05:30  INFO 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=AuthService-producer-1] Cluster ID: 1bVBypAuTm2C9aM6B21WVg
+2026-01-08T15:39:52.062+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=AuthService-producer-1] Updated cluster metadata updateVersion 2 to MetadataSnapshot{clusterId='1bVBypAuTm2C9aM6B21WVg', nodes={1=localhost:9092 (id: 1 rack: null isFenced: false)}, partitions=[PartitionMetadata(error=NONE, partition=producer_oauth.urgent.user_created-0, leader=Optional[1], leaderEpoch=Optional[6], replicas=1, isr=1, offlineReplicas=)], controller=localhost:9092 (id: 1 rack: null isFenced: false)}
+Hibernate: 
+    insert 
+    into
+        security_questions
+        ("QuesAns-1", "QuesAns-2", user_id, sec_ques_id) 
+    values
+        (?, ?, ?, ?)
+2026-01-08T15:39:52.086+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Received INIT_PRODUCER_ID response from node -1 for request with header RequestHeader(apiKey=INIT_PRODUCER_ID, apiVersion=5, clientId=AuthService-producer-1, correlationId=2, headerVersion=2): InitProducerIdResponseData(throttleTimeMs=0, errorCode=14, producerId=-1, producerEpoch=-1, ongoingTxnProducerId=-1, ongoingTxnProducerEpoch=-1)
+2026-01-08T15:39:52.086+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.c.p.internals.TransactionManager   : [Producer clientId=AuthService-producer-1] Enqueuing transactional request InitProducerIdRequestData(transactionalId=null, transactionTimeoutMs=2147483647, producerId=-1, producerEpoch=-1, enable2Pc=false, keepPreparedTxn=false)
+2026-01-08T15:39:52.087+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.ClientUtils     : Resolved host localhost as 127.0.0.1
+2026-01-08T15:39:52.087+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.clients.ClusterConnectionStates    : [Producer clientId=AuthService-producer-1] Resolved host localhost to addresses [localhost/127.0.0.1]
+2026-01-08T15:39:52.087+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Initiating connection to node localhost:9092 (id: 1 rack: null isFenced: false) using address localhost/127.0.0.1
+2026-01-08T15:39:52.088+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.apache.kafka.common.network.Selector   : [Producer clientId=AuthService-producer-1] Created socket with SO_RCVBUF = 326640, SO_SNDBUF = 146988, SO_TIMEOUT = 0 to node 1
+2026-01-08T15:39:52.088+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Completed connection to node 1. Fetching API versions.
+2026-01-08T15:39:52.088+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Initiating API versions fetch from node 1.
+Hibernate: 
+    insert 
+    into
+        user_lock_out
+        ("Attempt-1", "Attempt-2", "Attempt-3", is_locked, "Login-Counter", user_id, user_lock_out_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-01-08T15:39:52.088+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Sending API_VERSIONS request with header RequestHeader(apiKey=API_VERSIONS, apiVersion=4, clientId=AuthService-producer-1, correlationId=4, headerVersion=2) and timeout 30000 to node 1: ApiVersionsRequestData(clientSoftwareName='apache-kafka-java', clientSoftwareVersion='4.1.1')
+Hibernate: 
+    insert 
+    into
+        auth_identity
+        (password, is_active, is_verified, role_mapping_id, user_id, username, auth_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-01-08T15:39:52.093+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Received API_VERSIONS response from node 1 for request with header RequestHeader(apiKey=API_VERSIONS, apiVersion=4, clientId=AuthService-producer-1, correlationId=4, headerVersion=2): ApiVersionsResponseData(errorCode=0, apiKeys=[ApiVersion(apiKey=0, minVersion=0, maxVersion=13), ApiVersion(apiKey=1, minVersion=4, maxVersion=18), ApiVersion(apiKey=2, minVersion=1, maxVersion=10), ApiVersion(apiKey=3, minVersion=0, maxVersion=13), ApiVersion(apiKey=8, minVersion=2, maxVersion=9), ApiVersion(apiKey=9, minVersion=1, maxVersion=9), ApiVersion(apiKey=10, minVersion=0, maxVersion=6), ApiVersion(apiKey=11, minVersion=0, maxVersion=9), ApiVersion(apiKey=12, minVersion=0, maxVersion=4), ApiVersion(apiKey=13, minVersion=0, maxVersion=5), ApiVersion(apiKey=14, minVersion=0, maxVersion=5), ApiVersion(apiKey=15, minVersion=0, maxVersion=6), ApiVersion(apiKey=16, minVersion=0, maxVersion=5), ApiVersion(apiKey=17, minVersion=0, maxVersion=1), ApiVersion(apiKey=18, minVersion=0, maxVersion=4), ApiVersion(apiKey=19, minVersion=2, maxVersion=7), ApiVersion(apiKey=20, minVersion=1, maxVersion=6), ApiVersion(apiKey=21, minVersion=0, maxVersion=2), ApiVersion(apiKey=22, minVersion=0, maxVersion=5), ApiVersion(apiKey=23, minVersion=2, maxVersion=4), ApiVersion(apiKey=24, minVersion=0, maxVersion=5), ApiVersion(apiKey=25, minVersion=0, maxVersion=4), ApiVersion(apiKey=26, minVersion=0, maxVersion=5), ApiVersion(apiKey=27, minVersion=1, maxVersion=1), ApiVersion(apiKey=28, minVersion=0, maxVersion=5), ApiVersion(apiKey=29, minVersion=1, maxVersion=3), ApiVersion(apiKey=30, minVersion=1, maxVersion=3), ApiVersion(apiKey=31, minVersion=1, maxVersion=3), ApiVersion(apiKey=32, minVersion=1, maxVersion=4), ApiVersion(apiKey=33, minVersion=0, maxVersion=2), ApiVersion(apiKey=34, minVersion=1, maxVersion=2), ApiVersion(apiKey=35, minVersion=1, maxVersion=4), ApiVersion(apiKey=36, minVersion=0, maxVersion=2), ApiVersion(apiKey=37, minVersion=0, maxVersion=3), ApiVersion(apiKey=38, minVersion=1, maxVersion=3), ApiVersion(apiKey=39, minVersion=1, maxVersion=2), ApiVersion(apiKey=40, minVersion=1, maxVersion=2), ApiVersion(apiKey=41, minVersion=1, maxVersion=3), ApiVersion(apiKey=42, minVersion=0, maxVersion=2), ApiVersion(apiKey=43, minVersion=0, maxVersion=2), ApiVersion(apiKey=44, minVersion=0, maxVersion=1), ApiVersion(apiKey=45, minVersion=0, maxVersion=1), ApiVersion(apiKey=46, minVersion=0, maxVersion=0), ApiVersion(apiKey=47, minVersion=0, maxVersion=0), ApiVersion(apiKey=48, minVersion=0, maxVersion=1), ApiVersion(apiKey=49, minVersion=0, maxVersion=1), ApiVersion(apiKey=50, minVersion=0, maxVersion=0), ApiVersion(apiKey=51, minVersion=0, maxVersion=0), ApiVersion(apiKey=55, minVersion=0, maxVersion=2), ApiVersion(apiKey=57, minVersion=0, maxVersion=2), ApiVersion(apiKey=60, minVersion=0, maxVersion=2), ApiVersion(apiKey=61, minVersion=0, maxVersion=0), ApiVersion(apiKey=64, minVersion=0, maxVersion=0), ApiVersion(apiKey=65, minVersion=0, maxVersion=0), ApiVersion(apiKey=66, minVersion=0, maxVersion=2), ApiVersion(apiKey=68, minVersion=0, maxVersion=1), ApiVersion(apiKey=69, minVersion=0, maxVersion=1), ApiVersion(apiKey=74, minVersion=0, maxVersion=1), ApiVersion(apiKey=75, minVersion=0, maxVersion=0), ApiVersion(apiKey=76, minVersion=1, maxVersion=1), ApiVersion(apiKey=77, minVersion=1, maxVersion=1), ApiVersion(apiKey=78, minVersion=1, maxVersion=1), ApiVersion(apiKey=79, minVersion=1, maxVersion=1), ApiVersion(apiKey=80, minVersion=0, maxVersion=0), ApiVersion(apiKey=81, minVersion=0, maxVersion=0), ApiVersion(apiKey=83, minVersion=0, maxVersion=0), ApiVersion(apiKey=84, minVersion=0, maxVersion=0), ApiVersion(apiKey=85, minVersion=0, maxVersion=0), ApiVersion(apiKey=86, minVersion=0, maxVersion=0), ApiVersion(apiKey=87, minVersion=0, maxVersion=0), ApiVersion(apiKey=90, minVersion=0, maxVersion=0), ApiVersion(apiKey=91, minVersion=0, maxVersion=0), ApiVersion(apiKey=92, minVersion=0, maxVersion=0)], throttleTimeMs=0, supportedFeatures=[SupportedFeatureKey(name='group.version', minVersion=0, maxVersion=1), SupportedFeatureKey(name='kraft.version', minVersion=0, maxVersion=1), SupportedFeatureKey(name='metadata.version', minVersion=7, maxVersion=27), SupportedFeatureKey(name='share.version', minVersion=0, maxVersion=1), SupportedFeatureKey(name='transaction.version', minVersion=0, maxVersion=2), SupportedFeatureKey(name='eligible.leader.replicas.version', minVersion=0, maxVersion=1)], finalizedFeaturesEpoch=94701, finalizedFeatures=[FinalizedFeatureKey(name='group.version', maxVersionLevel=1, minVersionLevel=1), FinalizedFeatureKey(name='transaction.version', maxVersionLevel=2, minVersionLevel=2), FinalizedFeatureKey(name='eligible.leader.replicas.version', maxVersionLevel=1, minVersionLevel=1), FinalizedFeatureKey(name='metadata.version', maxVersionLevel=27, minVersionLevel=27)], zkMigrationReady=false)
+2026-01-08T15:39:52.094+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Node 1 has finalized features epoch: 94701, finalized features: [FinalizedFeatureKey(name='group.version', maxVersionLevel=1, minVersionLevel=1), FinalizedFeatureKey(name='transaction.version', maxVersionLevel=2, minVersionLevel=2), FinalizedFeatureKey(name='eligible.leader.replicas.version', maxVersionLevel=1, minVersionLevel=1), FinalizedFeatureKey(name='metadata.version', maxVersionLevel=27, minVersionLevel=27)], supported features: [SupportedFeatureKey(name='group.version', minVersion=0, maxVersion=1), SupportedFeatureKey(name='kraft.version', minVersion=0, maxVersion=1), SupportedFeatureKey(name='metadata.version', minVersion=7, maxVersion=27), SupportedFeatureKey(name='share.version', minVersion=0, maxVersion=1), SupportedFeatureKey(name='transaction.version', minVersion=0, maxVersion=2), SupportedFeatureKey(name='eligible.leader.replicas.version', minVersion=0, maxVersion=1)], ZK migration ready: false, API versions: (Produce(0): 0 to 13 [usable: 13], Fetch(1): 4 to 18 [usable: 18], ListOffsets(2): 1 to 10 [usable: 10], Metadata(3): 0 to 13 [usable: 13], OffsetCommit(8): 2 to 9 [usable: 9], OffsetFetch(9): 1 to 9 [usable: 9], FindCoordinator(10): 0 to 6 [usable: 6], JoinGroup(11): 0 to 9 [usable: 9], Heartbeat(12): 0 to 4 [usable: 4], LeaveGroup(13): 0 to 5 [usable: 5], SyncGroup(14): 0 to 5 [usable: 5], DescribeGroups(15): 0 to 6 [usable: 6], ListGroups(16): 0 to 5 [usable: 5], SaslHandshake(17): 0 to 1 [usable: 1], ApiVersions(18): 0 to 4 [usable: 4], CreateTopics(19): 2 to 7 [usable: 7], DeleteTopics(20): 1 to 6 [usable: 6], DeleteRecords(21): 0 to 2 [usable: 2], InitProducerId(22): 0 to 5 [usable: 5], OffsetForLeaderEpoch(23): 2 to 4 [usable: 4], AddPartitionsToTxn(24): 0 to 5 [usable: 5], AddOffsetsToTxn(25): 0 to 4 [usable: 4], EndTxn(26): 0 to 5 [usable: 5], WriteTxnMarkers(27): 1 [usable: 1], TxnOffsetCommit(28): 0 to 5 [usable: 5], DescribeAcls(29): 1 to 3 [usable: 3], CreateAcls(30): 1 to 3 [usable: 3], DeleteAcls(31): 1 to 3 [usable: 3], DescribeConfigs(32): 1 to 4 [usable: 4], AlterConfigs(33): 0 to 2 [usable: 2], AlterReplicaLogDirs(34): 1 to 2 [usable: 2], DescribeLogDirs(35): 1 to 4 [usable: 4], SaslAuthenticate(36): 0 to 2 [usable: 2], CreatePartitions(37): 0 to 3 [usable: 3], CreateDelegationToken(38): 1 to 3 [usable: 3], RenewDelegationToken(39): 1 to 2 [usable: 2], ExpireDelegationToken(40): 1 to 2 [usable: 2], DescribeDelegationToken(41): 1 to 3 [usable: 3], DeleteGroups(42): 0 to 2 [usable: 2], ElectLeaders(43): 0 to 2 [usable: 2], IncrementalAlterConfigs(44): 0 to 1 [usable: 1], AlterPartitionReassignments(45): 0 to 1 [usable: 1], ListPartitionReassignments(46): 0 [usable: 0], OffsetDelete(47): 0 [usable: 0], DescribeClientQuotas(48): 0 to 1 [usable: 1], AlterClientQuotas(49): 0 to 1 [usable: 1], DescribeUserScramCredentials(50): 0 [usable: 0], AlterUserScramCredentials(51): 0 [usable: 0], DescribeQuorum(55): 0 to 2 [usable: 2], UpdateFeatures(57): 0 to 2 [usable: 2], DescribeCluster(60): 0 to 2 [usable: 2], DescribeProducers(61): 0 [usable: 0], UnregisterBroker(64): 0 [usable: 0], DescribeTransactions(65): 0 [usable: 0], ListTransactions(66): 0 to 2 [usable: 2], ConsumerGroupHeartbeat(68): 0 to 1 [usable: 1], ConsumerGroupDescribe(69): 0 to 1 [usable: 1], GetTelemetrySubscriptions(71): UNSUPPORTED, PushTelemetry(72): UNSUPPORTED, ListConfigResources(74): 0 to 1 [usable: 1], DescribeTopicPartitions(75): 0 [usable: 0], ShareGroupHeartbeat(76): 1 [usable: 1], ShareGroupDescribe(77): 1 [usable: 1], ShareFetch(78): 1 [usable: 1], ShareAcknowledge(79): 1 [usable: 1], AddRaftVoter(80): 0 [usable: 0], RemoveRaftVoter(81): 0 [usable: 0], InitializeShareGroupState(83): 0 [usable: 0], ReadShareGroupState(84): 0 [usable: 0], WriteShareGroupState(85): 0 [usable: 0], DeleteShareGroupState(86): 0 [usable: 0], ReadShareGroupStateSummary(87): 0 [usable: 0], StreamsGroupHeartbeat(88): UNSUPPORTED, StreamsGroupDescribe(89): UNSUPPORTED, DescribeShareGroupOffsets(90): 0 [usable: 0], AlterShareGroupOffsets(91): 0 [usable: 0], DeleteShareGroupOffsets(92): 0 [usable: 0]).
+2026-01-08T15:39:52.099+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-01-08T15:39:52.099+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [org.hexaware.oauthservice.dtos.Summary@6b63e896]
+2026-01-08T15:39:52.101+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-08T15:39:52.199+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.clients.producer.internals.Sender  : [Producer clientId=AuthService-producer-1] Sending transactional request InitProducerIdRequestData(transactionalId=null, transactionTimeoutMs=2147483647, producerId=-1, producerEpoch=-1, enable2Pc=false, keepPreparedTxn=false) to node localhost:9092 (id: 1 rack: null isFenced: false) with correlation ID 5
+2026-01-08T15:39:52.200+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Sending INIT_PRODUCER_ID request with header RequestHeader(apiKey=INIT_PRODUCER_ID, apiVersion=5, clientId=AuthService-producer-1, correlationId=5, headerVersion=2) and timeout 30000 to node 1: InitProducerIdRequestData(transactionalId=null, transactionTimeoutMs=2147483647, producerId=-1, producerEpoch=-1, enable2Pc=false, keepPreparedTxn=false)
+2026-01-08T15:39:52.204+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Received INIT_PRODUCER_ID response from node 1 for request with header RequestHeader(apiKey=INIT_PRODUCER_ID, apiVersion=5, clientId=AuthService-producer-1, correlationId=5, headerVersion=2): InitProducerIdResponseData(throttleTimeMs=0, errorCode=0, producerId=2000, producerEpoch=0, ongoingTxnProducerId=-1, ongoingTxnProducerEpoch=-1)
+2026-01-08T15:39:52.204+05:30  INFO 56537 --- [AuthService] [vice-producer-1] o.a.k.c.p.internals.TransactionManager   : [Producer clientId=AuthService-producer-1] ProducerId set to 2000 with epoch 0
+2026-01-08T15:39:52.204+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.c.p.internals.TransactionManager   : [Producer clientId=AuthService-producer-1] Transition from state INITIALIZING to READY
+2026-01-08T15:39:52.207+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.c.p.internals.TransactionManager   : [Producer clientId=AuthService-producer-1] ProducerId of partition producer_oauth.urgent.user_created-0 set to 2000 with epoch 0. Reinitialize sequence at beginning.
+2026-01-08T15:39:52.207+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] o.a.k.c.p.internals.RecordAccumulator    : [Producer clientId=AuthService-producer-1] Assigned producerId 2000 and producerEpoch 0 to batch with base sequence 0 being sent to partition producer_oauth.urgent.user_created-0
+2026-01-08T15:39:52.219+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Sending PRODUCE request with header RequestHeader(apiKey=PRODUCE, apiVersion=13, clientId=AuthService-producer-1, correlationId=6, headerVersion=2) and timeout 30000 to node 1: {acks=-1,timeout=30000,partitionSizes=[D5fjT3YBRNOPgRCTW39zrg:producer_oauth.urgent.user_created-0=282]}
+2026-01-08T15:39:52.386+05:30 DEBUG 56537 --- [AuthService] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=AuthService-producer-1] Received PRODUCE response from node 1 for request with header RequestHeader(apiKey=PRODUCE, apiVersion=13, clientId=AuthService-producer-1, correlationId=6, headerVersion=2): ProduceResponseData(responses=[TopicProduceResponse(name='', topicId=D5fjT3YBRNOPgRCTW39zrg, partitionResponses=[PartitionProduceResponse(index=0, errorCode=0, baseOffset=4, logAppendTimeMs=-1, logStartOffset=0, recordErrors=[], errorMessage=null, currentLeader=LeaderIdAndEpoch(leaderId=-1, leaderEpoch=-1))])], throttleTimeMs=0, nodeEndpoints=[])
+Hibernate: 
+    select
+        ai1_0.auth_id,
+        ai1_0.password,
+        ai1_0.is_active,
+        ai1_0.is_verified,
+        ai1_0.role_mapping_id,
+        ai1_0.user_id,
+        ai1_0.username 
+    from
+        auth_identity ai1_0 
+    where
+        ai1_0.username=?
+Hibernate: 
+    select
+        ul1_0.user_lock_out_id,
+        ul1_0."Attempt-1",
+        ul1_0."Attempt-2",
+        ul1_0."Attempt-3",
+        ul1_0.is_locked,
+        ul1_0."Login-Counter",
+        ul1_0.user_id 
+    from
+        user_lock_out ul1_0 
+    where
+        ul1_0.user_id=?
+2026-01-08T15:40:39.921+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-7] o.s.w.r.f.client.ExchangeFunctions       : [27ead620] HTTP POST http://localhost:8081/oauth2/token
+2026-01-08T15:40:39.934+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-5] org.springframework.web.HttpLogging      : [27ead620] Writing "grant_type=client_credentials&scope=openid profile"
+2026-01-08T15:40:40.118+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-5] o.s.w.r.f.client.ExchangeFunctions       : [27ead620] [1854ffbe-1] Response 200 OK
+2026-01-08T15:40:40.119+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-5] org.springframework.web.HttpLogging      : [27ead620] [1854ffbe-1] Decoded "{"access_token":"eyJraWQiOiJkZDM5ZWRjYi0xMWQ1LTQyNDctOWJmMy01ZGJmZGJhNGU2N2EiLCJhbGciOiJSUzI1NiJ9.ey (truncated)..."
+2026-01-08T15:40:40.120+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-7] o.s.w.r.f.client.ExchangeFunctions       : [18b4782e] HTTP GET http://localhost:8082/user-api/v1/user-role/908c9cc7-de83-4eb8-ab16-0502cdad1cc0
+2026-01-08T15:40:40.156+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-4] o.s.w.r.f.client.ExchangeFunctions       : [18b4782e] [d94e2e96-2] Response 200 OK
+2026-01-08T15:40:40.157+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-4] org.springframework.web.HttpLogging      : [18b4782e] [d94e2e96-2] Decoded "CUSTOMER"
+Hibernate: 
+    select
+        ai1_0.auth_id,
+        ai1_0.password,
+        ai1_0.is_active,
+        ai1_0.is_verified,
+        ai1_0.role_mapping_id,
+        ai1_0.user_id,
+        ai1_0.username 
+    from
+        auth_identity ai1_0 
+    where
+        ai1_0.username=?
+2026-01-08T15:40:58.382+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/auth/auth-api/v1/user/is-active/c12506f7-42dd-4a20-92c5-6822668254f7", parameters={}
+2026-01-08T15:40:58.381+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : PATCH "/auth/auth-api/v1/user/verify/c12506f7-42dd-4a20-92c5-6822668254f7", parameters={}
+2026-01-08T15:40:58.387+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.hexaware.oauthservice.controller.AuthController#isActive(UUID)
+2026-01-08T15:40:58.388+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.hexaware.oauthservice.controller.AuthController#verifyUser(UUID)
+Hibernate: 
+    select
+        ai1_0.auth_id,
+        ai1_0.password,
+        ai1_0.is_active,
+        ai1_0.is_verified,
+        ai1_0.role_mapping_id,
+        ai1_0.user_id,
+        ai1_0.username 
+    from
+        auth_identity ai1_0 
+    where
+        ai1_0.user_id=?
+Hibernate: 
+    select
+        ai1_0.auth_id,
+        ai1_0.password,
+        ai1_0.is_active,
+        ai1_0.is_verified,
+        ai1_0.role_mapping_id,
+        ai1_0.user_id,
+        ai1_0.username 
+    from
+        auth_identity ai1_0 
+    where
+        ai1_0.user_id=?
+2026-01-08T15:40:58.415+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-01-08T15:40:58.416+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [false]
+2026-01-08T15:40:58.417+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+Hibernate: 
+    update
+        auth_identity 
+    set
+        password=?,
+        is_active=?,
+        is_verified=?,
+        role_mapping_id=?,
+        user_id=?,
+        username=? 
+    where
+        auth_id=?
+2026-01-08T15:40:58.439+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-01-08T15:40:58.442+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [UserStatusResponse[userId=c12506f7-42dd-4a20-92c5-6822668254f7, username=test1_user1_final, isActive (truncated)...]
+2026-01-08T15:40:58.451+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+Hibernate: 
+    select
+        ai1_0.auth_id,
+        ai1_0.password,
+        ai1_0.is_active,
+        ai1_0.is_verified,
+        ai1_0.role_mapping_id,
+        ai1_0.user_id,
+        ai1_0.username 
+    from
+        auth_identity ai1_0 
+    where
+        ai1_0.username=?
+Hibernate: 
+    select
+        ul1_0.user_lock_out_id,
+        ul1_0."Attempt-1",
+        ul1_0."Attempt-2",
+        ul1_0."Attempt-3",
+        ul1_0.is_locked,
+        ul1_0."Login-Counter",
+        ul1_0.user_id 
+    from
+        user_lock_out ul1_0 
+    where
+        ul1_0.user_id=?
+2026-01-08T15:41:05.552+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-8] o.s.w.r.f.client.ExchangeFunctions       : [36fe049e] HTTP POST http://localhost:8081/oauth2/token
+2026-01-08T15:41:05.573+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-5] org.springframework.web.HttpLogging      : [36fe049e] Writing "grant_type=client_credentials&scope=openid profile"
+2026-01-08T15:41:05.754+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-5] o.s.w.r.f.client.ExchangeFunctions       : [36fe049e] [1854ffbe-2] Response 200 OK
+2026-01-08T15:41:05.756+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-5] org.springframework.web.HttpLogging      : [36fe049e] [1854ffbe-2] Decoded "{"access_token":"eyJraWQiOiJkZDM5ZWRjYi0xMWQ1LTQyNDctOWJmMy01ZGJmZGJhNGU2N2EiLCJhbGciOiJSUzI1NiJ9.ey (truncated)..."
+2026-01-08T15:41:05.779+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-8] o.s.w.r.f.client.ExchangeFunctions       : [2e832639] HTTP GET http://localhost:8082/user-api/v1/user-role/908c9cc7-de83-4eb8-ab16-0502cdad1cc0
+2026-01-08T15:41:05.899+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-4] o.s.w.r.f.client.ExchangeFunctions       : [2e832639] [d94e2e96-3] Response 200 OK
+2026-01-08T15:41:05.900+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-4] org.springframework.web.HttpLogging      : [2e832639] [d94e2e96-3] Decoded "CUSTOMER"
+Hibernate: 
+    select
+        ai1_0.auth_id,
+        ai1_0.password,
+        ai1_0.is_active,
+        ai1_0.is_verified,
+        ai1_0.role_mapping_id,
+        ai1_0.user_id,
+        ai1_0.username 
+    from
+        auth_identity ai1_0 
+    where
+        ai1_0.username=?
+2026-01-08T15:41:11.717+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : PATCH "/auth/auth-api/v1/user/activate/c12506f7-42dd-4a20-92c5-6822668254f7", parameters={}
+2026-01-08T15:41:11.718+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.hexaware.oauthservice.controller.AuthController#activateUser(UUID, HttpMethod)
+Hibernate: 
+    select
+        ai1_0.auth_id,
+        ai1_0.password,
+        ai1_0.is_active,
+        ai1_0.is_verified,
+        ai1_0.role_mapping_id,
+        ai1_0.user_id,
+        ai1_0.username 
+    from
+        auth_identity ai1_0 
+    where
+        ai1_0.user_id=?
+Hibernate: 
+    update
+        auth_identity 
+    set
+        password=?,
+        is_active=?,
+        is_verified=?,
+        role_mapping_id=?,
+        user_id=?,
+        username=? 
+    where
+        auth_id=?
+2026-01-08T15:41:11.807+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-01-08T15:41:11.807+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [UserStatusResponse[userId=c12506f7-42dd-4a20-92c5-6822668254f7, username=test1_user1_final, isActive (truncated)...]
+2026-01-08T15:41:11.809+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+Hibernate: 
+    select
+        ai1_0.auth_id,
+        ai1_0.password,
+        ai1_0.is_active,
+        ai1_0.is_verified,
+        ai1_0.role_mapping_id,
+        ai1_0.user_id,
+        ai1_0.username 
+    from
+        auth_identity ai1_0 
+    where
+        ai1_0.username=?
+Hibernate: 
+    select
+        ul1_0.user_lock_out_id,
+        ul1_0."Attempt-1",
+        ul1_0."Attempt-2",
+        ul1_0."Attempt-3",
+        ul1_0.is_locked,
+        ul1_0."Login-Counter",
+        ul1_0.user_id 
+    from
+        user_lock_out ul1_0 
+    where
+        ul1_0.user_id=?
+2026-01-08T15:41:15.820+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-7] o.s.w.r.f.client.ExchangeFunctions       : [2bc93a10] HTTP POST http://localhost:8081/oauth2/token
+2026-01-08T15:41:15.825+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-5] org.springframework.web.HttpLogging      : [2bc93a10] Writing "grant_type=client_credentials&scope=openid profile"
+2026-01-08T15:41:16.036+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-5] o.s.w.r.f.client.ExchangeFunctions       : [2bc93a10] [1854ffbe-3] Response 200 OK
+2026-01-08T15:41:16.039+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-5] org.springframework.web.HttpLogging      : [2bc93a10] [1854ffbe-3] Decoded "{"access_token":"eyJraWQiOiJkZDM5ZWRjYi0xMWQ1LTQyNDctOWJmMy01ZGJmZGJhNGU2N2EiLCJhbGciOiJSUzI1NiJ9.ey (truncated)..."
+2026-01-08T15:41:16.039+05:30 DEBUG 56537 --- [AuthService] [nio-8081-exec-7] o.s.w.r.f.client.ExchangeFunctions       : [b1b0ab8] HTTP GET http://localhost:8082/user-api/v1/user-role/908c9cc7-de83-4eb8-ab16-0502cdad1cc0
+2026-01-08T15:41:16.069+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-4] o.s.w.r.f.client.ExchangeFunctions       : [b1b0ab8] [d94e2e96-4] Response 200 OK
+2026-01-08T15:41:16.070+05:30 DEBUG 56537 --- [AuthService] [ctor-http-nio-4] org.springframework.web.HttpLogging      : [b1b0ab8] [d94e2e96-4] Decoded "CUSTOMER"
+Hibernate: 
+    select
+        ul1_0.user_lock_out_id,
+        ul1_0."Attempt-1",
+        ul1_0."Attempt-2",
+        ul1_0."Attempt-3",
+        ul1_0.is_locked,
+        ul1_0."Login-Counter",
+        ul1_0.user_id 
+    from
+        user_lock_out ul1_0 
+    where
+        ul1_0.user_id=?
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  07:38 min
+[INFO] Finished at: 2026-01-08T15:43:32+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.0:run (default-cli) on project OauthService: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guard/auth-guard-guard';
 import { ActivateAccount } from './features/activate-account/activate-account';
 import { ChangePasswordComponent } from './features/change-password/change-password';
 import { Home } from './features/home/home';
@@ -11,8 +12,6 @@ export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: Home },
     { path: 'search-bus', component: Home },  // Redirect to home with search focus
-    { path: 'profile', component: ProfileComponent },
-    { path: 'change-password', component: ChangePasswordComponent },
     { path: 'activate-account', component: ActivateAccount },
     { path: 'verify-account', component: VerifyAccount },
     { path: 'login', component: LoginComponent },
@@ -22,5 +21,16 @@ export const routes: Routes = [
         loadComponent: () =>
         import('./features/signup/signup-wizard/signup-wizard')
             .then(m => m.SignupWizardComponent)
+    },
+    //protected routes
+    {
+        path: '',
+        canActivate: [authGuard],
+        children:[
+            { path: 'profile', component: ProfileComponent },
+            { path: 'change-password', component: ChangePasswordComponent }
+        ]
     }
+    
+    
 ];
