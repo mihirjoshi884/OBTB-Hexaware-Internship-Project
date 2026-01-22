@@ -1,0 +1,37 @@
+# Dependency directories
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+tmp/
+out/
+target/
+**/target/
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+**/.DS_Store
+
+# Angular specific
+.angular/
+**/.angular/
+
+# Java/Maven specific
+*.class
+*.jar
+*.war
+*.ear
+.mvn/wrapper/maven-wrapper.jar
+
+# Sensitive data (Certs and Logs)
+logs/
+*.log
+
+# Environment variables
+.env
+.sdkmanrc

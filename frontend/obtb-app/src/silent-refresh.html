@@ -1,0 +1,9 @@
+<html>
+<body>
+    <script>
+        // This sends the token/code from the iframe back to your main Angular app
+        var message = location.hash || ('#' + location.search);
+        (window.opener || window.parent).postMessage(message, location.origin);
+    </script>
+</body>
+</html>

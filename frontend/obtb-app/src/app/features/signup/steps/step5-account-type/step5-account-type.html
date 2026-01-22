@@ -1,0 +1,42 @@
+<div [formGroup]="form" class="space-y-4">
+    <div class="mb-6">
+        <h3 class="text-lg font-bold text-gray-800 mb-2">Choose Account Type</h3>
+        <p class="text-gray-600 text-sm font-medium">Select the account type that suits your needs</p>
+    </div>
+
+    <!-- Customer Option -->
+    <label class="group flex items-start p-6 border-2 border-gray-300 rounded-xl cursor-pointer hover:border-blue-500 hover:bg-blue-50/50 transition-all">
+        <input 
+            id="customer" 
+            type="radio" 
+            formControlName="roleName" 
+            value="CUSTOMER"
+            class="w-6 h-6 cursor-pointer accent-blue-600 mt-1"
+        />
+        <div class="ml-4 flex-1">
+            <span class="text-lg font-bold text-gray-900">Customer</span>
+            <p class="text-sm text-gray-600 mt-1">Book and travel on buses across the country</p>
+        </div>
+        <svg class="w-5 h-5 text-blue-600 opacity-0 group-hover:opacity-100 transition mt-1" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+    </label>
+
+    <!-- Bus Operator Option -->
+    <label class="group flex items-start p-6 border-2 border-gray-300 rounded-xl cursor-pointer hover:border-purple-500 hover:bg-purple-50/50 transition-all">
+        <input 
+            id="busOperator" 
+            type="radio" 
+            formControlName="roleName" 
+            value="BUS_OPERATOR"
+            class="w-6 h-6 cursor-pointer accent-purple-600 mt-1"
+        />
+        <div class="ml-4 flex-1">
+            <span class="text-lg font-bold text-gray-900">Bus Operator</span>
+            <p class="text-sm text-gray-600 mt-1">Manage your bus fleet and routes</p>
+        </div>
+        <svg class="w-5 h-5 text-purple-600 opacity-0 group-hover:opacity-100 transition mt-1" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+    </label>
+</div>

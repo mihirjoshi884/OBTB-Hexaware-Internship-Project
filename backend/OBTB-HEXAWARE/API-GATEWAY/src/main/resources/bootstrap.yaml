@@ -1,0 +1,26 @@
+server:
+  port: 9090
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: API-GATEWAY
+  profiles:
+    active: ${SPRING_PROFILE_ACTIVE:dev}
+
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8083/}
+    fail-fast: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.netty.http.client: DEBUG

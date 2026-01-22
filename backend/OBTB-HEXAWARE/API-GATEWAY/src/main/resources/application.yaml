@@ -1,0 +1,98 @@
+spring:
+  application:
+    name: API-GATEWAY
+
+  cloud:
+    gateway:
+      # CRITICAL: Forces CORS headers even for unmatched routes (prevents CORS error on 404)
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+
+
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+
+      routes:
+        - id: auth-service-public-route
+          uri: ${authservice.base-uri:http://localhost:8081}
+          order: -2
+          predicates:
+            # Add the non-prefixed paths as well
+            - Path=/auth/auth-api/v1/user/verify/**, /auth/auth-api/v1/user/activate/**, /auth/auth-api/v1/register, /auth/auth-api/v1/recover-account, /auth-api/v1/recover-account
+          filters:
+            - RewritePath=/auth/(?<segment>.*), /${segment}
+        # 1. Login Page Route (Maps /auth/login -> /login on Auth Service)
+        - id: auth-login-page
+          uri: ${authservice.base-uri:http://localhost:8081}
+          predicates:
+            - Path=/auth/login
+          filters:
+            - RewritePath=/auth/login, /login
+
+        # 2. OIDC Discovery Route (Required for frontend handshake)
+        - id: auth-oidc-route
+          uri: ${authservice.base-uri:http://localhost:8081}
+          order: -1
+          predicates:
+            - Path=/auth/.well-known/**, /auth/oauth2/jwks
+          filters:
+            - RewritePath=/auth/(?<segment>.*), /${segment}
+
+        # NEW: Public route for Fetch Email (NO TokenRelay)
+        - id: user-service-public-route
+          uri: ${userservice.base-uri:http://localhost:8082}
+          predicates:
+            - Path=/user/user-api/v1/fetch-user-email/**
+          filters:
+            - RewritePath=/user/(?<segment>.*), /${segment}
+
+        # EXISTING: Protected route for everything else (HAS TokenRelay)
+        - id: user-service-route
+          uri: ${userservice.base-uri:http://localhost:8082}
+          predicates:
+            - Path=/user/user-api/v1/**
+          filters:
+            - RewritePath=/user/(?<segment>.*), /${segment}
+            - TokenRelay
+
+        # 4. Auth Service API (Register, Verify, etc.)
+        - id: auth-service-route
+          uri: ${authservice.base-uri:http://localhost:8081}
+          predicates:
+            - Path=/auth/auth-api/v1/**
+          filters:
+            - RewritePath=/auth/(?<segment>.*), /${segment}
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+
+  # Security and OAuth2 stay at the same level as 'cloud'
+  security:
+    oauth2:
+      client:
+        registration:
+          api-gateway:
+            provider: my-auth-server
+            client-id: obtb-api-gateway
+            client-secret: obtb-api-gateway-secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/api-gateway"
+            scope: openid, profile
+            client-authentication-method: client_secret_basic
+        provider:
+          my-auth-server:
+            issuer-uri: ${authservice.base-uri:http://localhost:8081}
+      resourceserver:
+        jwt:
+          issuer-uri: ${authservice.base-uri:http://localhost:8081}
+          jwk-set-uri: ${authservice.base-uri:http://localhost:8081}/oauth2/jwks
+          audiences:
+            - obtb-client-001
+            - obtb-client-002
+            - obtb-client-003
+            - obtb-client-004
+            - obtb-api-gateway
+
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
