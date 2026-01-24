@@ -41,7 +41,7 @@ public class AuthIdentity {
     @Column(name = "is_verified", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean is_Verified;
 
-    @UpdateTimestamp
+
     @Column(name = "password_updated_at")
     private Instant passwordUpdatedAt;
 

@@ -10,6 +10,7 @@ import org.hexaware.userservice.entities.RoleMapping;
 import org.hexaware.userservice.entities.User;
 import org.hexaware.userservice.entities.Wallet;
 import org.hexaware.userservice.enums.Roles;
+import org.hexaware.userservice.enums.TransactionType;
 import org.hexaware.userservice.exceptions.RoleNotFoundException;
 import org.hexaware.userservice.exceptions.UserNotFoundException;
 import org.hexaware.userservice.mappers.UserMapper;
@@ -22,10 +23,12 @@ import org.hexaware.userservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 
 import java.io.IOException;
@@ -49,6 +52,8 @@ public class UserServiceImpl implements UserService {
     private WebClient userservicedWebClient;
     @Value("${authservice.base-uri}")
     private String authServiceBaseUri;
+    @Value("${transactionservice.base-uri}")
+    private String transactionServiceBaseUri;
     @Autowired
     private ImageUploadService imageUploadService;
     @Autowired
@@ -83,7 +88,7 @@ public class UserServiceImpl implements UserService {
         userSummary.setRoleMappingId(savedRoleMapping.getRoleMappingId());
         return userSummary;
     }
-
+    @Override
     public String getUserRole(UUID roleMappingId) throws RoleNotFoundException {
         var mapping = roleMappingRepository.findById(roleMappingId);
         if(mapping.isEmpty()) {
@@ -97,6 +102,7 @@ public class UserServiceImpl implements UserService {
             return role.get().getRole().toString();
         }
     }
+    @Override
     public UserSummary getUser(UUID userId) throws RoleNotFoundException, UserNotFoundException {
 
         if (userId == null) {
@@ -112,7 +118,7 @@ public class UserServiceImpl implements UserService {
         fetchedUser.setRoleMappingId(mapping.getRoleMappingId());
         return fetchedUser;
     }
-
+    @Override
     public String getEmail(UUID userId) {
         if (userId == null) {
             throw new IllegalArgumentException("userId is required");
@@ -134,28 +140,49 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ResponseDto<FundsSummaryDto> addFunds(String username, Double amount) {
-        // Fetch user and wallet through relationship
         var fetchedUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Wallet wallet = fetchedUser.getWallet();
         Double newBalance = wallet.getBalance() + amount;
-
         wallet.setBalance(newBalance);
+        var savedUser = userRepository.save(fetchedUser);
 
-        // Save user (cascades to wallet)
-        userRepository.save(fetchedUser);
+        // Prepare the record request
+        var ledgerEntryRequest = new LedgerEntryRequest(
+                savedUser.getUserId(),
+                amount,
+                TransactionType.CREDIT, // Changed to CREDIT because we are ADDING funds
+                newBalance,
+                "REF-" + UUID.randomUUID().toString().substring(0, 8),
+                "Funds added to wallet"
+        );
+
+        // Call Transaction Service
+        // UserServiceImpl.java
+        userservicedWebClient.post()
+                .uri(transactionServiceBaseUri + "/txn-api/v1/record")
+                .bodyValue(ledgerEntryRequest)
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, clientResponse ->
+                        Mono.error(new RuntimeException("Transaction Service failed to record the ledger!"))
+                )
+                .toBodilessEntity() // We only care about the Status Code (200/201)
+                .block();
 
         FundsSummaryDto summaryDto = new FundsSummaryDto(username, newBalance);
         return new ResponseDto<>(summaryDto, 200, "Funds added successfully");
     }
 
+
+
+    @Override
     public ResponseDto<UserDashboardSummary> getUserDashboardSummary(String username) throws RoleNotFoundException {
         var securityInfo = getAuthSecurityResponse(username);
         var user = userRepository.findByUsername(username).orElseThrow(()->new UsernameNotFoundException("User not found with username: " + username));
         var role = getUserRole(roleMappingRepository.findByUserId(user.getUserId()).get().getRoleMappingId());
         var response = new ResponseDto();
-        var userDashBoard =  new UserDashboardSummary(
+        var userDashBoard =  new UserDashboardSummary(user.getUserId(),
           user.getUsername(),
           user.getFirstName(),
           user.getLastName(),
@@ -200,7 +227,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return getUserDashboardSummary(username);
     }
-
     private AuthSecurityResponse getAuthSecurityResponse(String username) {
         return userservicedWebClient.get()
                 .uri(authServiceBaseUri+"/auth-api/v1/private/security-info/{username}",username)

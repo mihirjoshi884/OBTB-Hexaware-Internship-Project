@@ -86,9 +86,11 @@ public class UserController {
     //http://localhost:8082/user-api/v1/add-funds/{username}
     //http://localhost:9090/user/user-api/v1/add-funds/{username}
     @PutMapping("/add-funds/{username}")
-    public ResponseEntity<ResponseDto<FundsSummaryDto>> addFundsToWallet(@PathVariable String username,
+    public ResponseEntity<?> addFundsToWallet(@PathVariable String username,
                                                                          @RequestBody Double amount){
         ResponseDto<FundsSummaryDto> results = userService.addFunds(username,amount);
         return ResponseEntity.status(results.getStatus()).body(results); // Return 'results' instead of 'results.getBody()'
     }
+
+
 }

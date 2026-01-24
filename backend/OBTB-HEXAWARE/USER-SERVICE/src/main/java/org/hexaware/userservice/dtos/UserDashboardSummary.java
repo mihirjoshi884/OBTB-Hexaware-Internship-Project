@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record UserDashboardSummary (
+        UUID userId,
         String username,
         String firstName,
         String lastName,

@@ -275,6 +275,15 @@ public class ServerConfig {
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .build();
+        var transactionServiceClient = RegisteredClient.withId("obtb-client-005")
+                .clientId("obtb-client-005")
+                .clientName("obtb-transaction-service-client-005")
+                .clientSecret("{noop}obtb-transaction-service-client-005")
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .scope(OidcScopes.OPENID)
+                .scope(OidcScopes.PROFILE)
+                .build();
         var apiGatewayClient = RegisteredClient.withId("obtb-api-gateway")
                 .clientId("obtb-api-gateway")
                 .clientName("OBTB API Gateway")

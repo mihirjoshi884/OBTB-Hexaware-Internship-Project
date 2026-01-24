@@ -63,6 +63,13 @@ spring:
           filters:
             - RewritePath=/auth/(?<segment>.*), /${segment}
             - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+        - id: transaction-service-route
+          uri: ${transactionservice.base-uri:http://localhost:8085}
+          predicates:
+            - Path=/txn/txn-api/v1/**
+          filters:
+            - RewritePath=/txn/(?<segment>.*), /${segment}
+            - TokenRelay
 
   # Security and OAuth2 stay at the same level as 'cloud'
   security:

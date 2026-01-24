@@ -27,6 +27,7 @@
         <module>Config-Server</module>
         <module>NotificationService</module>
         <module>API-GATEWAY</module>
+        <module>TransactionService</module>
     </modules>
 
     <dependencies>
