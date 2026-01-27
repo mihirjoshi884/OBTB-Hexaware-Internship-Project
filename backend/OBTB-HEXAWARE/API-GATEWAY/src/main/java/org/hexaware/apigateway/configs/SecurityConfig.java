@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .pathMatchers("/auth/auth-api/v1/recover-account").permitAll()
                         .pathMatchers("/user/user-api/v1/fetch-user-email/**").permitAll()
                         .pathMatchers("/auth/**", "/login/**", "/oauth2/**").permitAll()
+                        .pathMatchers("/bus/bus-api/public/v1/**").permitAll()
                         .pathMatchers("/auth/auth-api/v1/change-password").authenticated()
                         .anyExchange().authenticated()
                 )
@@ -52,10 +53,10 @@ public class SecurityConfig {
     private Converter<Jwt, Mono<AbstractAuthenticationToken>> grantedAuthoritiesExtractor() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
 
-        // Custom converter to look at your "authority" claim instead of "scope"
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("authority");
-        grantedAuthoritiesConverter.setAuthorityPrefix(""); // Remove SCOPE_ prefix since you already use ROLE_
+        // Use "roles" to match the actual JWT content you shared earlier
+        grantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
+        grantedAuthoritiesConverter.setAuthorityPrefix("");
 
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
         return new ReactiveJwtAuthenticationConverterAdapter(jwtAuthenticationConverter);

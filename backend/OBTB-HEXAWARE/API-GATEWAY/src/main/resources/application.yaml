@@ -63,6 +63,26 @@ spring:
           filters:
             - RewritePath=/auth/(?<segment>.*), /${segment}
             - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+        #http://localhost:8086/bus-api/private/v1/uploads-documents
+        #http://localhost:9090/bus/bus-api/private/v1/uploads-documents
+        # bus service private endpoints
+        - id: bus-service-private-route
+          uri: ${busService.base-uri:http://localhost:8086}
+          predicates:
+            - Path=/bus/bus-api/private/v1/** # Fixed order
+          filters:
+            - RewritePath=/bus/(?<segment>.*), /${segment}
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+
+        # bus-service public routes
+        # bus-service public routes
+        - id: bus-service-public-route
+          uri: ${busService.base-uri:http://localhost:8086}
+          predicates:
+            - Path=/bus/bus-api/public/v1/** # Fixed order
+          filters:
+            - RewritePath=/bus/(?<segment>.*), /${segment}
+
         - id: transaction-service-route
           uri: ${transactionservice.base-uri:http://localhost:8085}
           predicates:

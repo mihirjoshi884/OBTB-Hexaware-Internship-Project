@@ -15,6 +15,13 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+
+    @ExceptionHandler(InvalidWithdrawalRequestException.class)
+    public ResponseEntity<Map<String,Object>> handleInvalidWithdrawalRequestException(InvalidWithdrawalRequestException ex, HttpServletRequest request) {
+        return buildException(HttpStatus.BAD_REQUEST,"Insufficient funds in the wallet",
+                ex.getMessage(),
+                request.getRequestURI());
+    }
     @ExceptionHandler(UserAlreadyExistException.class)
     public ResponseEntity<Map<String, Object>> handleUserExsist(UserAlreadyExistException ex, HttpServletRequest request) {
         return buildException(HttpStatus.CONFLICT, "USER_ALREADY_EXISTS", ex.getMessage(), request.getRequestURI());

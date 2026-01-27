@@ -11,6 +11,7 @@ import org.hexaware.userservice.entities.User;
 import org.hexaware.userservice.entities.Wallet;
 import org.hexaware.userservice.enums.Roles;
 import org.hexaware.userservice.enums.TransactionType;
+import org.hexaware.userservice.exceptions.InvalidWithdrawalRequestException;
 import org.hexaware.userservice.exceptions.RoleNotFoundException;
 import org.hexaware.userservice.exceptions.UserNotFoundException;
 import org.hexaware.userservice.mappers.UserMapper;
@@ -174,6 +175,39 @@ public class UserServiceImpl implements UserService {
         return new ResponseDto<>(summaryDto, 200, "Funds added successfully");
     }
 
+    @Override
+    public ResponseDto<FundsSummaryDto> withDrawFunds(String username, Double amount) {
+        var fetchedUser = userRepository.findByUsername(username).orElseThrow(()->new UserNotFoundException("user not found with username:\t"+username));
+        Wallet wallet = fetchedUser.getWallet();
+        Double currentBalance = wallet.getBalance();
+        if (currentBalance < amount) {
+            throw new InvalidWithdrawalRequestException("requested funds cannot be withdrawn from your wallet as there is insufficient funds in the wallet");
+        }
+        Double newBalance = currentBalance - amount;
+        wallet.setBalance(newBalance);
+        fetchedUser.setWallet(wallet);
+        var savedUser = userRepository.save(fetchedUser);
+        var ledgerEntryRequest = new LedgerEntryRequest(
+                savedUser.getUserId(),
+                amount,
+                TransactionType.DEBIT,
+                newBalance,
+                "REF-" + UUID.randomUUID().toString().substring(0, 8),
+                "Funds withdrawn from the  wallet"
+        );
+        userservicedWebClient.post()
+                .uri(transactionServiceBaseUri + "/txn-api/v1/record")
+                .bodyValue(ledgerEntryRequest)
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, clientResponse ->
+                        Mono.error(new RuntimeException("Transaction Service failed to record the ledger!"))
+                )
+                .toBodilessEntity() // We only care about the Status Code (200/201)
+                .block();
+
+        FundsSummaryDto summaryDto = new FundsSummaryDto(username, newBalance);
+        return new ResponseDto<>(summaryDto, 200, "Successfully withdrawn funds from the  wallet");
+    }
 
 
     @Override

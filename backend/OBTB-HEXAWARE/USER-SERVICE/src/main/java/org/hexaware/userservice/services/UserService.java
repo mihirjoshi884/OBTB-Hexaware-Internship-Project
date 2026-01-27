@@ -24,6 +24,7 @@ public interface UserService {
 
     ResponseDto<UserDashboardSummary> getUserDashboardSummary(String username) throws RoleNotFoundException;
     ResponseDto<FundsSummaryDto> addFunds(String username, Double amount);
+    ResponseDto<FundsSummaryDto> withDrawFunds(String username, Double amount);
     // The method we will use for the Cloud Sync
     ResponseDto<UserDashboardSummary> updateUser(String username, MultipartFile file, UpdateUserRequest updateRequest) throws RoleNotFoundException, FileUploadException;
 }

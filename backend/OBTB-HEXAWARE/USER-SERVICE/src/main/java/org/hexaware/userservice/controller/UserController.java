@@ -92,5 +92,11 @@ public class UserController {
         return ResponseEntity.status(results.getStatus()).body(results); // Return 'results' instead of 'results.getBody()'
     }
 
-
+    //http://localhost:8082/user-api/withdraw-funds/{username}
+    //http://localhost:9090/user/user-api/withdraw-funds/{username}
+    @DeleteMapping("/withdraw-funds/{username}")
+    public ResponseEntity<?> withdrawFunds(@PathVariable String username, @RequestParam Double amount){
+        ResponseDto<FundsSummaryDto> results = userService.withDrawFunds(username,amount);
+        return ResponseEntity.status(results.getStatus()).body(results);
+    }
 }

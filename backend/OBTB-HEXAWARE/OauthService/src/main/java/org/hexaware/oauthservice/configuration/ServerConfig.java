@@ -284,6 +284,15 @@ public class ServerConfig {
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .build();
+        var busServiceClient = RegisteredClient.withId("obtb-client-006")
+                .clientId("obtb-client-006")
+                .clientName("obtb-BusService-client-006")
+                .clientSecret("{noop}obtb-BusService-client-006")
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .scope(OidcScopes.OPENID)
+                .scope(OidcScopes.PROFILE)
+                .build();
         var apiGatewayClient = RegisteredClient.withId("obtb-api-gateway")
                 .clientId("obtb-api-gateway")
                 .clientName("OBTB API Gateway")
@@ -302,7 +311,13 @@ public class ServerConfig {
                         .build())
                 .build();
 
-        return new InMemoryRegisteredClientRepository( angularClient,authClient,notificationClient, apiGatewayClient,userserviceClient);
+        return new InMemoryRegisteredClientRepository( angularClient,
+                authClient,
+                notificationClient,
+                apiGatewayClient,
+                userserviceClient,
+                transactionServiceClient,
+                busServiceClient);
     }
 
     @Bean
@@ -370,23 +385,22 @@ public class ServerConfig {
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> jwtTokenCustomizer() {
         return (context) -> {
-            // Only run for Access Tokens and ID Tokens
             if (OAuth2TokenType.ACCESS_TOKEN.equals(context.getTokenType()) ||
                     "id_token".equals(context.getTokenType().getValue())) {
 
                 Authentication principal = context.getPrincipal();
                 context.getClaims().claims((claims) -> {
-                    if (context.getAuthorizationGrantType().equals(AuthorizationGrantType.AUTHORIZATION_CODE)) {
-                        // Roles/Authorities
-                        Set<String> roles = AuthorityUtils.authorityListToSet(principal.getAuthorities());
-                        claims.put("authority", roles);
+                    // 1. Get authorities for BOTH Auth Code and Client Credentials
+                    Set<String> roles = AuthorityUtils.authorityListToSet(principal.getAuthorities());
 
-                        // Custom User Data
-                        if(principal.getPrincipal() instanceof PrincipleUser customUser) {
-                            claims.put("username", customUser.getUsername());
-                            claims.put("userId", customUser.getUserId().toString());
-                            claims.put("roleMappingId", customUser.getRoleMappingId().toString());
-                        }
+                    // 2. IMPORTANT: Change "authority" to "roles" to match your ResourceServerConfig
+                    claims.put("roles", roles);
+
+                    // 3. User-specific details (only if it's a User Principal, not a Client)
+                    if(principal.getPrincipal() instanceof PrincipleUser customUser) {
+                        claims.put("username", customUser.getUsername());
+                        claims.put("userId", customUser.getUserId().toString());
+                        claims.put("roleMappingId", customUser.getRoleMappingId().toString());
                     }
                 });
             }
