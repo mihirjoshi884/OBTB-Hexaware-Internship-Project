@@ -1,0 +1,31 @@
+<div class="animate-in fade-in zoom-in-95 duration-500">
+    <div class="bg-[#1e293b] border border-red-500/30 rounded-3xl p-8 shadow-2xl">
+        <div class="flex justify-between items-center mb-8">
+            <h3 class="text-xl font-black text-white uppercase tracking-tighter">Withdraw Funds</h3>
+            <button (click)="closed.emit()" class="text-slate-500 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+        </div>
+
+        @if (errorMessage) {
+            <div class="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-xl">
+                <p class="text-red-300 text-sm font-semibold">{{ errorMessage }}</p>
+            </div>
+        }
+
+        <div class="space-y-2 mb-8">
+            <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">Amount to Withdraw</label>
+            <div class="relative">
+                <span class="absolute left-5 top-1/2 -translate-y-1/2 text-red-400 font-bold">₹</span>
+                <input type="number" [(ngModel)]="amount" placeholder="0.00" [disabled]="isProcessing"
+                    class="w-full bg-[#0f172a] border-2 border-transparent focus:border-red-500/50 text-white text-2xl font-black px-12 py-5 rounded-2xl outline-none transition-all" />
+            </div>
+            <p class="text-[10px] text-slate-400 ml-2">Available: ₹{{ currentBalance | number:'1.2-2' }}</p>
+        </div>
+
+        <button (click)="processWithdrawal()" [disabled]="!amount || isProcessing"
+            class="w-full py-5 bg-linear-to-r from-red-500 to-pink-600 text-white font-black uppercase tracking-widest text-sm rounded-2xl transition-all active:scale-[0.98]">
+            {{ isProcessing ? 'Processing...' : 'Confirm Withdrawal' }}
+        </button>
+    </div>
+</div>

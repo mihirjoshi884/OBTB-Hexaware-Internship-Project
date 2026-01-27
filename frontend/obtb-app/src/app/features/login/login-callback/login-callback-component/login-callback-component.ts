@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { CurrentUserService } from '../../../../core/services/Auth-Services/current-user.service';
+import { CurrentUserService } from '../../../../core/services/current-user.service';
 
 
 @Component({

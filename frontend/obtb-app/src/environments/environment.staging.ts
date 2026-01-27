@@ -6,5 +6,6 @@ export const environment = {
   baseUrls: {
     'userservice.base-uri': 'http://localhost:9090/user',
     'authservice.base-uri': 'http://localhost:9090/auth',
+    'txnBaseUri': 'http://localhost:8085'
   }
 };

@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router'; // Added A
 import { OAuthService } from 'angular-oauth2-oidc';
 import { environment } from '../../../environments/environment';
 import { DataStore } from '../../core/data-store/data-store';
-import { AuthService } from '../../core/services/Auth-Services/auth-service'; // Added AuthService import
+import { AuthService } from '../../core/services/auth-service'; // Added AuthService import
 
 
 @Component({

@@ -6,7 +6,6 @@ import { ForgotPassword } from './features/forgot-password/forgot-password';
 import { Home } from './features/home/home';
 import { LoginComponent } from './features/login/login';
 import { LoginCallbackComponent } from './features/login/login-callback/login-callback-component/login-callback-component';
-import { mockProfile } from './features/profile/mockProfile/mock-profile';
 import { UserDashboard } from './features/profile/user-dashboard';
 import { VerifyAccount } from './features/verify-account/verify-account';
 
@@ -21,8 +20,7 @@ export const routes: Routes = [
     { path: 'verify-account', component: VerifyAccount },
     { path: 'login', component: LoginComponent },
     { path: 'login/callback', component: LoginCallbackComponent },
-    {path: 'forgot-password', component: ForgotPassword},
-    {path: 'mock-profile', component: mockProfile}, 
+    {path: 'forgot-password', component: ForgotPassword}, 
     {
         path: 'signup',
         loadComponent: () =>

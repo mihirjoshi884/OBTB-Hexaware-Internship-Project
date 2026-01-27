@@ -4,7 +4,7 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { AuthService } from '../../core/services/Auth-Services/auth-service';
+import { AuthService } from '../../core/services/auth-service';
 
 @Component({
   selector: 'app-change-password',

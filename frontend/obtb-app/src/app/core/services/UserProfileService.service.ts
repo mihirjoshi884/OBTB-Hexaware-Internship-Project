@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { UserProfile } from '../../../interfaces/user-profile';
+import { UserProfile } from '../../interfaces/user-profile';
 
 interface ResponseDto<T> {
     body: T;         // Matches your Java 'body' field
@@ -22,9 +22,10 @@ interface FundsSummaryDto {
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
 
-    private http = inject(HttpClient);
-    private apibaseUrl = environment.baseUrls['userservice.base-uri'];
-    private profilePicSubject = new BehaviorSubject<string | null>(null);
+    private readonly http = inject(HttpClient);
+    private readonly apibaseUrl = environment.baseUrls['userservice.base-uri'];
+    private readonly txnBaseUrl = environment.baseUrls['txnBaseUri'];
+    private readonly profilePicSubject = new BehaviorSubject<string | null>(null);
     profilePic$ = this.profilePicSubject.asObservable();
 
     getUserProfile(username: string): Observable<UserProfile>{
@@ -62,5 +63,25 @@ export class UserProfileService {
                     console.log('✅ Funds added successfully:', fundsSummary);
                 })
             );
+    }
+
+    withDrawFunds(username: string, amount: number): Observable<FundsSummaryDto>{
+        // http://localhost:9090/user/user-api/v1/withdraw-funds/{username}
+        const url = `${this.apibaseUrl}/user-api/v1/withdraw-funds/${username}?amount=${amount}`;
+        return this.http.delete<ResponseDto<FundsSummaryDto>>(url)
+            .pipe(
+                map(response => response.body),
+                tap(fundsSummary =>{
+                    console.log('Funds withdrawn successfully:', fundsSummary);
+                }) 
+            );
+    }
+    getTransactionHistory(userId: string, page: number, size: number): Observable<any> {
+    // Build parameters: /history/uuid?page=0&size=10
+        const params = new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString());
+
+        return this.http.get<any>(`${this.txnBaseUrl}/txn-api/v1/history/${userId}`, { params });
     }
 }

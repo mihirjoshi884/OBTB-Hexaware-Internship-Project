@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../core/services/Auth-Services/auth-service';
-import { UserProfileService } from '../../core/services/User-Services/UserProfileService.service';
+import { AuthService } from '../../core/services/auth-service';
+import { UserProfileService } from '../../core/services/UserProfileService.service';
 
 @Component({
   selector: 'app-add-funds',

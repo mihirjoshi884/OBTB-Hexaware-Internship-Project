@@ -8,6 +8,7 @@ export const environment = {
     'authservice.base-uri': 'https://api.yourdomain.com/auth-service',
     'configserver.base-uri': 'https://api.yourdomain.com/config-service',
     'notificationservice.base-uri': 'https://api.yourdomain.com/notification-service',
-    'angular.base-uri': 'https://yourdomain.com'
+    'angular.base-uri': 'https://yourdomain.com',
+    'txnBaseUri': 'https://api.yourdomain.com/transaction-service'
   }
 };
