@@ -1,3 +1,12 @@
+**/__pycache__/
+**/*.pyc
+.angular/
+# Python virtual environments
+ai-service/.venv/
+ai-service/venv/
+ai-service/__pycache__/
+ai-service/*.pyc
+
 # Dependency directories
 node_modules/
 **/node_modules/

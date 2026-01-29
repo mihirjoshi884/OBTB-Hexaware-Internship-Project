@@ -293,6 +293,15 @@ public class ServerConfig {
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .build();
+        var aiServiceClient = RegisteredClient.withId("obtb-client-007")
+                .clientId("obtb-client-007")
+                .clientName("obtb-aiService-client-007")
+                .clientSecret("{noop}obtb-aiService-client-007")
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .scope(OidcScopes.OPENID)
+                .scope(OidcScopes.PROFILE)
+                .build();
         var apiGatewayClient = RegisteredClient.withId("obtb-api-gateway")
                 .clientId("obtb-api-gateway")
                 .clientName("OBTB API Gateway")
@@ -317,7 +326,8 @@ public class ServerConfig {
                 apiGatewayClient,
                 userserviceClient,
                 transactionServiceClient,
-                busServiceClient);
+                busServiceClient,
+                aiServiceClient);
     }
 
     @Bean
