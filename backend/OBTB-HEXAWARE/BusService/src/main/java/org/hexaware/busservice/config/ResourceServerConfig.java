@@ -3,6 +3,7 @@ package org.hexaware.busservice.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -12,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class ResourceServerConfig {
 
     @Bean
@@ -23,6 +25,7 @@ public class ResourceServerConfig {
                         .requestMatchers("/bus-api/public/v1/**").permitAll()
                         // This looks for "ROLE_BUS_OPERATOR" in the authorities list
                         .requestMatchers("/bus-api/private/v1/**").hasRole("BUS_OPERATOR")
+                        .requestMatchers("/bus-api/private/v1/**").hasAuthority("ROLE_BUS_OPERATOR")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

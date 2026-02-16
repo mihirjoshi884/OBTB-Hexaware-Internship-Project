@@ -28,6 +28,7 @@
         <module>NotificationService</module>
         <module>API-GATEWAY</module>
         <module>TransactionService</module>
+        <module>BusService</module>
     </modules>
 
     <dependencies>

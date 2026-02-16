@@ -1,11 +1,11 @@
 package org.hexaware.busservice.controller;
 
-import org.hexaware.busservice.dtos.DocumentUploadRequest;
-import org.hexaware.busservice.dtos.ResponseDto;
+import org.hexaware.busservice.dtos.*;
 import org.hexaware.busservice.services.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/bus-api/private/v1")
+@PreAuthorize("hasRole('BUS_OPERATOR')")
 public class PrivateController {
 
     @Autowired
@@ -47,5 +48,23 @@ public class PrivateController {
 
     private boolean isPdf(MultipartFile file) {
         return file != null && "application/pdf".equals(file.getContentType());
+    }
+
+    @PostMapping("/bus/create-bus")
+    public ResponseEntity<?> createBus(@RequestBody BusCreationRequest request) throws IOException {
+        var response = busService.createBus(request);
+        return ResponseEntity.status(response.getStatus()).body(response.getBody());
+    }
+
+    @PostMapping("/bus/create-template")
+    public ResponseEntity<?> createTemplate(@RequestBody BusTemplateCreationRequest request) throws IOException {
+        var response = busService.saveBusTemplate(request);
+        return ResponseEntity.status(response.getStatus()).body(response.getBody());
+    }
+
+    @PostMapping("/company/create-company")
+    public ResponseEntity<?> createCompany(@RequestBody CompanyCreationRequest request) throws IOException {
+        var response = busService.createCompany(request);
+        return ResponseEntity.status(response.getStatus()).body(response.getBody());
     }
 }
