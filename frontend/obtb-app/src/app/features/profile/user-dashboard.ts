@@ -9,7 +9,7 @@ import { UserProfile } from '../../interfaces/user-profile';
 import { AddFunds } from '../add-funds/add-funds';
 import { ChangePasswordComponent } from '../change-password/change-password';
 import { WithdrawFunds } from '../withdraw-funds/withdraw-funds';
-import { BusCompanyComponent } from './bus-company-management/bus-company-component/bus-company-component';
+import { BusCompanyComponent } from './bus-company-component/bus-company-component';
 import { EditUserProfile } from './edit-user-profile/edit-user-profile';
 import { TransactionComponent } from './transaction-component/transaction-component';
 import { UploadDocuments } from './upload-documents/upload-documents';
