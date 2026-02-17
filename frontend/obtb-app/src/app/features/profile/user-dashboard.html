@@ -215,6 +215,14 @@
                                 <app-upload-documents [userId]="user.userId"></app-upload-documents>
                             </div>
                         }
+                        @case ('manage-fleet'){
+                            
+                            @if(user.roleName === 'BUS_OPERATOR') {
+                                <div class="animate-in slide-in-from-bottom-4 duration-500">
+                                    <app-bus-company-component></app-bus-company-component>
+                                </div>
+                            } 
+                        }
                     } 
                 </div> </div>
         }

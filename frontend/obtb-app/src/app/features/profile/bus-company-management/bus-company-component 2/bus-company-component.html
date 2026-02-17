@@ -1,0 +1,45 @@
+
+<!-- parent-container -->
+<div class="space-y-8">
+
+    <!-- stepper container/placeholder -->
+    <div class="flex justify-between items-center"> 
+        <!-- steps placeholder -->
+        <div class="flex gap-4 items-center">
+            <!-- #step-1 -->
+            <div class="flex gap-2 items-center">
+                <!-- #circle -->
+                <div class="flex justify-center items-center  w-10 h-10  border rounded-full  bg-slate-950 "
+                    [class.border-blue-600]="currentStep===1"
+                    [class.text-blue-400]="currentStep===1"
+                    [class.border-slate-700]="currentStep!==1"
+                >
+                    1
+                </div>
+                <span class="text-sm font-semibold text-slate-300 "
+                    [class.text-blue-600]="currentStep===1"
+                >Company Details</span>
+            </div>
+            <!-- #line -->
+            <div class="h-0.5 w-12 bg-slate-700"></div>
+            <!-- #step-2 -->
+            <div class="flex gap-2 items-center">
+                <!-- #circle -->
+                <div class="flex justify-center items-center  w-10 h-10  border rounded-full border-slate-700 bg-slate-950">
+                    2
+                </div>
+                <span class="text-sm font-semibold text-slate-300">Manage Fleet</span>
+            </div>
+
+        </div>
+        <!-- #button placeholder -->
+        <div>
+            <button class="border text-slate-300 bg-transparent px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-slate-800 hover:text-white">Start Over</button>
+        </div>
+    </div>
+    <!-- # card container/placeholder -->
+    <div class="space-y-8"> 
+
+    </div>
+
+</div>

@@ -1,0 +1,124 @@
+<!-- parent-container -->
+<div class="space-y-8">
+
+    <!-- stepper container -->
+    <div class="flex justify-between items-center"> 
+        <div class="flex gap-4 items-center">
+
+            <!-- step 1 -->
+            <div class="flex gap-2 items-center">
+                <div class="flex justify-center items-center w-10 h-10 border rounded-full"
+                    [class.border-blue-600]="currentStep>=1"
+                    [class.border-slate-700]="currentStep<1"
+                    [class.bg-blue-600]="currentStep>1"
+                    [class.bg-slate-950]="currentStep<=1"
+                    [class.text-blue-400]="currentStep===1"
+                    [class.text-white]="currentStep>1"
+                >
+                    @if(currentStep > 1) { ✓ } @else { 1 }
+                </div>
+                <span class="text-sm font-semibold"
+                    [class.text-blue-400]="currentStep===1"
+                    [class.text-slate-300]="currentStep!==1"
+                >
+                    Company Details
+                </span>
+            </div>
+
+            <div class="h-0.5 w-12 bg-slate-700"></div>
+
+            <!-- step 2 -->
+            <div class="flex gap-2 items-center">
+                <div class="flex justify-center items-center w-10 h-10 border rounded-full"
+                    [class.border-blue-600]="currentStep>=2"
+                    [class.border-slate-700]="currentStep<2"
+                    [class.bg-blue-600]="currentStep>2"
+                    [class.bg-slate-950]="currentStep<=2"
+                    [class.text-blue-400]="currentStep===2"
+                    [class.text-white]="currentStep>2"
+                >
+                    @if(currentStep > 2) { ✓ } @else { 2 }
+                </div>
+                <span class="text-sm font-semibold"
+                    [class.text-blue-400]="currentStep===2"
+                    [class.text-slate-300]="currentStep!==2"
+                >
+                    Manage Fleet
+                </span>
+            </div>
+
+        </div>
+
+        <!-- start over -->
+        <button class="border border-slate-600 text-slate-300 bg-transparent px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-slate-800 hover:text-white">
+            Start Over
+        </button>
+    </div>
+
+    <div class="h-px w-full bg-slate-700"></div>
+
+    <!-- cards shell -->
+    <div class="space-y-8 bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl"> 
+
+        <!-- card -->
+        <div class="space-y-6 bg-slate-800 border border-slate-700 rounded-3xl p-7 shadow-2xl">
+
+            <!-- header -->
+            <div class="flex justify-between items-center">
+                <div class="uppercase tracking-wide font-semibold text-white">
+                    Company Details
+                </div>
+                <div class="flex gap-2 items-center">
+                    <span class="text-xs font-bold text-slate-400">
+                        Status
+                    </span>
+                    <div class="w-2 h-2 rounded-full bg-slate-600"></div>
+                </div>
+            </div>
+
+            <!-- fields -->
+            <div class="space-y-4">
+
+                <!-- company name -->
+                <div class="space-y-1">
+                    <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        Company Name
+                    </label>
+                    <input
+                        [(ngModel)]="companyName" 
+                        type="text"
+                        name="company_name"
+                        id="companyName"
+                        class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white focus:border-blue-500 focus:outline-none"
+                    />
+                </div>
+
+                <!-- owner name -->
+                <div class="space-y-1">
+                    <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        Owner Name
+                    </label>
+                    <input
+                        [(ngModel)]="ownerName" 
+                        type="text"
+                        name="owner_name"
+                        id="ownerName"
+                        class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white focus:border-blue-500 focus:outline-none"
+                    />
+                </div>
+
+            </div>
+
+            <!-- action -->
+            <div class="flex justify-center">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-2xl font-bold uppercase tracking-widest"
+                    (click)="registerCompany()">
+                    Register Company →
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

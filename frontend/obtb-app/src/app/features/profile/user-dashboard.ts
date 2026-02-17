@@ -9,6 +9,7 @@ import { UserProfile } from '../../interfaces/user-profile';
 import { AddFunds } from '../add-funds/add-funds';
 import { ChangePasswordComponent } from '../change-password/change-password';
 import { WithdrawFunds } from '../withdraw-funds/withdraw-funds';
+import { BusCompanyComponent } from './bus-company-management/bus-company-component/bus-company-component';
 import { EditUserProfile } from './edit-user-profile/edit-user-profile';
 import { TransactionComponent } from './transaction-component/transaction-component';
 import { UploadDocuments } from './upload-documents/upload-documents';
@@ -24,7 +25,8 @@ import { UploadDocuments } from './upload-documents/upload-documents';
     EditUserProfile,
     TransactionComponent, 
     TransactionSkeletons,
-    UploadDocuments
+    UploadDocuments,
+    BusCompanyComponent
   ],
   templateUrl: 'user-dashboard.html',
   styles: []
@@ -154,7 +156,7 @@ export class UserDashboard implements OnInit {
         { id: 'my-wallet', label: 'Earnings' },
         { id: 'upload-docs', label: 'Upload Documents' }, // For AI Docs
         { id: 'verification', label: 'verification' },      // For AI Face
-        { id: 'manage-fleet', label: 'Bus Fleet' },
+        { id: 'manage-fleet', label: 'Manage Company & Bus' },
         { id: 'add-routes', label: 'Routes' }
       ];
     }else if(role === 'ADMIN'){
