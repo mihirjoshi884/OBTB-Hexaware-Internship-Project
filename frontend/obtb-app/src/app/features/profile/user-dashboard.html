@@ -219,7 +219,7 @@
                             
                             @if(user.roleName === 'BUS_OPERATOR') {
                                 <div class="animate-in slide-in-from-bottom-4 duration-500">
-                                    <app-bus-company-component></app-bus-company-component>
+                                    <app-bus-company-component [userId]="user.userId"></app-bus-company-component>
                                 </div>
                             } 
                         }

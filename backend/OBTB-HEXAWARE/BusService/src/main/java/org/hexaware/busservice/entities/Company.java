@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hexaware.busservice.enums.VerificationStatus;
 
 import java.util.UUID;
 
@@ -25,4 +26,7 @@ public class Company {
 
     @Column(unique = true,nullable = false)
     private UUID ownerId;
+
+    @Enumerated(EnumType.STRING)
+    private VerificationStatus status = VerificationStatus.NOT_SUBMITTED;
 }

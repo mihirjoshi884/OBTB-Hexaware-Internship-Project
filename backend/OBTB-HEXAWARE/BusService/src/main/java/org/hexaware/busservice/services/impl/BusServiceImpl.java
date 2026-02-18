@@ -6,6 +6,7 @@ import org.hexaware.busservice.entities.BusOperator;
 import org.hexaware.busservice.entities.BusTemplate;
 import org.hexaware.busservice.entities.Company;
 import org.hexaware.busservice.enums.VerificationStatus;
+import org.hexaware.busservice.exceptions.CompanyNotFoundException;
 import org.hexaware.busservice.exceptions.DocumentsNotFoundException;
 import org.hexaware.busservice.repositories.BusOperatorRepository;
 import org.hexaware.busservice.repositories.BusRepository;
@@ -14,6 +15,7 @@ import org.hexaware.busservice.repositories.CompanyRepository;
 import org.hexaware.busservice.services.BusService;
 import org.hexaware.busservice.services.ImageUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -99,7 +101,8 @@ public class BusServiceImpl implements BusService {
                 savedRecord.getCompanyId(),
                 savedRecord.getCompanyName(),
                 savedRecord.getOwnerName(),
-                savedRecord.getOwnerId()
+                savedRecord.getOwnerId(),
+                savedRecord.getStatus()
         );
         var response = new ResponseDto<>(companyResponse,200,"Company created");
         return response;
@@ -156,5 +159,21 @@ public class BusServiceImpl implements BusService {
         );
 
         return new ResponseDto<>(busResponse, 201, "Bus skeleton created successfully. Please upload documents next.");
+    }
+
+    @Override
+    public ResponseDto<CompanyCreationResponse> getCompanyDetail(UUID userId) {
+        var fetchedCompany = companyRepository.findByOwnerId(userId);
+        if(fetchedCompany == null){
+            throw new CompanyNotFoundException("Company not found with ownerID: " + userId);
+        }
+        var companyResponse = new CompanyCreationResponse(
+                fetchedCompany.getCompanyId(),
+                fetchedCompany.getCompanyName(),
+                fetchedCompany.getOwnerName(),
+                fetchedCompany.getOwnerId(),
+                fetchedCompany.getStatus()
+        );
+        return new ResponseDto<>(companyResponse,200,"company found by id-"+fetchedCompany.getCompanyId());
     }
 }

@@ -2,7 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { DocumentResponse, DocumentUploadRequest, DocumentUploadResponse, ResponseDto } from '../../interfaces/bus-operator.models';
+import {
+  CompanyCreationRequest,
+  CompanyCreationResponse,
+  DocumentResponse,
+  DocumentUploadRequest,
+  DocumentUploadResponse,
+  ResponseDto
+} from '../../interfaces/bus-operator.models';
  
 
 @Injectable({
@@ -38,5 +45,13 @@ export class BusService {
 
   fetchExistingDocuments(userId: string): Observable<ResponseDto<DocumentResponse>>{
     return this.http.get<ResponseDto<DocumentResponse>>(`${this.busServiceBaseUrl}/documents/${userId}`);
+  }
+
+  fetchExistingCompany(userId: string): Observable<ResponseDto<CompanyCreationResponse>>{
+    return this.http.get<ResponseDto<CompanyCreationResponse>>(`${this.busServiceBaseUrl}/company/get-company/${userId}`);
+  }
+
+  createCompany(requestData: CompanyCreationRequest): Observable<ResponseDto<CompanyCreationResponse>>{
+    return this.http.post<ResponseDto<CompanyCreationResponse>>(`${this.busServiceBaseUrl}/company/create-company`,requestData); 
   }
 }

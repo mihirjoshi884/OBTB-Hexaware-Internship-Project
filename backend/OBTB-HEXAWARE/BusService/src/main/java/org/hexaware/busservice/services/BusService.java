@@ -2,6 +2,8 @@ package org.hexaware.busservice.services;
 
 
 import org.hexaware.busservice.dtos.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.UUID;
@@ -13,4 +15,5 @@ public interface BusService {
     public ResponseDto<CompanyCreationResponse> createCompany(CompanyCreationRequest companyCreationRequest);
     public ResponseDto<BusTemplateCreationResponse> saveBusTemplate(BusTemplateCreationRequest busTemplateCreationRequest);
     public ResponseDto<BusCreationResponse> createBus(BusCreationRequest busCreationRequest);
+    public ResponseDto<CompanyCreationResponse> getCompanyDetail(UUID userId);
 }

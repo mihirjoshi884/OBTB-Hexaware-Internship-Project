@@ -67,4 +67,10 @@ public class PrivateController {
         var response = busService.createCompany(request);
         return ResponseEntity.status(response.getStatus()).body(response.getBody());
     }
+
+    @GetMapping("/company/get-company/{userId}")
+    public ResponseEntity<?> getCompanyDetails(@PathVariable UUID userId){
+        var response = busService.getCompanyDetail(userId);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
 }

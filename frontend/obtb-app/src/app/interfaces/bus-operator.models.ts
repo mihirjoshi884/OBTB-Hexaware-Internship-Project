@@ -30,7 +30,54 @@ export interface DocumentResponse {
     panNumber: string;
     aadharUrl: string;
     panUrl: string;
-    status: 'PENDING' | 'VERIFIED' | 'REJECTED';
+    status: 'PENDING' | 'VERIFIED' | 'REJECTED' | 'NOT_SUBMITTED';
     submittedAt: Date | string;
     verification: Date | string;
+}
+
+export interface CompanyCreationRequest {
+
+    companyName: string;
+    ownerName: string;
+    ownerId: string;
+}
+
+export interface CompanyCreationResponse {
+    companyId: string;
+    companyName: string;
+    ownerName: string;
+    ownerId: string;
+    status: 'PENDING' | 'VERIFIED' | 'REJECTED' | 'NOT_SUBMITTED';
+}
+
+export interface BusTemplateCreationRequest {
+
+    templateName: string;
+    layoutData: string;
+    totalSeats: number;
+}
+
+export interface BusTemplateCreationResponse {
+
+    templateId: string;
+    templateName: string;
+    layoutData: string;
+    totalSeats: number;
+}
+
+export interface BusCreationRequest {
+    busName: string;
+    busType: 'SEATER' | 'SLEEPER' | 'HYBRID';
+    companyId: string;
+    templateId: string;
+
+}
+
+export interface BusCreationResponse{
+    busId: string;
+    busName: string;
+    busType: 'SEATER' | 'SLEEPER' | 'HYBRID';
+    companyName: string;
+    companyId: string;
+
 }

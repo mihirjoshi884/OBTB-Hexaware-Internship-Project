@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BusService } from 'src/app/core/services/bus-service';
+import { CompanyCreationRequest, CompanyCreationResponse } from 'src/app/interfaces/bus-operator.models';
+
 
 
 @Component({
@@ -7,18 +10,70 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   templateUrl: './bus-company-component.html'
 })
-export class BusCompanyComponent {
+export class BusCompanyComponent implements OnInit{
 
+  constructor(
+    private readonly busService: BusService,
+    private readonly cdr: ChangeDetectorRef
+  ) { }
+  @Input() userId!: string;
   currentStep = 1;
   companyName = '';
   ownerName = '';
+  companyLoading: boolean = false; 
 
+  companyResponse: CompanyCreationResponse | null = null ;
+
+
+  ngOnInit(){
+    this.companyLoading = true;
+    this.fetchCompany(this.userId);
+  }
   registerCompany(){
     if(!this.companyName.trim() || !this.ownerName.trim()){
       console.log("can't be empty");
       return;
+
     }else{
-      this.currentStep ++;
+      this.companyLoading = true;
+      const companyRequest: CompanyCreationRequest = {
+        companyName: this.companyName,
+        ownerName: this.ownerName,
+        ownerId: this.userId
+      }
+      this.busService.createCompany(companyRequest).subscribe({
+        next: response => {
+          this.companyResponse = response.body;
+          this.companyLoading = false;
+          this.currentStep = 2;
+          this.cdr.detectChanges()
+        },
+        error: error =>{
+          this.companyLoading = false;
+          console.error(error);
+          this.cdr.detectChanges();
+        }
+      });
     }
+  }
+
+  fetchCompany(userId: string){
+    this.busService.fetchExistingCompany(userId).subscribe({
+      next: response =>{
+        this.companyResponse = response.body;
+        this.companyLoading = false;
+        this.cdr.detectChanges()
+      },
+      error: error =>{
+        this.companyLoading = false;
+        if (error.status === 404) {
+          this.companyResponse = null;
+          this.cdr.detectChanges();
+        } else {
+          console.error(error);
+          
+        }
+      }
+    });
   }
 }
