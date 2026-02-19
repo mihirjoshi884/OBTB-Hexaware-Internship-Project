@@ -70,7 +70,10 @@ export interface BusCreationRequest {
     busType: 'SEATER' | 'SLEEPER' | 'HYBRID';
     companyId: string;
     templateId: string;
-
+    registrationNumber: string;
+    driverLicenseNumber: string;
+    insurancePolicyNumber: string;
+    rcNumber: string; 
 }
 
 export interface BusCreationResponse{

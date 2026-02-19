@@ -145,6 +145,11 @@ public class BusServiceImpl implements BusService {
         bus.setBusType(busCreationRequest.busType());
         bus.setCompany(company);
         bus.setTemplate(template);
+        bus.setRcNumber(busCreationRequest.rcNumber());
+        bus.setInsurancePolicyNumber(busCreationRequest.insurancePolicyNumber());
+        bus.setRegistrationNumber(busCreationRequest.registrationNumber());
+        bus.setDriverLicenseNumber(busCreationRequest.driverLicenseNumber());
+
 
         // 3. Save to database
         Bus savedBus = busRepository.save(bus);

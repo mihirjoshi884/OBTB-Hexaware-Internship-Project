@@ -8,5 +8,9 @@ public record BusCreationRequest(
         String busName,
         BusType busType,
         UUID companyId,
-        UUID templateId
+        UUID templateId,
+        String registrationNumber,
+        String driverLicenseNumber,
+        String insurancePolicyNumber,
+        String rcNumber
 ) {}

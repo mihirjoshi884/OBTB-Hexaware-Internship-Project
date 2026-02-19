@@ -34,23 +34,24 @@ public class Bus {
     @JoinColumn(name = "template_id", nullable = false)
     private BusTemplate template;
 
+    //required at the time of registering bus.
+    @Column(unique = true, nullable = false)
+    private String registrationNumber;
+    @Column(unique = true, nullable = false)
+    private String driverLicenseNumber;
+    @Column(unique = true, nullable = false)
+    private String insurancePolicyNumber;
+    @Column(unique = true, nullable = false)
+    private String rcNumber;
+
     // Documentation fields
     // at the time of document upload
-    @Column(unique = true, nullable = true)
-    private String registrationNumber;
     private String registrationNumberPlateId;
     private String registrationNumberPlateUrl;
-
-
     private String driverLicenseDocId;
     private String driverLicenseUrl;
-    private String driverLicenseNumber;
-
     private String insurancePolicyNumberUrl;
     private String insurancePolicyDocId;
-    private String insurancePolicyNumber;
-
     private String rcDocid;
-    private String rcNumber;
-    private String rcDetails; // Registration Certificate
+    private String rcDocUrl; // Registration Certificate
 }

@@ -77,31 +77,31 @@
                 <div class="grid grid-cols-2 gap-4">
 
                     <div class="space-y-1">
-                        <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400">
                             Company Name
-                        </label>
+                        </span>
                         <span class="h-10 w-full bg-slate-700 rounded-xl"></span>
                     </div>
                     <!-- company id -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400">
                             Company ID
-                        </label>
+                        </span>
                         <span class="h-10 w-full bg-slate-700 rounded-xl"></span>
                     </div>
                     <!-- owner's details section -->
                     <!-- owner name -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400">
                             Owner Name
-                        </label>
+                        </span>
                         <span class="h-10 w-full bg-slate-700 rounded-xl"></span>
                     </div>
                     <!-- owner Id -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400">
                             Owner ID
-                        </label>
+                        </span>
                         <span class="h-10 w-full bg-slate-700 rounded-xl"></span>
                     </div>
 
@@ -127,18 +127,18 @@
                 <div class="grid grid-cols-2 gap-4">
 
                     <div class="space-y-1">
-                        <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400">
                             Company Name
-                        </label>
-                        <div class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white break-words">
+                        </span>
+                        <div class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white break-normal">
                             {{companyResponse?.companyName}}
                         </div>
                     </div>
                     <!-- company id -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400">
                             Company ID
-                        </label>
+                        </span>
                         <div class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white break-all">
                             {{companyResponse?.companyId}}
                         </div>
@@ -146,18 +146,18 @@
                     <!-- owner's details section -->
                     <!-- owner name -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400">
                             Owner Name
-                        </label>
-                        <div class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white break-words">
+                        </span>
+                        <div class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white break-normal">
                             {{companyResponse?.ownerName}}
                         </div>
                     </div>
                     <!-- owner Id -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400">
                             Owner ID
-                        </label>
+                        </span>
                         <div class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white break-all">
                             {{companyResponse?.ownerId}}
                         </div>
@@ -182,7 +182,7 @@
 
                     <!-- company name -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        <label for="companyName" class="text-xs font-bold uppercase tracking-widest text-slate-400">
                             Company Name
                         </label>
                         <input
@@ -196,7 +196,7 @@
 
                     <!-- owner name -->
                     <div class="space-y-1">
-                        <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        <label for="ownerName" class="text-xs font-bold uppercase tracking-widest text-slate-400">
                             Owner Name
                         </label>
                         <input
@@ -223,6 +223,61 @@
 
         <div class="h-px w-full bg-slate-700"></div>
 
+        @if(currentAction === null){
+            <div class="grid grid-cols-2 gap-6  bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl">
+            <button class="flex flex-col items-center text-center gap-3 bg-slate-800 border border-slate-700 rounded-2xl p-6 transition hover:border-blue-500 cursor-pointer w-full"
+                (click)="currentAction = 'createTemplate'"
+                type="button">
+
+                    <div class="w-12 h-12 flex items-center justify-center text-slate-300">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="transition-transform duration-500 group-hover:scale-125 group-hover:rotate-180">
+                            <rect x="3" y="3" width="6" height="6"></rect>
+                            <rect x="15" y="3" width="6" height="6"></rect>
+                            <rect x="3" y="15" width="6" height="6"></rect>
+                            <rect x="15" y="15" width="6" height="6"></rect>
+                        </svg>
+                    </div>
+                    <span class="text-sm font-semibold text-white">
+                        Create Template
+                    </span>
+                    <span class="text-xs text-slate-400">
+                        define seat layout.
+                    </span>
+
+                </button>
+            <button class="flex flex-col items-center text-center gap-3 bg-slate-800 border border-slate-700 rounded-2xl p-6 transition hover:border-blue-500 cursor-pointer w-full"
+                (click)="currentAction = 'addBus'"
+                type="button">
+
+                    <div class="w-12 h-12 flex items-center justify-center text-slate-300">
+                        <svg viewBox="0 0 24 24" class="transition-transform duration-500 group-hover:scale-125 group-hover:rotate-180">
+                            <!-- circle -->
+                            <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
+
+                            <!-- vertical -->
+                            <line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2"></line>
+
+                            <!-- horizontal -->
+                            <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2"></line>
+                        </svg>
+                    </div>
+                    <span class="text-sm font-semibold text-white">
+                        Add Bus
+                    </span>
+                    <span class="text-xs text-slate-400">
+                        register your new bus to your fleet.
+                    </span>
+
+                </button>
+            </div>
+            
+        }
+        @else if (currentAction === 'createTemplate'){
+            <app-bus-template-component></app-bus-template-component>
+        }
+        @else if(currentAction === 'addBus'){
+            <app-bus-creation-component></app-bus-creation-component>
+        }
         
     </div>
 
