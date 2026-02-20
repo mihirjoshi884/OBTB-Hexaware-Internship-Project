@@ -1,1 +1,199 @@
-<p>bus-template-component works!</p>
+<div class="space-y-6 bg-slate-800 rounded-3xl p-7">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <div class="text-lg font-semibold text-white">
+            Create Bus Template
+        </div>
+
+        <button
+            (click)="notifyParent()"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-700 transition text-slate-300"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+            </svg>
+            <span class="text-sm font-bold uppercase tracking-wider">Back</span>
+        </button>
+    </div>
+
+    <div class="h-px w-full bg-slate-700"></div>
+
+    <!-- ================= LOADING ================= -->
+    @if (isSubmitting) {
+        <div class="flex flex-col items-center justify-center py-10 space-y-4">
+            <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <div class="text-blue-400 font-semibold tracking-wide">
+                Creating template...
+            </div>
+        </div>
+    }
+
+    <!-- ================= SUCCESS ================= -->
+    @else if (submitSuccess) {
+        <div class="flex flex-col items-center justify-center py-10 space-y-5 text-center">
+            <div class="text-green-400 text-lg font-semibold">
+                {{ submitSuccess }}
+            </div>
+
+            <button
+                (click)="resetForm()"
+                class="px-6 py-2 bg-green-600 hover:bg-green-700 rounded-xl text-white font-semibold transition"
+            >
+                OK
+            </button>
+        </div>
+    }
+
+    <!-- ================= ERROR ================= -->
+    @else if (submitError) {
+        <div class="flex flex-col items-center justify-center py-10 space-y-5 text-center">
+            <div class="text-red-400 font-semibold">
+                {{ submitError }}
+            </div>
+
+            <button
+                (click)="submitError = null"
+                class="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-white transition"
+            >
+                Close
+            </button>
+        </div>
+    }
+
+    <!-- ================= FORM (IDLE) ================= -->
+    @else {
+
+        <div class="space-y-5">
+
+            <!-- Template Name -->
+            <div class="space-y-1">
+                <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                    Template Name
+                </label>
+                <input
+                    [(ngModel)]="TemplateName"
+                    type="text"
+                    class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white focus:border-blue-500 focus:outline-none"
+                />
+            </div>
+
+            <!-- Total Seats -->
+            <div class="space-y-1">
+                <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                    Total Number of Seats
+                </label>
+                <input
+                    [(ngModel)]="totalSeats"
+                    type="number"
+                    class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white focus:border-blue-500 focus:outline-none"
+                />
+            </div>
+
+            <!-- Layout Dropdown -->
+            <div class="space-y-3">
+                <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                    Layout Template
+                </label>
+
+                <button
+                    type="button"
+                    (click)="dropdownOpen = !dropdownOpen"
+                    class="w-full flex justify-between items-center px-4 py-3
+                            bg-slate-900 border border-slate-700 rounded-xl
+                            hover:border-blue-500 transition text-left"
+                >
+                    <span class="text-sm text-white">
+                        {{ selectedLayout?.layoutName || 'Select layout template' }}
+                    </span>
+
+                    <span
+                        class="text-slate-400 text-xs transition-transform duration-200"
+                        [class.rotate-180]="dropdownOpen"
+                    >
+                        ▼
+                    </span>
+                </button>
+
+                @if (dropdownOpen) {
+                    <div class="bg-slate-900 border border-slate-700 rounded-xl shadow-xl overflow-hidden">
+                        @for (layout of layoutLookUpResponse; track layout.layoutId) {
+                            <button
+                                type="button"
+                                (click)="selectLayout(layout)"
+                                class="w-full text-left px-4 py-3 hover:bg-slate-800 transition space-y-1"
+                            >
+                                <div class="text-sm font-semibold text-white">
+                                    {{ layout.layoutName }}
+                                </div>
+                                <div class="text-xs text-slate-400">
+                                    {{ layout.description }}
+                                </div>
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+
+            <!-- Bus Type Dropdown -->
+            <div class="space-y-3">
+                <label class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                    Bus Type
+                </label>
+
+                <button
+                    type="button"
+                    (click)="busTypeDropdownOpen = !busTypeDropdownOpen"
+                    class="w-full flex justify-between items-center
+                            bg-slate-900 border border-slate-700
+                            rounded-xl px-4 py-3
+                            hover:border-blue-500 transition text-left"
+                >
+                    <span class="text-sm text-white">
+                        {{ selectedBusType?.label || 'Select bus type' }}
+                    </span>
+
+                    <span
+                        class="text-slate-400 text-xs transition-transform duration-200"
+                        [class.rotate-180]="busTypeDropdownOpen"
+                    >
+                        ▼
+                    </span>
+                </button>
+
+                @if (busTypeDropdownOpen) {
+                    <div class="bg-slate-900 border border-slate-700 rounded-xl shadow-xl overflow-hidden">
+                        @for (type of busTypes; track type.value) {
+                            <button
+                                type="button"
+                                (click)="selectBusType(type)"
+                                class="w-full text-left px-4 py-3 hover:bg-slate-800 transition"
+                            >
+                                <div class="text-sm font-semibold text-white">
+                                    {{ type.label }}
+                                </div>
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+
+            <!-- Submit -->
+            <div class="flex justify-center pt-2">
+                <button
+                    (click)="createBusTemplate()"
+                    class="px-8 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold tracking-widest 
+                        shadow-lg shadow-blue-900/30 transition-all duration-200 hover:scale-[1.02] active:scale-95
+                        focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    Create Bus Template
+                </button>
+            </div>
+
+        </div>
+
+    }
+
+</div>

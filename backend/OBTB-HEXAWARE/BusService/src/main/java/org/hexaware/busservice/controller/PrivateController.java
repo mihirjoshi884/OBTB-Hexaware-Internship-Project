@@ -2,6 +2,7 @@ package org.hexaware.busservice.controller;
 
 import org.hexaware.busservice.dtos.*;
 import org.hexaware.busservice.services.BusService;
+import org.hexaware.busservice.services.LayoutTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ public class PrivateController {
 
     @Autowired
     private BusService busService;
+    @Autowired
+    private LayoutTemplateService layoutTemplateService;
 
 
     //http://localhost:8086/bus-api/private/v1/uploads-documents
@@ -59,7 +62,8 @@ public class PrivateController {
     @PostMapping("/bus/create-template")
     public ResponseEntity<?> createTemplate(@RequestBody BusTemplateCreationRequest request) throws IOException {
         var response = busService.saveBusTemplate(request);
-        return ResponseEntity.status(response.getStatus()).body(response.getBody());
+        // FIX: Return the whole response object, not just the body
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @PostMapping("/company/create-company")
@@ -71,6 +75,12 @@ public class PrivateController {
     @GetMapping("/company/get-company/{userId}")
     public ResponseEntity<?> getCompanyDetails(@PathVariable UUID userId){
         var response = busService.getCompanyDetail(userId);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @GetMapping("/layout-template/templates")
+    public ResponseEntity<?> getLayoutTemplates(){
+        var response = layoutTemplateService.getLayoutTemplates();
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 }

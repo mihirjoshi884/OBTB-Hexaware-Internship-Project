@@ -53,8 +53,9 @@ export interface CompanyCreationResponse {
 export interface BusTemplateCreationRequest {
 
     templateName: string;
-    layoutData: string;
+    layoutId: string;
     totalSeats: number;
+    busType: 'AC_SEATER' | 'AC_SLEEPER' | 'AC_HYBRID'| 'NON_AC_SEATER' | 'NON_AC_SLEEPER' | 'NON_AC_HYBRID';
 }
 
 export interface BusTemplateCreationResponse {
@@ -67,7 +68,7 @@ export interface BusTemplateCreationResponse {
 
 export interface BusCreationRequest {
     busName: string;
-    busType: 'SEATER' | 'SLEEPER' | 'HYBRID';
+    busType: 'AC_SEATER' | 'AC_SLEEPER' | 'AC_HYBRID'| 'NON_AC_SEATER' | 'NON_AC_SLEEPER' | 'NON_AC_HYBRID';
     companyId: string;
     templateId: string;
     registrationNumber: string;
@@ -79,8 +80,13 @@ export interface BusCreationRequest {
 export interface BusCreationResponse{
     busId: string;
     busName: string;
-    busType: 'SEATER' | 'SLEEPER' | 'HYBRID';
+    busType: 'AC_SEATER' | 'AC_SLEEPER' | 'AC_HYBRID'| 'NON_AC_SEATER' | 'NON_AC_SLEEPER' | 'NON_AC_HYBRID';
     companyName: string;
     companyId: string;
 
+}
+export interface LayoutLookupResponse {
+    layoutId: string;
+    layoutName: string;
+    description: string;
 }

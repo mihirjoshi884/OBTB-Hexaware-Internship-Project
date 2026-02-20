@@ -22,9 +22,6 @@ public class Bus {
 
     private String busName;
 
-    @Enumerated(EnumType.STRING)
-    private BusType busType; // SEATER, SLEEPER, HYBRID
-
     // The "Parent" relationships
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")

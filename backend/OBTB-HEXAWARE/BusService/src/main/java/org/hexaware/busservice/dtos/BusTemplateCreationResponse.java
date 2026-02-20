@@ -6,5 +6,6 @@ public record BusTemplateCreationResponse (
         UUID templateId,
         String templateName,
         String layoutData,
+        UUID layoutId,
         Integer totalSeats
 ) {}

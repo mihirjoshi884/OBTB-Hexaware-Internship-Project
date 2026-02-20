@@ -8,11 +8,9 @@ import org.hexaware.busservice.entities.Company;
 import org.hexaware.busservice.enums.VerificationStatus;
 import org.hexaware.busservice.exceptions.CompanyNotFoundException;
 import org.hexaware.busservice.exceptions.DocumentsNotFoundException;
-import org.hexaware.busservice.repositories.BusOperatorRepository;
-import org.hexaware.busservice.repositories.BusRepository;
-import org.hexaware.busservice.repositories.BusTemplateRepository;
-import org.hexaware.busservice.repositories.CompanyRepository;
+import org.hexaware.busservice.repositories.*;
 import org.hexaware.busservice.services.BusService;
+import org.hexaware.busservice.services.BusTemplateService;
 import org.hexaware.busservice.services.ImageUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +28,15 @@ public class BusServiceImpl implements BusService {
     @Autowired
     private ImageUploadService imageUploadService;
     @Autowired
+    private BusTemplateService busTemplateService;
+    @Autowired
     private BusRepository busRepository;
     @Autowired
     private BusTemplateRepository busTemplateRepository;
     @Autowired
     private CompanyRepository companyRepository;
+    @Autowired
+    private LayoutRepository layoutRepository;
 
 
     @Override
@@ -112,7 +114,11 @@ public class BusServiceImpl implements BusService {
     public ResponseDto<BusTemplateCreationResponse> saveBusTemplate(BusTemplateCreationRequest busTemplateCreationRequest) {
         var template = new BusTemplate();
         template.setTemplateName(busTemplateCreationRequest.templateName());
-        template.setLayoutData(busTemplateCreationRequest.layoutData());
+        var bluePrint = layoutRepository.findById(busTemplateCreationRequest.layoutId())
+                .orElseThrow(() -> new RuntimeException("Layout Template not found"));
+        template.setLayoutData(busTemplateService.generateLayoutData(bluePrint,busTemplateCreationRequest.totalSeats()));
+        template.setLayoutTemplate(bluePrint);
+        template.setBusType(busTemplateCreationRequest.busType());
         template.setTotalSeats(busTemplateCreationRequest.totalSeats());
 
         var savedTemplate = busTemplateRepository.save(template);
@@ -120,6 +126,7 @@ public class BusServiceImpl implements BusService {
                 savedTemplate.getTemplateId(),
                 savedTemplate.getTemplateName(),
                 savedTemplate.getLayoutData(),
+                savedTemplate.getLayoutTemplate().getLayoutId(),
                 savedTemplate.getTotalSeats()
 
         );
@@ -142,7 +149,6 @@ public class BusServiceImpl implements BusService {
         // 2. Initialize and Map the Bus entity
         Bus bus = new Bus();
         bus.setBusName(busCreationRequest.busName());
-        bus.setBusType(busCreationRequest.busType());
         bus.setCompany(company);
         bus.setTemplate(template);
         bus.setRcNumber(busCreationRequest.rcNumber());
@@ -158,7 +164,6 @@ public class BusServiceImpl implements BusService {
         BusCreationResponse busResponse = new BusCreationResponse(
                 savedBus.getBusId(),
                 savedBus.getBusName(),
-                savedBus.getBusType(),
                 savedBus.getCompany().getCompanyName(),
                 savedBus.getTemplate().getTemplateName()
         );

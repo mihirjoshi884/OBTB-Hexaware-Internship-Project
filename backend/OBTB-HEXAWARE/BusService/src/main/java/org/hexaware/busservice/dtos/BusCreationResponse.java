@@ -7,7 +7,6 @@ import java.util.UUID;
 public record BusCreationResponse(
         UUID busId,
         String busName,
-        BusType busType,
         String companyName,
         String templateName
 ) { }

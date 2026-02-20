@@ -6,7 +6,6 @@ import java.util.UUID;
 
 public record BusCreationRequest(
         String busName,
-        BusType busType,
         UUID companyId,
         UUID templateId,
         String registrationNumber,

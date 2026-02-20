@@ -75,18 +75,26 @@ public class RegistrationServiceTest {
         request.setUsername("alice");
         request.setPassword("password123");
 
-        // Prepare Security Questions (List of HashMaps as per your code)
-        List<HashMap<String, String>> secQA = new ArrayList<>();
-        HashMap<String, String> q1 = new HashMap<>(); q1.put("City", "Pune");
-        HashMap<String, String> q2 = new HashMap<>(); q2.put("Pet", "Bruno");
-        secQA.add(q1); secQA.add(q2);
-        request.setSecQA(secQA);
+        // Fix: Create actual DTO objects instead of HashMaps
+        List<SecurityAnswerDTO> secQA = new ArrayList<>();
+
+        SecurityAnswerDTO q1 = new SecurityAnswerDTO();
+        q1.setQuestion("City"); // Adjust setter name based on your DTO fields
+        q1.setAnswer("Pune");
+
+        SecurityAnswerDTO q2 = new SecurityAnswerDTO();
+        q2.setQuestion("Pet");
+        q2.setAnswer("Bruno");
+
+        secQA.add(q1);
+        secQA.add(q2);
+
+        request.setSecQA(secQA); // This will now compile!
 
         userSummary = new UserSummary();
         userSummary.setUserId(userId);
         userSummary.setUsername("alice");
     }
-
     @Test
     @DisplayName("Registration: Should successfully complete all 4 steps and send Kafka message")
     void userRegistration_Success() throws Exception {
