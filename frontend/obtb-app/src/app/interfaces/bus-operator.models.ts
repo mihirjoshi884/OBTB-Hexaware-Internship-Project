@@ -56,6 +56,7 @@ export interface BusTemplateCreationRequest {
     layoutId: string;
     totalSeats: number;
     busType: 'AC_SEATER' | 'AC_SLEEPER' | 'AC_HYBRID'| 'NON_AC_SEATER' | 'NON_AC_SLEEPER' | 'NON_AC_HYBRID';
+    ownerId: string;
 }
 
 export interface BusTemplateCreationResponse {
@@ -72,9 +73,8 @@ export interface BusCreationRequest {
     companyId: string;
     templateId: string;
     registrationNumber: string;
-    driverLicenseNumber: string;
     insurancePolicyNumber: string;
-    rcNumber: string; 
+    rcNumber: string;
 }
 
 export interface BusCreationResponse{
@@ -89,4 +89,26 @@ export interface LayoutLookupResponse {
     layoutId: string;
     layoutName: string;
     description: string;
+}
+
+export interface BusTemplate {
+    templateId: string;
+    templateName: string;
+    busType: string;
+    totalSeats: number;
+    layoutData: string; 
+}
+
+export interface BusFleetResponse {
+    busId: string;
+    busName: string;
+    registrationNumber: string;
+    company: {
+        companyName: string;
+        companyId: string;
+    };
+    template: {
+        templateName: string;
+        busType: string;
+    };
 }

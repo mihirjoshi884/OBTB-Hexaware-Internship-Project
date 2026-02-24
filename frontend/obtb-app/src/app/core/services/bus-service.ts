@@ -3,6 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import {
+  BusCreationRequest,
+  BusCreationResponse,
+  BusFleetResponse,
+  BusTemplate,
   BusTemplateCreationRequest,
   BusTemplateCreationResponse,
   CompanyCreationRequest,
@@ -62,5 +66,14 @@ export class BusService {
   }
   createBusTemplate(requestData: BusTemplateCreationRequest): Observable<ResponseDto<BusTemplateCreationResponse>>{
     return this.http.post<ResponseDto<BusTemplateCreationResponse>>(`${this.busServiceBaseUrl}/bus/create-template`,requestData);
+  }
+  createBus(requestData: BusCreationRequest): Observable<ResponseDto<BusCreationResponse>>{
+    return this.http.post<ResponseDto<BusCreationResponse>>(`${this.busServiceBaseUrl}/bus/create-bus`,requestData);
+  }
+  fetchBusTemplate(userId: string): Observable<ResponseDto<BusTemplate[]>>{
+    return this.http.get<ResponseDto<BusTemplate[]>>(`${this.busServiceBaseUrl}/bus/get-bus-templates/${userId}`);
+  }
+  fetchBuses(companyId: string): Observable<ResponseDto<BusFleetResponse[]>>{
+    return this.http.get<ResponseDto<BusFleetResponse[]>>(`${this.busServiceBaseUrl}/bus/get-buses/${companyId}`);
   }
 }

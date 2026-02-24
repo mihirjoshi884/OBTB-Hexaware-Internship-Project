@@ -1,6 +1,5 @@
 package org.hexaware.busservice.dtos;
 
-import org.hexaware.busservice.enums.BusType;
 import org.hexaware.busservice.enums.SeatType;
 
 public record SeatDetail(

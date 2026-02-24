@@ -8,5 +8,6 @@ public record BusTemplateCreationRequest(
         String templateName,
         UUID layoutId,   // The ID of the blueprint chosen (LayoutTemplate)
         BusType busType, // The specific service type (e.g., AC_SLEEPER)
-        Integer totalSeats
+        Integer totalSeats,
+        UUID ownerId
 ) {}

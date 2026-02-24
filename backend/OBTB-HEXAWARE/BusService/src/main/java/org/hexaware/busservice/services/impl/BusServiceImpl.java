@@ -6,6 +6,7 @@ import org.hexaware.busservice.entities.BusOperator;
 import org.hexaware.busservice.entities.BusTemplate;
 import org.hexaware.busservice.entities.Company;
 import org.hexaware.busservice.enums.VerificationStatus;
+import org.hexaware.busservice.exceptions.BusTypeMismatchException;
 import org.hexaware.busservice.exceptions.CompanyNotFoundException;
 import org.hexaware.busservice.exceptions.DocumentsNotFoundException;
 import org.hexaware.busservice.repositories.*;
@@ -13,11 +14,11 @@ import org.hexaware.busservice.services.BusService;
 import org.hexaware.busservice.services.BusTemplateService;
 import org.hexaware.busservice.services.ImageUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -114,12 +115,14 @@ public class BusServiceImpl implements BusService {
     public ResponseDto<BusTemplateCreationResponse> saveBusTemplate(BusTemplateCreationRequest busTemplateCreationRequest) {
         var template = new BusTemplate();
         template.setTemplateName(busTemplateCreationRequest.templateName());
+        var company = companyRepository.findByOwnerId(busTemplateCreationRequest.ownerId());
         var bluePrint = layoutRepository.findById(busTemplateCreationRequest.layoutId())
                 .orElseThrow(() -> new RuntimeException("Layout Template not found"));
         template.setLayoutData(busTemplateService.generateLayoutData(bluePrint,busTemplateCreationRequest.totalSeats()));
         template.setLayoutTemplate(bluePrint);
         template.setBusType(busTemplateCreationRequest.busType());
         template.setTotalSeats(busTemplateCreationRequest.totalSeats());
+        template.setCompany(company);
 
         var savedTemplate = busTemplateRepository.save(template);
         var templateResponse = new BusTemplateCreationResponse(
@@ -146,6 +149,9 @@ public class BusServiceImpl implements BusService {
         BusTemplate template = busTemplateRepository.findById(busCreationRequest.templateId())
                 .orElseThrow(() -> new RuntimeException("Template not found with ID: " + busCreationRequest.templateId()));
 
+        if(busCreationRequest.busType() != template.getBusType()) {
+            throw new BusTypeMismatchException("bus type mismatch");
+        }
         // 2. Initialize and Map the Bus entity
         Bus bus = new Bus();
         bus.setBusName(busCreationRequest.busName());
@@ -154,7 +160,6 @@ public class BusServiceImpl implements BusService {
         bus.setRcNumber(busCreationRequest.rcNumber());
         bus.setInsurancePolicyNumber(busCreationRequest.insurancePolicyNumber());
         bus.setRegistrationNumber(busCreationRequest.registrationNumber());
-        bus.setDriverLicenseNumber(busCreationRequest.driverLicenseNumber());
 
 
         // 3. Save to database
@@ -185,5 +190,48 @@ public class BusServiceImpl implements BusService {
                 fetchedCompany.getStatus()
         );
         return new ResponseDto<>(companyResponse,200,"company found by id-"+fetchedCompany.getCompanyId());
+    }
+
+    @Override
+    public ResponseDto<List<BusTemplateResponse>> getBusTemplates(UUID userId) {
+        var company = companyRepository.findByOwnerId(userId);
+        if (company == null) {
+            throw new CompanyNotFoundException("Company not found for user: " + userId);
+        }
+        var templates = busTemplateService.fetchBusTemplates(company.getCompanyId());
+        if (templates.isEmpty()) {
+            return new ResponseDto<>(List.of(), 200, "No bus templates found. Please create a template before adding a bus.");
+        }
+        List<BusTemplateResponse> templateResponses = templates.stream()
+                .map(t -> new BusTemplateResponse(
+                        t.getTemplateId(),
+                        t.getTemplateName(),
+                        t.getBusType(),
+                        t.getTotalSeats(),
+                        t.getLayoutData()
+                ))
+                .toList();
+
+        return new ResponseDto<>(templateResponses, 200, "Bus templates fetched successfully");
+    }
+
+    @Override
+    public ResponseDto<List<BusFleetResponse>> getAllExistingCompanyBuses(UUID companyId) {
+        if (!companyRepository.existsById(companyId)) {
+            return new ResponseDto<>(null, 404, "Company not found");
+        }
+
+        List<Bus> buses = busRepository.findAllByCompanyCompanyId(companyId);
+
+        List<BusFleetResponse> response = buses.stream()
+                .map(bus -> new BusFleetResponse(
+                        bus.getBusId(),
+                        bus.getBusName(),
+                        bus.getRegistrationNumber(),
+                        new CompanySummaryDTO(bus.getCompany().getCompanyName(), bus.getCompany().getCompanyId()),
+                        new TemplateSummaryDTO(bus.getTemplate().getTemplateName(), bus.getTemplate().getBusType().toString())
+                )).toList();
+
+        return new ResponseDto<>(response, 200, "Buses retrieved successfully");
     }
 }

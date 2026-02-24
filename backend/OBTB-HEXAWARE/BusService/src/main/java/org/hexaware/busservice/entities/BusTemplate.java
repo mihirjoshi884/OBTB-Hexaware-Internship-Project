@@ -10,7 +10,9 @@ import org.hibernate.type.SqlTypes;
 import java.util.UUID;
 
 @Entity
-@Table(name = "bus_templates")
+@Table(name = "bus_templates", indexes = {
+        @Index(name= "idx_bus_template_company_id",columnList = "company_id")
+})
 @Getter @Setter
 public class BusTemplate {
     @Id
@@ -30,6 +32,10 @@ public class BusTemplate {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "layoutId")
     private LayoutTemplate layoutTemplate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
 
     @Enumerated(EnumType.STRING)
     private BusType busType;

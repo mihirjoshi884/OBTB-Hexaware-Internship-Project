@@ -1,0 +1,115 @@
+<div class="space-y-6 bg-slate-800 rounded-3xl p-7">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold text-white">
+            Your Fleet
+        </h2>
+        <span class="text-xs font-semibold text-slate-400 bg-slate-900 px-3 py-1 rounded-full">
+            {{ buses.length }} Bus{{ buses.length !== 1 ? 'es' : '' }}
+        </span>
+    </div>
+
+    <!-- Loading Skeletons -->
+    @if (loading) {
+        <div class="space-y-4">
+            @for (i of [1, 2, 3]; track i) {
+                <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 space-y-4 animate-pulse">
+                    <div class="flex justify-between items-start">
+                        <div class="space-y-2 flex-1">
+                            <div class="h-6 bg-slate-700 rounded w-40"></div>
+                            <div class="h-4 bg-slate-700 rounded w-32"></div>
+                        </div>
+                        <div class="h-6 bg-slate-700 rounded w-24"></div>
+                    </div>
+                    <div class="h-px bg-slate-700"></div>
+                    <div class="flex justify-between items-center">
+                        <div class="space-y-2 flex-1">
+                            <div class="h-4 bg-slate-700 rounded w-40"></div>
+                            <div class="h-4 bg-slate-700 rounded w-36"></div>
+                        </div>
+                        <div class="h-10 bg-slate-700 rounded w-24"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Empty State -->
+    @else if (buses.length === 0) {
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-12 text-center space-y-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-12 h-12 mx-auto text-slate-500">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m0 0H3m4.5 0H1.5M9 11.25c0-1.03.895-1.977 2.25-1.977S13.5 10.22 13.5 11.25M9 11.25c0 1.03.895 1.977 2.25 1.977s2.25-.947 2.25-1.977m0 0H21m-9 8.25c1.355 0 2.697-.5 3.75-1.422M9 19.5c-1.355 0-2.697.5-3.75 1.422M21 19.5c1.355 0 2.697.5 3.75 1.422" />
+                </svg>
+            <div class="text-slate-300 font-semibold">
+                No buses added yet
+            </div>
+            <div class="text-sm text-slate-400">
+                Create your first bus template and add buses to your fleet.
+            </div>
+        </div>
+    }
+
+    <!-- Bus Cards -->
+    @else {
+    <div class="space-y-4">
+        @for (bus of buses; track bus.busId) {
+            <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 hover:border-blue-600 transition space-y-4">
+
+                <div class="flex justify-between items-start">
+                    <div class="space-y-1">
+                        <div class="text-lg font-bold text-white tracking-wide">
+                            {{ bus.busId }}
+                        </div>
+                        <div class="text-xs text-slate-400 font-semibold uppercase tracking-widest">
+                            {{ bus.busName || 'Unnamed Bus' }}
+                        </div>
+                    </div>
+
+                    <span class="text-xs font-bold text-white px-3 py-1 rounded-full"
+                        [ngClass]="{
+                            'bg-yellow-600': getStatusBadge(bus).text === 'NO DOCUMENTS',
+                            'bg-orange-600': getStatusBadge(bus).text === 'PENDING',
+                            'bg-green-600': getStatusBadge(bus).text === 'APPROVED'
+                        }">
+                        {{ getStatusBadge(bus).text }}
+                        @if (getStatusBadge(bus).text === 'APPROVED') { ✓ }
+                    </span>
+                </div>
+
+                <div class="h-px bg-slate-700"></div>
+
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-xs font-bold uppercase text-slate-400 tracking-widest">Type</div>
+                            <div class="text-sm text-white mt-1">
+                                {{ bus.template?.busType || 'N/A' }}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold uppercase text-slate-400 tracking-widest">Company</div>
+                            <div class="text-sm text-white mt-1">
+                                {{ bus.company?.companyName || 'No Company' }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2 pt-2">
+                        @if (getStatusBadge(bus).text === 'NO DOCUMENTS') {
+                            <button type="button" class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition uppercase tracking-widest">
+                                Upload Documents
+                            </button>
+                        }
+                        
+                        <button (click)="onEditBus(bus.busId)" type="button" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold rounded-xl transition uppercase tracking-widest">
+                            Edit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+</div>

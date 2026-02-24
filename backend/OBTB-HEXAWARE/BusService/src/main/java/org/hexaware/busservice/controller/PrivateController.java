@@ -59,6 +59,12 @@ public class PrivateController {
         return ResponseEntity.status(response.getStatus()).body(response.getBody());
     }
 
+    @GetMapping("/bus/get-buses/{companyId}")
+    public ResponseEntity<?> getAllExistingCompanyBuses(@PathVariable UUID companyId) throws IOException {
+        var response = busService.getAllExistingCompanyBuses(companyId);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
     @PostMapping("/bus/create-template")
     public ResponseEntity<?> createTemplate(@RequestBody BusTemplateCreationRequest request) throws IOException {
         var response = busService.saveBusTemplate(request);
@@ -81,6 +87,12 @@ public class PrivateController {
     @GetMapping("/layout-template/templates")
     public ResponseEntity<?> getLayoutTemplates(){
         var response = layoutTemplateService.getLayoutTemplates();
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @GetMapping("/bus/get-bus-templates/{userId}")
+    public ResponseEntity<?> getBusTemplates(@PathVariable UUID userId){
+        var response = busService.getBusTemplates(userId);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 }

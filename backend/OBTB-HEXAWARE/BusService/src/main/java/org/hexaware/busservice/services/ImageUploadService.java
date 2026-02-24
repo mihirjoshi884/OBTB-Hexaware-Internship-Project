@@ -1,7 +1,5 @@
 package org.hexaware.busservice.services;
 
-import org.hexaware.busservice.dtos.DocumentUploadResponse;
-import org.hexaware.busservice.dtos.ResponseDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

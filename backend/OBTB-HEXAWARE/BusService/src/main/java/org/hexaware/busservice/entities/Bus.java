@@ -3,8 +3,8 @@ package org.hexaware.busservice.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hexaware.busservice.enums.BusType;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,9 +17,6 @@ public class Bus {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID busId;
-
-    // e.g., "NY-99-B-1234"
-
     private String busName;
 
     // The "Parent" relationships
@@ -31,11 +28,12 @@ public class Bus {
     @JoinColumn(name = "template_id", nullable = false)
     private BusTemplate template;
 
+    @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
+    private List<BusStaff> staffMembers;
+
     //required at the time of registering bus.
     @Column(unique = true, nullable = false)
     private String registrationNumber;
-    @Column(unique = true, nullable = false)
-    private String driverLicenseNumber;
     @Column(unique = true, nullable = false)
     private String insurancePolicyNumber;
     @Column(unique = true, nullable = false)
@@ -45,8 +43,6 @@ public class Bus {
     // at the time of document upload
     private String registrationNumberPlateId;
     private String registrationNumberPlateUrl;
-    private String driverLicenseDocId;
-    private String driverLicenseUrl;
     private String insurancePolicyNumberUrl;
     private String insurancePolicyDocId;
     private String rcDocid;

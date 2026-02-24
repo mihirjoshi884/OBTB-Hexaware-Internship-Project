@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BusService } from 'src/app/core/services/bus-service';
 import { BusTemplateCreationRequest, LayoutLookupResponse } from 'src/app/interfaces/bus-operator.models';
@@ -12,7 +12,7 @@ import { BusTemplateCreationRequest, LayoutLookupResponse } from 'src/app/interf
 export class BusTemplateComponentComponent implements OnInit{
 
   @Output() back = new EventEmitter<void> ();
-
+  @Input() userId!: string;
   TemplateName: string = '';
   totalSeats: number = 0;
   selectedLayout: LayoutLookupResponse | null  = null;
@@ -82,7 +82,8 @@ export class BusTemplateComponentComponent implements OnInit{
         templateName: this.TemplateName,
         layoutId: this.selectedLayout.layoutId,
         totalSeats: this.totalSeats,
-        busType: this.selectedBusType.value
+        busType: this.selectedBusType.value,
+        ownerId:this.userId
     };
 
     this.busService.createBusTemplate(requestData).subscribe({

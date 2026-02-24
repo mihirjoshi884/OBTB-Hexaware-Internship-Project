@@ -273,15 +273,32 @@
             
         }
         @else if (currentAction === 'createTemplate'){
-            <app-bus-template-component (back) = "currentAction = null">
+            <app-bus-template-component (back) = "currentAction = null"
+            [userId]="userId">
                 
             </app-bus-template-component>
         }
         @else if(currentAction === 'addBus'){
-            <app-bus-creation-component (back) = "currentAction = null">
+            <app-bus-creation-component 
+                (back)="currentAction = null" 
+                (createdBus)="createdBus = $event"
+                [userId]="userId"
+                [companyId]="companyResponse?.companyId">
                 
             </app-bus-creation-component>
         }
+
+        <div class="h-px w-full bg-slate-700"></div>
+        <div class="">
+            <app-fleet-list-component
+                [userId]="userId"
+                [companyId]="companyResponse?.companyId"
+                [newlyCreatedBus]="createdBus"
+
+            >
+
+            </app-fleet-list-component>
+        </div>
         
     </div>
 

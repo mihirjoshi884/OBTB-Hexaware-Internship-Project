@@ -16,6 +16,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleDocumentNotFoundException(DocumentsNotFoundException ex) {
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "404");
     }
+    @ExceptionHandler(BusTypeMismatchException.class)
+    public ResponseEntity<?> handleBusTypeMismatchException(BusTypeMismatchException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), "400");
+    }
     @ExceptionHandler(CompanyNotFoundException.class)
     public ResponseEntity<?> handleCompanyNotFoundException(CompanyNotFoundException ex) {
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "404");

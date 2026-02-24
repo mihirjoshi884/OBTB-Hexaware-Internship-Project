@@ -1,21 +1,27 @@
 package org.hexaware.busservice.services.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper; // Ensure this import exists
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hexaware.busservice.dtos.SeatDetail;
+import org.hexaware.busservice.entities.BusTemplate;
 import org.hexaware.busservice.entities.LayoutTemplate;
 import org.hexaware.busservice.enums.SeatType;
+import org.hexaware.busservice.repositories.BusTemplateRepository;
 import org.hexaware.busservice.services.BusTemplateService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BusTemplateServiceImpl implements BusTemplateService {
 
     // Initialize the ObjectMapper instance
     private final ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private BusTemplateRepository busTemplateRepository;
 
     @Override
     public String generateLayoutData(LayoutTemplate bluePrint, int totalSeats) {
@@ -71,6 +77,12 @@ public class BusTemplateServiceImpl implements BusTemplateService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error generating layout JSON", e);
         }
+    }
+
+    @Override
+    public List<BusTemplate> fetchBusTemplates(UUID companyId) {
+        var busTemplate = (List<BusTemplate>) busTemplateRepository.findByCompany_CompanyId(companyId);
+        return busTemplate;
     }
 
     private String generateSeatLabel(int row, int col, int aisleIndex) {
