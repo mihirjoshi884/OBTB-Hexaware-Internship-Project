@@ -7,6 +7,7 @@ public record SeatDetail(
         SeatType type, //(SEATER, SLEEPER, WALKWAY;)
         boolean isWindow,
         int x_coordinate,
-        int y_coordinate
+        int y_coordinate,
+        int deck
 
 ) { }

@@ -26,52 +26,60 @@ public class BusTemplateServiceImpl implements BusTemplateService {
     @Override
     public String generateLayoutData(LayoutTemplate bluePrint, int totalSeats) {
         List<SeatDetail> seatDetails = new ArrayList<>();
-        int seatsCreated = 0;
-        int currentRow = 0;
 
-        // OUTER LOOP: Create rows until the total seat capacity is reached
-        while (seatsCreated < totalSeats) {
+        // 1. Determine how many decks and seats per deck
+        int decks = (bluePrint.getIsDoubleDecker() != null && bluePrint.getIsDoubleDecker()) ? 2 : 1;
 
-            // INNER LOOP: Iterate through columns defined in the blueprint
-            for (int col = 0; col < bluePrint.getColumns(); col++) {
+        // For odd numbers, the lower deck usually takes the extra seat
+        int seatsPerDeck = totalSeats / decks;
+        int remainingSeats = totalSeats;
 
-                // 1. Handle Walkway (Aisle) Logic
-                if (col == bluePrint.getAisleAfterColumn()) {
-                    seatDetails.add(new SeatDetail(
-                            "WALKWAY-" + currentRow + "-" + col,
-                            SeatType.WALKWAY,
-                            false,
-                            col,       // x_coordinate
-                            currentRow // y_coordinate
-                    ));
+        for (int d = 0; d < decks; d++) {
+            int currentRow = 0;
+            int seatsInThisDeck = 0;
+
+            // Calculate target for this specific deck
+            int targetForDeck = (decks == 2 && d == 0) ? (totalSeats - seatsPerDeck) : seatsPerDeck;
+
+            while (seatsInThisDeck < targetForDeck) {
+                for (int col = 0; col < bluePrint.getColumns(); col++) {
+
+                    // 1. Walkway Logic (X and Y coordinates stay the same, but we add Deck)
+                    if (col == bluePrint.getAisleAfterColumn()) {
+                        seatDetails.add(new SeatDetail(
+                                "WALKWAY-" + d + "-" + currentRow + "-" + col,
+                                SeatType.WALKWAY,
+                                false,
+                                col,
+                                currentRow,
+                                d  // <--- Pass deck index (0 or 1)
+                        ));
+                    }
+                    // 2. Seat Logic
+                    else if (seatsInThisDeck < targetForDeck) {
+                        seatsInThisDeck++;
+
+                        // Prefix label: L for Lower (0), U for Upper (1)
+                        String prefix = (decks == 2) ? (d == 0 ? "L" : "U") : "";
+                        String label = prefix + generateSeatLabel(currentRow, col, bluePrint.getAisleAfterColumn());
+
+                        boolean isWindow = (col == 0 || col == bluePrint.getColumns() - 1);
+                        SeatType seatType = determineSeatType(bluePrint);
+
+                        seatDetails.add(new SeatDetail(
+                                label,
+                                seatType,
+                                isWindow,
+                                col,
+                                currentRow,
+                                d // <--- Pass deck index
+                        ));
+                    }
                 }
-                // 2. Handle Seat creation (Only if we still need more seats)
-                else if (seatsCreated < totalSeats) {
-                    seatsCreated++;
-
-                    // Generate alphabetical label (e.g., 1A, 1B, 1C)
-                    String label = generateSeatLabel(currentRow, col, bluePrint.getAisleAfterColumn());
-
-                    // Window calculation: True if it's the first or last column
-                    boolean isWindow = (col == 0 || col == bluePrint.getColumns() - 1);
-
-                    // Determine if the icon should be a SEATER or SLEEPER
-                    SeatType seatType = determineSeatType(bluePrint);
-
-                    seatDetails.add(new SeatDetail(
-                            label,
-                            seatType,
-                            isWindow,
-                            col,       // x_coordinate
-                            currentRow // y_coordinate
-                    ));
-                }
+                currentRow++;
             }
-            // Move to the next row index after finishing all columns in the current row
-            currentRow++;
         }
 
-        // Convert the list of objects into a JSON string for the DB
         try {
             return objectMapper.writeValueAsString(seatDetails);
         } catch (JsonProcessingException e) {

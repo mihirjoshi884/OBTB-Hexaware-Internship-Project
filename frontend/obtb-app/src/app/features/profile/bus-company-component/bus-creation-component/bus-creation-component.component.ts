@@ -3,11 +3,12 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } fro
 import { FormsModule } from '@angular/forms';
 import { BusService } from 'src/app/core/services/bus-service';
 import { BusCreationRequest, BusCreationResponse, BusTemplate, ResponseDto } from 'src/app/interfaces/bus-operator.models';
+import { BusLayoutPreviewComponent } from '../bus-layout-preview.component/bus-layout-preview.component';
 
 @Component({
   selector: 'app-bus-creation-component',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, BusLayoutPreviewComponent],
   templateUrl: './bus-creation-component.component.html'
 })
 export class BusCreationComponentComponent implements OnInit{
@@ -25,6 +26,8 @@ export class BusCreationComponentComponent implements OnInit{
   selectedBusTemplate: BusTemplate |null = null;
   parsedSeats: any[] = [];
   validationError: string | null = null;
+  submitSuccess: string | null = null;
+  submitError: string | null = null;
   busTypes = [
     { value: 'AC_SEATER', label: 'AC Seater' },
     { value: 'AC_SLEEPER', label: 'AC Sleeper' },
@@ -65,15 +68,9 @@ export class BusCreationComponentComponent implements OnInit{
   }
 
   
-  selectBusTemplate(template: BusTemplate){
+  selectBusTemplate(template: BusTemplate) {
     this.selectedBusTemplate = template;
     this.dropdownOpen = false;
-    try {
-    this.parsedSeats = JSON.parse(template.layoutData);
-    } catch (e) {
-      console.error("Layout data is not a valid JSON string", e);
-      this.parsedSeats = [];
-    }
     this.validateBusType();
   }
 
@@ -115,6 +112,10 @@ export class BusCreationComponentComponent implements OnInit{
   createBus(){
     if(this.isCreating) return;
 
+    this.isCreating = true;
+    this.submitSuccess = null;
+    this.submitError = null;
+
     const requestData: BusCreationRequest = {
       busName: this.busName,
       busType: this.selectedBusType.value,
@@ -125,20 +126,33 @@ export class BusCreationComponentComponent implements OnInit{
       insurancePolicyNumber: this.IP_Number?.toString() || '',
       
     }
-    this.isCreating = true;
     this.busService.createBus(requestData).subscribe({
       next: (response: ResponseDto<BusCreationResponse>) =>{
         this.isCreating = false;
+        this.submitSuccess = response?.message || 'Bus created successfully!';
         this.createdBus.emit(response.body)
         this.cdr.detectChanges()
       },
       error: (error: HttpErrorResponse) =>{
         this.isCreating = false;
+        this.submitError = error?.error?.message || 'Failed to create bus';
         console.error(error)
         this.cdr.detectChanges();
       }
     })
 
+  }
+
+  resetForm(){
+    this.busName = '';
+    this.regNumber = null;
+    this.IP_Number = null;
+    this.RC_Number = null;
+    this.selectedBusTemplate = null;
+    this.selectedBusType = null;
+    this.validationError = null;
+    this.submitSuccess = null;
+    this.submitError = null;
   }
 
 }

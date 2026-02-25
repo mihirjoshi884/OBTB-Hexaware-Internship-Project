@@ -1,0 +1,48 @@
+<div class="space-y-8 w-full max-w-2xl mx-auto">
+    <div class="deck-section">
+        <div class="flex items-center gap-2 mb-4">
+            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Lower Deck</span>
+        </div>
+        
+        <div class="bg-slate-900/80 border border-slate-700 rounded-2xl p-6 shadow-xl">
+            <div class="grid gap-3" [style.grid-template-columns]="'repeat(' + gridCols + ', 1fr)'">
+                @for (seat of lowerDeck; track seat.id) {
+                    <ng-container *ngTemplateOutlet="seatRef; context: { $implicit: seat }"></ng-container>
+                }
+            </div>
+        </div>
+    </div>
+
+    @if (upperDeck.length > 0) {
+        <div class="deck-section animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Upper Deck</span>
+            </div>
+            <div class="bg-slate-900/80 border border-purple-500/20 rounded-2xl p-6 shadow-xl">
+                <div class="grid gap-3" [style.grid-template-columns]="'repeat(' + gridCols + ', 1fr)'">
+                    @for (seat of upperDeck; track seat.id) {
+                        <ng-container *ngTemplateOutlet="seatRef; context: { $implicit: seat }"></ng-container>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<ng-template #seatRef let-seat>
+    <div [style.grid-column]="seat.x_coordinate + 1" [style.grid-row]="seat.y_coordinate + 1" class="flex justify-center items-center">
+        @if (seat.type === 'WALKWAY') {
+            <div class="w-2 h-2 bg-slate-700 rounded-full opacity-30"></div>
+        } @else {
+            <div class="relative group flex flex-col items-center justify-center rounded-lg border-2 transition-all duration-300
+                {{ seat.type === 'SLEEPER' ? 'w-12 h-20 bg-indigo-500/10 border-indigo-500/30' : 'w-12 h-12 bg-slate-800 border-slate-600' }}">
+                <span class="text-[10px] font-bold text-white">{{ seat.id }}</span>
+                @if (seat.isWindow) {
+                    <div class="absolute left-0 top-1/4 w-1 h-1/2 bg-sky-400/20 rounded-r-full"></div>
+                }
+            </div>
+        }
+    </div>
+</ng-template>
