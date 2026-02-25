@@ -19,16 +19,16 @@ export class UploadDocuments {
   panNumber: string = ''; 
   aadharCard: File | null = null;
   panCard: File | null = null;
-  private cdr = inject(ChangeDetectorRef);
+  private readonly cdr = inject(ChangeDetectorRef);
   
   uploadResult: DocumentUploadResponse | null = null;
   fetchDocumentResults: DocumentResponse | null = null; 
 
   constructor(
-    private busService: BusService
+    private readonly busService: BusService
   ) {}
 
-  ngOnInit(){
+  ngOnInit(): void {
     if(this.userId){
       this.fetchExistingDocuments();
     }
@@ -38,14 +38,13 @@ export class UploadDocuments {
     this.isProcessing = true;
     this.busService.fetchExistingDocuments(this.userId).subscribe({
       next: (response) => {
-        if (response && response.body) {
+        if (response?.body) {
           this.fetchDocumentResults = response.body; 
           
           // Map fetchDocumentResults to uploadResult to trigger the dashboard
-          // We ensure 'verification' is mapped to 'verificationAt' if needed
           this.uploadResult = {
             ...response.body,
-            verificationAt: response.body.verification // Syncing the date field
+            verificationAt: response.body.verificationAt
           } as any; 
           
           this.aadharNumber = response.body.aadharNumber || '';
@@ -80,7 +79,7 @@ export class UploadDocuments {
       panNumber: this.panNumber
     };
     this.isProcessing = true;
-    this.busService.uploadDocuments(data, this.aadharCard!, this.panCard!).subscribe({
+    this.busService.uploadDocuments(data, this.aadharCard, this.panCard).subscribe({
       next: (response)=>{
         console.log("Uploaded successfully!", response);
         this.uploadResult = response.body;

@@ -2,7 +2,7 @@ package org.hexaware.busservice.services.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hexaware.busservice.dtos.SeatDetail;
+import org.hexaware.busservice.dtos.busDtos.SeatDetail;
 import org.hexaware.busservice.entities.BusTemplate;
 import org.hexaware.busservice.entities.LayoutTemplate;
 import org.hexaware.busservice.enums.SeatType;

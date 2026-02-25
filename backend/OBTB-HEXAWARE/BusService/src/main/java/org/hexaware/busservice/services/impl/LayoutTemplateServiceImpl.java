@@ -1,6 +1,6 @@
 package org.hexaware.busservice.services.impl;
 
-import org.hexaware.busservice.dtos.LayoutLookupResponse;
+import org.hexaware.busservice.dtos.busDtos.LayoutLookupResponse;
 import org.hexaware.busservice.dtos.ResponseDto;
 import org.hexaware.busservice.repositories.LayoutRepository;
 import org.hexaware.busservice.services.LayoutTemplateService;

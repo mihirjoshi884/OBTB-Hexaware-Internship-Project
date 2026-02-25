@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BusService } from 'src/app/core/services/bus-service';
 import { Tabs } from 'src/app/interfaces/tabs';
 import { TransactionSkeletons } from 'src/app/shared/skeletons/transaction-skeletons/transaction-skeletons';
 import { AuthService } from '../../core/services/auth-service';
 import { UserProfileService } from '../../core/services/UserProfileService.service';
 import { UserProfile } from '../../interfaces/user-profile';
-import { AddFunds } from '../add-funds/add-funds';
 import { ChangePasswordComponent } from '../change-password/change-password';
 import { WithdrawFunds } from '../withdraw-funds/withdraw-funds';
 import { BusCompanyComponent } from './bus-company-component/bus-company-component';
+import { BusStaffComponent } from './bus-staff-component/bus-staff-component';
 import { EditUserProfile } from './edit-user-profile/edit-user-profile';
-import { TransactionComponent } from './transaction-component/transaction-component';
 import { UploadDocuments } from './upload-documents/upload-documents';
 
 @Component({
@@ -19,14 +19,14 @@ import { UploadDocuments } from './upload-documents/upload-documents';
   standalone: true,
   imports: [
     CommonModule, 
-    AddFunds,
     WithdrawFunds, 
     ChangePasswordComponent, 
     EditUserProfile,
-    TransactionComponent, 
     TransactionSkeletons,
     UploadDocuments,
-    BusCompanyComponent
+    BusCompanyComponent,
+    BusStaffComponent,
+    
   ],
   templateUrl: 'user-dashboard.html',
   styles: []
@@ -36,10 +36,11 @@ export class UserDashboard implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly profileService = inject(UserProfileService);
+  private readonly busService = inject(BusService);
 
   transactions: any[] = [];
   isHistoryLoading: boolean = false;
-  
+  companyId?: string;
   
   activeTab: string = 'overview';
 
@@ -60,6 +61,9 @@ export class UserDashboard implements OnInit {
     }
   }
 
+  handleCompanyLoaded(id: string) {
+    this.companyId = id;
+  }
   // UPDATED: Now handles the actual backend sync
   onProfileUpdate(event: { data: any, file: File | null }) {
     if (!this.user?.username) return;
@@ -101,7 +105,19 @@ export class UserDashboard implements OnInit {
       }
     });
   }
-
+  loadCompanyDetails(userId: string){
+    this.busService.fetchExistingCompany(userId).subscribe({
+      next: response => {
+        if(response.body){
+          this.companyId = response.body.companyId;
+          this.cdr.detectChanges();
+        }
+      },
+      error: error => {
+        console.error(error);
+      }
+    })
+  }
   loadHistory() {
     if (!this.user?.userId) return;
     this.isHistoryLoading = true;
@@ -130,6 +146,9 @@ export class UserDashboard implements OnInit {
           this.user = { ...userData };
           this.generateTabs(this.user.roleName);
           this.walletBalance = userData.walletBalance ?? 0;
+          if (this.user.roleName === 'BUS_OPERATOR' && this.user.userId) {
+            this.loadCompanyDetails(this.user.userId);
+          }
           this.isLoading = false;
           this.cdr.detectChanges();
         }
@@ -157,7 +176,8 @@ export class UserDashboard implements OnInit {
         { id: 'upload-docs', label: 'Upload Documents' }, // For AI Docs
         { id: 'verification', label: 'verification' },      // For AI Face
         { id: 'manage-fleet', label: 'Manage Company & Bus' },
-        { id: 'add-routes', label: 'Routes' }
+        { id: 'add-routes', label: 'Routes' },
+        {id: 'add-bus-staff', label: 'Add & Manage Bus Staff'}
       ];
     }else if(role === 'ADMIN'){
       this.Tabs = [...commonTabs, { id: 'admin-verify', label: 'Pending Approvals' }, { id: 'user-management', label: 'Users' }];

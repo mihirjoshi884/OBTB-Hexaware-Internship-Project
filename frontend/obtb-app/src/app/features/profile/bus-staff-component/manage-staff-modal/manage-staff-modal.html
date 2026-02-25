@@ -1,0 +1,129 @@
+@if (isVisible) {
+    <div class="space-y-8">
+
+        <div class="space-y-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                🚗 Drivers
+                <span class="text-sm text-slate-400">({{ selectedDrivers.length }}/2)</span>
+            </h3>
+
+            @for (type of [DutyType.ACTIVE, DutyType.RESERVED]; track type) {
+                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-5 space-y-3">
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        {{ type === DutyType.ACTIVE ? 'Active' : 'Reserved' }} Driver
+                    </p>
+
+                    @let assignedDriver = type === DutyType.ACTIVE ? getActiveDriver() : getReservedDriver();
+
+                    @if (assignedDriver) {
+                        <div class="bg-slate-800 rounded-lg p-4 flex justify-between items-center border-2" 
+                            [ngClass]="type === DutyType.ACTIVE ? 'border-green-500/30' : 'border-blue-500/30'">
+                            <div>
+                                <p class="text-white font-bold">{{ assignedDriver.staffName }}</p>
+                                <p class="text-xs text-slate-400">ID: {{ assignedDriver.staffId }}</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold border"
+                                [ngClass]="type === DutyType.ACTIVE ? 'bg-green-900/30 border-green-500 text-green-400' : 'bg-blue-900/30 border-blue-500 text-blue-400'">
+                                ASSIGNED
+                            </span>
+                        </div>
+                        <button (click)="removeDriver(assignedDriver.staffId)"
+                                class="w-full py-2 text-xs font-bold bg-red-600/20 hover:bg-red-600/30 text-red-400 rounded-lg transition">
+                            Remove
+                        </button>
+                    } @else {
+                        @if (activeSelectionType !== type + '-driver') {
+                            <button (click)="activeSelectionType = type + '-driver'"
+                                    class="w-full py-3 text-left px-4 bg-slate-800 border border-slate-700 rounded-lg text-slate-300 hover:border-blue-500 transition">
+                                + Add {{ type === DutyType.ACTIVE ? 'Active' : 'Reserved' }} Driver
+                            </button>
+                        } @else {
+                            <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 space-y-3 max-h-48 overflow-y-auto">
+                                <p class="text-xs text-slate-400 font-bold uppercase">Available Drivers</p>
+
+                                @for (driver of getAvailableDrivers(); track driver.staffId) {
+                                    <div class="flex items-center justify-between p-3 bg-slate-900 rounded-lg">
+                                        <span class="text-white text-sm">{{ driver.staffName }}</span>
+                                        <button (click)="assignDriver(driver, type); activeSelectionType = null"
+                                                class="px-3 py-1 text-xs font-bold bg-blue-600 text-white rounded">
+                                            Add
+                                        </button>
+                                    </div>
+                                }
+
+                                <button (click)="activeSelectionType = null" class="w-full py-2 text-xs bg-slate-700 text-white rounded-lg">Close</button>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="space-y-4">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                🎫 Conductors
+                <span class="text-sm text-slate-400">({{ selectedConductors.length }}/2)</span>
+            </h3>
+
+            @for (type of [DutyType.ACTIVE, DutyType.RESERVED]; track type) {
+                <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-5 space-y-3">
+                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        {{ type === DutyType.ACTIVE ? 'Active' : 'Reserved' }} Conductor
+                    </p>
+
+                    @let assignedConductor = type === DutyType.ACTIVE ? getActiveConductor() : getReservedConductor();
+
+                    @if (assignedConductor) {
+                        <div class="bg-slate-800 rounded-lg p-4 flex justify-between items-center border-2"
+                            [ngClass]="type === DutyType.ACTIVE ? 'border-green-500/30' : 'border-blue-500/30'">
+                            <div>
+                                <p class="text-white font-bold">{{ assignedConductor.staffName }}</p>
+                                <p class="text-xs text-slate-400">ID: {{ assignedConductor.staffId }}</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold border"
+                                [ngClass]="type === DutyType.ACTIVE ? 'bg-green-900/30 border-green-500 text-green-400' : 'bg-blue-900/30 border-blue-500 text-blue-400'">
+                                ASSIGNED
+                            </span>
+                        </div>
+                        <button (click)="removeConductor(assignedConductor.staffId)"
+                                class="w-full py-2 text-xs font-bold bg-red-600/20 hover:bg-red-600/30 text-red-400 rounded-lg transition">
+                            Remove
+                        </button>
+                    } @else {
+                        @if (activeSelectionType !== type + '-conductor') {
+                            <button (click)="activeSelectionType = type + '-conductor'"
+                                    class="w-full py-3 text-left px-4 bg-slate-800 border border-slate-700 rounded-lg text-slate-300 hover:border-blue-500 transition">
+                                + Add {{ type === DutyType.ACTIVE ? 'Active' : 'Reserved' }} Conductor
+                            </button>
+                        } @else {
+                            <div class="bg-slate-800 border border-slate-700 rounded-lg p-4 space-y-3 max-h-48 overflow-y-auto">
+                                <p class="text-xs text-slate-400 font-bold uppercase">Available Conductors</p>
+                                
+                                @for (conductor of getAvailableConductors(); track conductor.staffId) {
+                                    <div class="flex items-center justify-between p-3 bg-slate-900 rounded-lg">
+                                        <span class="text-white text-sm">{{ conductor.staffName }}</span>
+                                        <button (click)="assignConductor(conductor, type); activeSelectionType = null"
+                                                class="px-3 py-1 text-xs font-bold bg-blue-600 text-white rounded">
+                                            Add
+                                        </button>
+                                    </div>
+                                }
+
+                                <button (click)="activeSelectionType = null" class="w-full py-2 text-xs bg-slate-700 text-white rounded-lg">Close</button>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="flex justify-center items-center pt-8 border-t border-slate-700">
+        <button 
+            (click)="saveAssignments()"
+            [disabled]="isSaving"
+            class="w-full max-w-md py-4 text-sm font-bold bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white rounded-xl transition-all shadow-lg shadow-green-900/20 uppercase tracking-widest">
+            {{ isSaving ? 'Saving...' : 'Save Assignments' }}
+        </button>
+    </div>
+}

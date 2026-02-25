@@ -1,4 +1,4 @@
-package org.hexaware.busservice.dtos;
+package org.hexaware.busservice.dtos.busDtos;
 
 import org.hexaware.busservice.enums.SeatType;
 

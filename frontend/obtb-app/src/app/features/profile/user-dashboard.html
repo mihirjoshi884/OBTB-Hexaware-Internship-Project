@@ -36,7 +36,7 @@
                                 <div class="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-blue-500 to-purple-500 ring-4 ring-[#030712]">
                                     <div class="w-full h-full rounded-full bg-slate-900 flex items-center justify-center overflow-hidden">
                                         @if(!user.profilePictureUrl){ <span class="text-2xl font-bold">{{user.firstName[0]}}{{user.lastName[0]}}</span> }
-                                        @else { <img [src]="user.profilePictureUrl" class="w-full h-full object-cover"> }
+                                        @else { <img [src]="user.profilePictureUrl" alt="User profile" class="w-full h-full object-cover"> }
                                     </div>
                                 </div>
                             </div>
@@ -219,9 +219,23 @@
                             
                             @if(user.roleName === 'BUS_OPERATOR') {
                                 <div class="animate-in slide-in-from-bottom-4 duration-500">
-                                    <app-bus-company-component [userId]="user.userId"></app-bus-company-component>
+                                    <app-bus-company-component [userId]="user.userId"
+                                        (companyLoaded)="handleCompanyLoaded($event)"
+                                    >
+
+                                    </app-bus-company-component>
                                 </div>
                             } 
+                        }
+                        @case ('add-bus-staff'){
+                            @if(user.roleName === 'BUS_OPERATOR') {
+                                <div class="animate-in slide-in-from-bottom-4 duration-500">
+                                    <app-bus-staff-component 
+                                        [userId]="user.userId" 
+                                        [companyId]="companyId"
+                                    ></app-bus-staff-component>
+                                </div>
+                            }
                         }
                     } 
                 </div> </div>

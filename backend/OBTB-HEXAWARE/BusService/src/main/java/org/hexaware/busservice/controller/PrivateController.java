@@ -1,6 +1,13 @@
 package org.hexaware.busservice.controller;
 
 import org.hexaware.busservice.dtos.*;
+import org.hexaware.busservice.dtos.busDtos.BusCreationRequest;
+import org.hexaware.busservice.dtos.busDtos.BusTemplateCreationRequest;
+import org.hexaware.busservice.dtos.companyDtos.CompanyCreationRequest;
+import org.hexaware.busservice.dtos.documentDtos.DocumentUploadRequest;
+import org.hexaware.busservice.dtos.staffDtos.AddBusStaffRequest;
+import org.hexaware.busservice.dtos.staffDtos.BusStaffCreationRequest;
+import org.hexaware.busservice.enums.StaffType;
 import org.hexaware.busservice.services.BusService;
 import org.hexaware.busservice.services.LayoutTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,4 +102,44 @@ public class PrivateController {
         var response = busService.getBusTemplates(userId);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
+
+    @PostMapping(value = "/bus/staff/create-staff", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createBusStaff(
+            @RequestPart("data") BusStaffCreationRequest request,
+            // Mark as required=false to allow Conductors to skip the file
+            @RequestPart(value = "driverLicense", required = false) MultipartFile driverLicense
+    ) throws IOException {
+
+        // Only validate if a file is actually sent
+        if (driverLicense != null && !driverLicense.isEmpty()) {
+            if (!isPdf(driverLicense)) {
+                return ResponseEntity.badRequest().body("Driver License must be in PDF format.");
+            }
+        } else if (request.staffType() == StaffType.BUS_DRIVER) {
+            // Enforce file presence specifically for Drivers
+            return ResponseEntity.badRequest().body("Driver License document is required for Drivers.");
+        }
+
+        var response = busService.createBusStaff(request, driverLicense);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @GetMapping("/bus/staff/get-all-staffs/{companyId}")
+    public ResponseEntity<?> getAllStaffs(@PathVariable UUID companyId){
+        var response = busService.getAllExistingBusStaffs(companyId);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @GetMapping("/bus/staff/{staffId}")
+    public ResponseEntity<?> getBusStaff(@PathVariable UUID staffId){
+        var response = busService.getBusStaff(staffId);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @PatchMapping("/bus/staff/update-staff")
+    public ResponseEntity<?> updateBusStaff(@RequestBody AddBusStaffRequest request){
+        var response = busService.updateBusStaff(request);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
 }

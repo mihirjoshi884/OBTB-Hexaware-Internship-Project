@@ -1,10 +1,21 @@
 package org.hexaware.busservice.services.impl;
 
+import jakarta.transaction.Transactional;
 import org.hexaware.busservice.dtos.*;
-import org.hexaware.busservice.entities.Bus;
-import org.hexaware.busservice.entities.BusOperator;
-import org.hexaware.busservice.entities.BusTemplate;
-import org.hexaware.busservice.entities.Company;
+import org.hexaware.busservice.dtos.busDtos.*;
+import org.hexaware.busservice.dtos.companyDtos.CompanyCreationRequest;
+import org.hexaware.busservice.dtos.companyDtos.CompanyCreationResponse;
+import org.hexaware.busservice.dtos.companyDtos.CompanySummaryDTO;
+import org.hexaware.busservice.dtos.documentDtos.DocumentResponse;
+import org.hexaware.busservice.dtos.documentDtos.DocumentUploadRequest;
+import org.hexaware.busservice.dtos.documentDtos.DocumentUploadResponse;
+import org.hexaware.busservice.dtos.staffDtos.AddBusStaffRequest;
+import org.hexaware.busservice.dtos.staffDtos.BusStaffCreationRequest;
+import org.hexaware.busservice.dtos.staffDtos.BusStaffCreationResponse;
+import org.hexaware.busservice.dtos.staffDtos.BusStaffResponse;
+import org.hexaware.busservice.entities.*;
+import org.hexaware.busservice.enums.DutyType;
+import org.hexaware.busservice.enums.StaffType;
 import org.hexaware.busservice.enums.VerificationStatus;
 import org.hexaware.busservice.exceptions.BusTypeMismatchException;
 import org.hexaware.busservice.exceptions.CompanyNotFoundException;
@@ -18,7 +29,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -38,6 +51,8 @@ public class BusServiceImpl implements BusService {
     private CompanyRepository companyRepository;
     @Autowired
     private LayoutRepository layoutRepository;
+    @Autowired
+    private BusStaffRepository busStaffRepository;
 
 
     @Override
@@ -229,9 +244,127 @@ public class BusServiceImpl implements BusService {
                         bus.getBusName(),
                         bus.getRegistrationNumber(),
                         new CompanySummaryDTO(bus.getCompany().getCompanyName(), bus.getCompany().getCompanyId()),
-                        new TemplateSummaryDTO(bus.getTemplate().getTemplateName(), bus.getTemplate().getBusType().toString())
+                        new TemplateSummaryDTO(bus.getTemplate().getTemplateName(),
+                                bus.getTemplate().getBusType().toString(),
+                                bus.getTemplate().getLayoutData())
                 )).toList();
 
         return new ResponseDto<>(response, 200, "Buses retrieved successfully");
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto<BusStaffCreationResponse> createBusStaff(BusStaffCreationRequest request, MultipartFile driverLicense) {
+        // 1. Verify Company exists
+        Company company = companyRepository.findById(request.companyId())
+                .orElseThrow(() -> new RuntimeException("Company not found with ID: " + request.companyId()));
+
+        // 2. Check for existing staff with same phone number
+        if (busStaffRepository.findByPhoneNumber(request.phoneNumber()) != null) {
+            return new ResponseDto<>(null, 400, "Phone number already registered.");
+        }
+
+        // 3. Conditional Driver Validation
+        if (request.staffType() == StaffType.BUS_DRIVER) {
+            // Validate license number presence and uniqueness only for Drivers
+            if (request.driverLicenseNumber() == null || request.driverLicenseNumber().isEmpty()) {
+                return new ResponseDto<>(null, 400, "Driver License number is required for drivers.");
+            }
+            if (busStaffRepository.existsByDriverLicenseNumber(request.driverLicenseNumber())) {
+                return new ResponseDto<>(null, 400, "Driver License number already exists.");
+            }
+        }
+
+        // 4. Map Request to Entity
+        BusStaff staff = new BusStaff();
+        staff.setName(request.name());
+        staff.setAge(request.age());
+        staff.setPhoneNumber(request.phoneNumber());
+        staff.setStaffType(request.staffType());
+        staff.setCompany(company);
+
+        // Only set license number for Drivers
+        if (request.staffType() == StaffType.BUS_DRIVER) {
+            staff.setDriverLicenseNumber(request.driverLicenseNumber());
+        }
+
+        // 5. Initial Save
+        staff = busStaffRepository.save(staff);
+
+        // 6. Conditional Document Upload
+        // Only upload if it is a Driver AND a file was provided
+        if (request.staffType() == StaffType.BUS_DRIVER && driverLicense != null && !driverLicense.isEmpty()) {
+            try {
+                Map<String, String> uploadResult = imageUploadService.uploadDriverLicense(driverLicense, staff.getStaffId());
+                staff.setDriverLicenseUrl(uploadResult.get("driverLicenseUrl"));
+                staff.setDriverLicenseDocId(uploadResult.get("driverLicensePublicId"));
+
+                staff = busStaffRepository.save(staff); // Update with Cloudinary details
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to upload driver license document", e);
+            }
+        }
+
+        // 7. Prepare Response
+        BusStaffCreationResponse response = new BusStaffCreationResponse(
+                staff.getStaffId(),
+                staff.getName(),
+                staff.getPhoneNumber(),
+                staff.getDriverLicenseNumber(), // Will be null for conductors
+                staff.getStaffType()
+        );
+
+        return new ResponseDto<>(response, 201, "Bus staff created successfully");
+    }
+    @Override
+    public ResponseDto<List<BusStaffResponse>> getAllExistingBusStaffs(UUID companyId) {
+        var staffs = busStaffRepository.findAllByCompany_CompanyId(companyId);
+        List<BusStaffResponse> staffResponses = staffs.stream()
+                .map(
+                        staff -> new BusStaffResponse(
+                                staff.getStaffType(),
+                                staff.getStaffId(),
+                                staff.getDutyType(),
+                                staff.getName(),
+                                // SAFE CHECK: If bus is null, return null (or a default UUID)
+                                staff.getBus() != null ? staff.getBus().getBusId() : null
+                        )
+                ).toList();
+
+        return new ResponseDto<>(
+                staffResponses,
+                200,
+                "Successfully retrieved " + staffResponses.size() + " staff members"
+        );
+    }
+
+    @Override
+    public ResponseDto<BusStaffResponse> getBusStaff(UUID id) {
+        var staff = busStaffRepository.findById(id).orElseThrow(() -> new RuntimeException("Staff not found with ID: " + id));
+        var response = new BusStaffResponse(
+          staff.getStaffType(),
+          staff.getStaffId(),
+          staff.getDutyType(),
+          staff.getName(),
+          staff.getBus().getBusId()
+        );
+        return new ResponseDto<>(response, 200, "Bus staff retrieved successfully");
+    }
+
+    @Override
+    public ResponseDto<BusStaffResponse> updateBusStaff(AddBusStaffRequest request) {
+        var staff = busStaffRepository.findById(request.staffId()).orElseThrow(()-> new RuntimeException("Staff not found with ID: " + request.staffId()) );
+        var bus = busRepository.findById(request.busId()).orElseThrow(()-> new RuntimeException("Bus not found with ID: " + request.busId()));
+        staff.setBus(bus);
+        staff.setDutyType(request.dutyType());
+        var savedStaff = busStaffRepository.save(staff);
+        var response = new BusStaffResponse(
+                savedStaff.getStaffType(),
+                savedStaff.getStaffId(),
+                savedStaff.getDutyType(),
+                savedStaff.getName(),
+                savedStaff.getBus().getBusId()
+        );
+        return new  ResponseDto<>(response, 200, "Bus staff updated successfully");
     }
 }

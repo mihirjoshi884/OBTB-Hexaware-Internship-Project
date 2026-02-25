@@ -9,7 +9,10 @@ import org.hexaware.busservice.enums.StaffType;
 import java.util.UUID;
 
 @Entity
-@Table(name = "bus_staff")
+@Table(name = "bus_staff", indexes = {
+        @Index(name = "idx_staff_bus_id", columnList = "bus_id"),
+        @Index(name = "idx_staff_company_id", columnList = "company_id")
+})
 @Getter @Setter
 public class BusStaff {
 
@@ -27,7 +30,7 @@ public class BusStaff {
     private int age;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "duty_type", nullable = true)
     private DutyType dutyType;
 
     @Column(unique = true)
@@ -41,4 +44,8 @@ public class BusStaff {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bus_id")
     private Bus bus;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
 }

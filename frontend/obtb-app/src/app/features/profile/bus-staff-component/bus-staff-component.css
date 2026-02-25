@@ -1,0 +1,4 @@
+/* Bus Staff Component Styles */
+:host {
+  display: block;
+}

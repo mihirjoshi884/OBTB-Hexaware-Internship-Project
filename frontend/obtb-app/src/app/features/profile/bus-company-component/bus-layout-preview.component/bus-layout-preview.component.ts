@@ -26,22 +26,26 @@ export class BusLayoutPreviewComponent implements OnChanges {
   }
 
   private processLayout() {
-    let seats: any[] = [];
+    console.log('Layout Data Received:', this.layoutData); // Debugging line
     
-    // Handle both string and already-parsed array
+    let seats: any[] = [];
     if (typeof this.layoutData === 'string' && this.layoutData) {
-      try { seats = JSON.parse(this.layoutData); } catch (e) { seats = []; }
-    } else if (Array.isArray(this.layoutData)) {
-      seats = this.layoutData;
+      try { 
+          seats = JSON.parse(this.layoutData); 
+      } catch (e) { 
+          console.error('JSON Parse Error:', e);
+          seats = []; 
+      }
+    } else {
+      seats = Array.isArray(this.layoutData) ? this.layoutData : [];
     }
 
-    // Split Decks
     this.lowerDeck = seats.filter(s => s.deck === 0 || s.deck === '0' || !s.deck);
     this.upperDeck = seats.filter(s => s.deck === 1 || s.deck === '1');
 
-    // Calculate columns if not explicitly provided
     if (seats.length > 0) {
-      this.gridCols = this.columns || (Math.max(...seats.map(s => s.x_coordinate)) + 1);
+      const maxX = Math.max(...seats.map(s => s.x_coordinate || 0));
+      this.gridCols = maxX + 1;
     }
   }
 }

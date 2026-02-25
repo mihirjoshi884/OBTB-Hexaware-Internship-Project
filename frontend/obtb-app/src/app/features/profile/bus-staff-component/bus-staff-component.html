@@ -1,0 +1,56 @@
+<div class="space-y-8">
+    <!-- Success Message Banner -->
+    @if (successMessage) {
+        <div class="animate-in fade-in slide-in-from-top-4 duration-300 bg-green-900/30 border border-green-500/50 rounded-xl p-4 text-green-400 font-semibold text-center">
+            {{ successMessage }}
+        </div>
+    }
+
+    <!-- Section Switcher -->
+    <div class="flex gap-4">
+        <button 
+            (click)="switchSection('create')"
+            [class.bg-blue-600]="activeSection === 'create'"
+            [class.bg-slate-800]="activeSection !== 'create'"
+            class="flex-1 py-3 rounded-xl font-bold uppercase tracking-widest transition-all duration-300 text-white">
+            Create Staff
+        </button>
+        <button 
+            (click)="switchSection('list')"
+            [class.bg-blue-600]="activeSection === 'list'"
+            [class.bg-slate-800]="activeSection !== 'list'"
+            class="flex-1 py-3 rounded-xl font-bold uppercase tracking-widest transition-all duration-300 text-white">
+            Staff Directory ({{ getTotalStaffCount() }})
+        </button>
+    </div>
+
+    <!-- Create Staff Section -->
+    @if (activeSection === 'create') {
+        <div class="animate-in slide-in-from-right-4 duration-300">
+            @if (companyId) {
+                <app-staff-creation-component 
+                    [userId]="userId"
+                    [companyId]="companyId"
+                    (staffCreated)="onStaffCreated($event)">
+                </app-staff-creation-component>
+            } @else {
+                <div class="p-4 text-center text-gray-400">
+                    <p>Loading company information... Please wait.</p>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Staff Master List Section -->
+    @if (activeSection === 'list') {
+        <div class="animate-in slide-in-from-left-4 duration-300">
+            <app-staff-master-list-component 
+                [staffList]="staffList"
+                [isLoading]="isLoading"
+                [totalStaffCount]="getTotalStaffCount()"
+                [driverCount]="getDriverCount()"
+                [conductorCount]="getConductorCount()">
+            </app-staff-master-list-component>
+        </div>
+    }
+</div>

@@ -1,11 +1,11 @@
-package org.hexaware.busservice.dtos;
+package org.hexaware.busservice.dtos.documentDtos;
 
 import org.hexaware.busservice.enums.VerificationStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record DocumentResponse(
+public record DocumentUploadResponse(
         UUID busOperatorId,
         String aadharNumber,
         String aadharUrl,
@@ -13,4 +13,5 @@ public record DocumentResponse(
         String panUrl,
         VerificationStatus status,
         LocalDateTime submittedAt,
-        LocalDateTime verificationAt) { }
+        LocalDateTime verificationAt
+) { }

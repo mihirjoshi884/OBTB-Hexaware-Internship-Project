@@ -37,6 +37,32 @@ public class ImageUploadServiceImpl implements ImageUploadService {
             throw new RuntimeException("Document upload failed", e);
         }
     }
+
+    @Override
+    public Map<String, String> uploadDriverLicense(MultipartFile driverLicense, UUID staffId) throws RuntimeException, IOException {
+        // 1. Pre-upload check to avoid unnecessary API calls
+        if (driverLicense == null || driverLicense.isEmpty()) {
+            throw new IllegalArgumentException("Driver license file is required.");
+        }
+
+        Map<String, String> result = new HashMap<>();
+        try {
+            // Using a more structured folder path
+            String folderPath = "staff_docs/" + staffId + "/license";
+
+            Map uploadResult = uploadToCloudinary(driverLicense, folderPath);
+
+            // These keys should match what your Service expects to save into BusStaff entity
+            result.put("driverLicenseUrl", (String) uploadResult.get("secure_url"));
+            result.put("driverLicensePublicId", (String) uploadResult.get("public_id"));
+
+            return result;
+        } catch (IOException e) {
+            // Log the error here if you have a logger
+            throw new RuntimeException("Cloudinary upload failed for staff: " + staffId, e);
+        }
+    }
+
     private Map uploadToCloudinary(MultipartFile file, String publicId) throws IOException {
         // Check if the file is a PDF
         String contentType = file.getContentType();

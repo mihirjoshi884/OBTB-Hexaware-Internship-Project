@@ -1,4 +1,4 @@
-package org.hexaware.busservice.dtos;
+package org.hexaware.busservice.dtos.companyDtos;
 
 import java.util.UUID;
 

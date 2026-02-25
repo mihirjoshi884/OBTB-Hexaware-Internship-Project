@@ -1,0 +1,223 @@
+<div class="space-y-6 bg-slate-800 rounded-3xl p-7">
+    <!-- Header -->
+    <div class="text-lg font-semibold text-white">
+        Create New Staff Member
+    </div>
+
+    <div class="h-px w-full bg-slate-700"></div>
+
+    <!-- ================= LOADING ================= -->
+    @if (isSubmitting) {
+        <div class="flex flex-col items-center justify-center py-10 space-y-4">
+            <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <div class="text-blue-400 font-semibold tracking-wide">
+                Creating staff member...
+            </div>
+        </div>
+    }
+
+    <!-- ================= SUCCESS ================= -->
+    @else if (submitSuccess) {
+        <div class="flex flex-col items-center justify-center py-10 space-y-5 text-center">
+            <div class="text-green-400 text-lg font-semibold">
+                ✓ {{ submitSuccess }}
+            </div>
+
+            <button
+                (click)="resetForm()"
+                class="px-6 py-2 bg-green-600 hover:bg-green-700 rounded-xl text-white font-semibold transition"
+            >
+                OK
+            </button>
+        </div>
+    }
+
+    <!-- ================= ERROR ================= -->
+    @else if (submitError) {
+        <div class="flex flex-col items-center justify-center py-10 space-y-5 text-center">
+            <div class="text-red-400 font-semibold">
+                ✗ {{ submitError }}
+            </div>
+
+            <button
+                (click)="submitError = null"
+                class="px-6 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-white transition"
+            >
+                Close
+            </button>
+        </div>
+    }
+
+    <!-- ================= FORM (IDLE) ================= -->
+    @else {
+
+    <div class="space-y-5">
+
+        <!-- Staff Type Selection -->
+        <fieldset class="space-y-3">
+            <legend class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                Staff Type
+            </legend>
+            <div class="flex gap-4">
+                <label class="flex items-center gap-3 cursor-pointer p-4 rounded-xl border-2 transition"
+                    [class.border-blue-600]="staffType === StaffType.BUS_DRIVER"
+                    [class.bg-blue-600/20]="staffType === StaffType.BUS_DRIVER"
+                    [class.border-slate-700]="staffType !== StaffType.BUS_DRIVER"
+                    (click)="selectStaffType(StaffType.BUS_DRIVER)"
+                    (keydown.enter)="selectStaffType(StaffType.BUS_DRIVER)"
+                    (keydown.space)="selectStaffType(StaffType.BUS_DRIVER)">
+                    <input type="radio" [checked]="staffType === StaffType.BUS_DRIVER" class="w-4 h-4" />
+                    <span class="font-semibold text-white">🚗 Driver</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer p-4 rounded-xl border-2 transition"
+                    [class.border-blue-600]="staffType === StaffType.BUS_CONDUCTOR"
+                    [class.bg-blue-600/20]="staffType === StaffType.BUS_CONDUCTOR"
+                    [class.border-slate-700]="staffType !== StaffType.BUS_CONDUCTOR"
+                    (click)="selectStaffType(StaffType.BUS_CONDUCTOR)"
+                    (keydown.enter)="selectStaffType(StaffType.BUS_CONDUCTOR)"
+                    (keydown.space)="selectStaffType(StaffType.BUS_CONDUCTOR)">
+                    <input type="radio" [checked]="staffType === StaffType.BUS_CONDUCTOR" class="w-4 h-4" />
+                    <span class="font-semibold text-white">🎫 Conductor</span>
+                </label>
+            </div>
+        </fieldset>
+
+        <!-- Full Name & Age -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-1">
+                <label for="fullName" class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                    Full Name
+                </label>
+                <input 
+                    id="fullName"
+                    [(ngModel)]="fullName"
+                    type="text"
+                    class="w-full px-4 py-3 bg-slate-900 border rounded-xl text-white focus:border-blue-500 focus:outline-none transition"
+                    [class.border-red-500]="validationErrors['name']"
+                    [class.border-slate-700]="!validationErrors['name']"
+                    placeholder="Enter full name"
+                />
+                @if (validationErrors['name']) {
+                    <p class="text-xs text-red-400">{{ validationErrors['name'] }}</p>
+                }
+            </div>
+            <div class="space-y-1">
+                <label for="age" class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                    Age
+                </label>
+                <input 
+                    id="age"
+                    [(ngModel)]="age"
+                    type="number"
+                    min="18"
+                    max="70"
+                    class="w-full px-4 py-3 bg-slate-900 border rounded-xl text-white focus:border-blue-500 focus:outline-none transition"
+                    [class.border-red-500]="validationErrors['age']"
+                    [class.border-slate-700]="!validationErrors['age']"
+                    placeholder="18-70"
+                />
+                @if (validationErrors['age']) {
+                    <p class="text-xs text-red-400">{{ validationErrors['age'] }}</p>
+                }
+            </div>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="space-y-1">
+            <label for="phoneNumber" class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                Phone Number
+            </label>
+            <div class="flex">
+                <div class="px-4 py-3 bg-slate-900 border border-r-0 border-slate-700 rounded-l-xl text-slate-400 font-semibold">
+                    +91
+                </div>
+                <input 
+                    id="phoneNumber"
+                    [(ngModel)]="phoneNumber"
+                    type="text"
+                    maxlength="10"
+                    class="flex-1 px-4 py-3 bg-slate-900 border rounded-r-xl text-white focus:border-blue-500 focus:outline-none transition"
+                    [class.border-red-500]="validationErrors['phone']"
+                    [class.border-slate-700]="!validationErrors['phone']"
+                    placeholder="10 digit number"
+                />
+            </div>
+            @if (validationErrors['phone']) {
+                <p class="text-xs text-red-400">{{ validationErrors['phone'] }}</p>
+            }
+        </div>
+
+        <!-- Driver License Fields (Shown only for Drivers) -->
+        @if (staffType === StaffType.BUS_DRIVER) {
+            <div class="space-y-4 p-4 bg-slate-900/50 rounded-xl border border-slate-700">
+                <div class="space-y-1">
+                    <label for="licenseNumber" class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        Driver License Number
+                    </label>
+                    <input 
+                        id="licenseNumber"
+                        [(ngModel)]="driverLicenseNumber"
+                        type="text"
+                        class="w-full px-4 py-3 bg-slate-900 border rounded-xl text-white focus:border-blue-500 focus:outline-none transition"
+                        [class.border-red-500]="validationErrors['licenseNumber']"
+                        [class.border-slate-700]="!validationErrors['licenseNumber']"
+                        placeholder="e.g., MH01AB1234567"
+                    />
+                    @if (validationErrors['licenseNumber']) {
+                        <p class="text-xs text-red-400">{{ validationErrors['licenseNumber'] }}</p>
+                    }
+                </div>
+
+                <!-- File Upload -->
+                <div class="space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                        Upload Driver License (PDF)
+                    </span>
+                    @if (!licenseFile) {
+                        <label class="flex flex-col items-center justify-center py-8 border-2 border-dashed rounded-xl cursor-pointer transition hover:border-blue-500 hover:bg-slate-900/50"
+                            [class.border-red-500]="validationErrors['license']"
+                            [class.border-slate-700]="!validationErrors['license']">
+                            <input type="file" accept=".pdf" class="hidden" (change)="onLicenseFileSelected($event)" />
+                            <svg class="w-8 h-8 text-slate-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <p class="text-sm text-slate-400 font-semibold">Click to upload or drag & drop</p>
+                            <p class="text-xs text-slate-500">PDF only (Max 10MB)</p>
+                        </label>
+                    } @else {
+                        <div class="flex items-center justify-between p-4 bg-slate-900 border-2 border-green-500 rounded-xl">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-semibold text-white">{{ licenseFileName }}</p>
+                                    <p class="text-xs text-green-400">Ready to upload</p>
+                                </div>
+                            </div>
+                            <button (click)="clearLicenseFile()" class="text-slate-400 hover:text-red-400 transition">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                    }
+                    @if (validationErrors['license']) {
+                        <p class="text-xs text-red-400">{{ validationErrors['license'] }}</p>
+                    }
+                </div>
+            </div>
+        }
+
+        <!-- Submit Button -->
+        <button 
+            (click)="createStaff()"
+            [disabled]="Object.keys(validationErrors).length > 0"
+            class="w-full py-4 rounded-xl font-bold transition flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-500 text-white shadow-lg active:scale-[0.98]">
+            <span>Create Staff Member</span>
+        </button>
+    </div>
+
+    }
+
+</div>
