@@ -95,14 +95,25 @@ export class FleetListComponent implements OnInit, OnChanges {
     if (!this.companyId) return;
 
     this.busService.fetchCompanyStaff(this.companyId).subscribe({
-      next: response => {
-        // Create a new array reference to trigger Change Detection in the child modal
-        this.availableCompanyStaff = [...(response.body || [])];
-        console.log('Staff fetched:', this.availableCompanyStaff.length);
-        this.cdr.markForCheck();
-        this.cdr.detectChanges();
-      },
-      error: error => console.error('Staff fetch error:', error)
+        next: response => {
+            this.availableCompanyStaff = [...(response.body || [])];
+
+            // ✅ Derive currentBusStaff from the fetched list
+            if (this.selectedBusForEdit) {
+                this.currentBusStaff = this.availableCompanyStaff
+                    .filter(s => s.busId === this.selectedBusForEdit!.busId && s.dutyType !== null)
+                    .map(s => ({
+                        staffId: s.staffId,
+                        staffName: s.staffName,
+                        busId: s.busId!,
+                        dutyType: s.dutyType!
+                    }));
+            }
+
+            this.cdr.markForCheck();
+            this.cdr.detectChanges();
+        },
+        error: error => console.error('Staff fetch error:', error)
     });
   }
 
@@ -118,29 +129,19 @@ export class FleetListComponent implements OnInit, OnChanges {
         return;
     }
 
-    this.loading = true; // Show loading state
+    this.loading = true;
+    const updateRequests = assignments.map(staff => this.busService.updateBusStaff(staff));
 
-    // Create an array of Observables for each staff update
-    const updateRequests = assignments.map(staff => 
-        this.busService.updateBusStaff(staff)
-    );
-
-    // Use forkJoin to wait for all updates to finish
     forkJoin(updateRequests).subscribe({
         next: (results) => {
             console.log('All staff updated successfully', results);
             this.loading = false;
-            
-            // Refresh the fleet list to show updated assignments
-            this.fetchBusFleet(); 
+            this.fetchBusFleet();
             this.closeStaffDrawer();
-            
-            // Optional: Show a success toast/notification here
         },
         error: (err) => {
             console.error('Error updating staff:', err);
             this.loading = false;
-            // You might want to pass this error back to the modal's saveError input
         }
     });
   }
