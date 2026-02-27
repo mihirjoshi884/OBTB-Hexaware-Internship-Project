@@ -1,183 +1,150 @@
 <div class="space-y-6 bg-slate-800 rounded-3xl p-7">
-    <!-- Header -->
     <div class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold text-white">
-            Your Fleet
-        </h2>
+        <h2 class="text-lg font-semibold text-white">Your Fleet</h2>
         <span class="text-xs font-semibold text-slate-400 bg-slate-900 px-3 py-1 rounded-full">
             {{ buses.length }} Bus{{ buses.length !== 1 ? 'es' : '' }}
         </span>
     </div>
 
-    <!-- Loading Skeletons -->
     @if (loading) {
         <div class="space-y-4">
             @for (i of [1, 2, 3]; track i) {
                 <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 space-y-4 animate-pulse">
                     <div class="flex justify-between items-start">
-                        <div class="space-y-2 flex-1">
-                            <div class="h-6 bg-slate-700 rounded w-40"></div>
-                            <div class="h-4 bg-slate-700 rounded w-32"></div>
-                        </div>
+                        <div class="space-y-2 flex-1"><div class="h-6 bg-slate-700 rounded w-40"></div><div class="h-4 bg-slate-700 rounded w-32"></div></div>
                         <div class="h-6 bg-slate-700 rounded w-24"></div>
                     </div>
                     <div class="h-px bg-slate-700"></div>
                     <div class="flex justify-between items-center">
-                        <div class="space-y-2 flex-1">
-                            <div class="h-4 bg-slate-700 rounded w-40"></div>
-                            <div class="h-4 bg-slate-700 rounded w-36"></div>
-                        </div>
+                        <div class="space-y-2 flex-1"><div class="h-4 bg-slate-700 rounded w-40"></div><div class="h-4 bg-slate-700 rounded w-36"></div></div>
                         <div class="h-10 bg-slate-700 rounded w-24"></div>
                     </div>
                 </div>
             }
         </div>
     }
-
-    <!-- Empty State -->
     @else if (buses.length === 0) {
         <div class="bg-slate-900 border border-slate-700 rounded-2xl p-12 text-center space-y-4">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-12 h-12 mx-auto text-slate-500">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m0 0H3m4.5 0H1.5M9 11.25c0-1.03.895-1.977 2.25-1.977S13.5 10.22 13.5 11.25M9 11.25c0 1.03.895 1.977 2.25 1.977s2.25-.947 2.25-1.977m0 0H21m-9 8.25c1.355 0 2.697-.5 3.75-1.422M9 19.5c-1.355 0-2.697.5-3.75 1.422M21 19.5c1.355 0 2.697.5 3.75 1.422" />
-                </svg>
-            <div class="text-slate-300 font-semibold">
-                No buses added yet
-            </div>
-            <div class="text-sm text-slate-400">
-                Create your first bus template and add buses to your fleet.
-            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 mx-auto text-slate-500">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m0 0H3m4.5 0H1.5M9 11.25c0-1.03.895-1.977 2.25-1.977S13.5 10.22 13.5 11.25M9 11.25c0 1.03.895 1.977 2.25 1.977s2.25-.947 2.25-1.977m0 0H21m-9 8.25c1.355 0 2.697-.5 3.75-1.422M9 19.5c-1.355 0-2.697.5-3.75 1.422M21 19.5c1.355 0 2.697.5 3.75 1.422" />
+            </svg>
+            <div class="text-slate-300 font-semibold">No buses added yet</div>
+            <div class="text-sm text-slate-400">Create your first bus template and add buses to your fleet.</div>
         </div>
     }
-
-    <!-- Bus Cards -->
     @else {
     <div class="space-y-4">
         @for (bus of buses; track bus.busId) {
             <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 hover:border-blue-600 transition space-y-4">
-
                 <div class="flex justify-between items-start">
                     <div class="space-y-1">
-                        <div class="text-lg font-bold text-white tracking-wide">
-                            {{ bus.busId }}
-                        </div>
-                        <div class="text-xs text-slate-400 font-semibold uppercase tracking-widest">
-                            {{ bus.busName || 'Unnamed Bus' }}
-                        </div>
+                        <div class="text-lg font-bold text-white tracking-wide">{{ bus.busId }}</div>
+                        <div class="text-xs text-slate-400 font-semibold uppercase tracking-widest">{{ bus.busName || 'Unnamed Bus' }}</div>
                     </div>
-
-                    <span class="text-xs font-bold text-white px-3 py-1 rounded-full"
-                        [ngClass]="{
-                            'bg-yellow-600': getStatusBadge(bus).text === 'NO DOCUMENTS',
-                            'bg-orange-600': getStatusBadge(bus).text === 'PENDING',
-                            'bg-green-600': getStatusBadge(bus).text === 'APPROVED'
-                        }">
-                        {{ getStatusBadge(bus).text }}
-                        @if (getStatusBadge(bus).text === 'APPROVED') { ✓ }
+                    <span class="text-xs font-bold text-white px-3 py-1 rounded-full" [ngClass]="getStatusBadge(bus).color">
+                        {{ getStatusBadge(bus).text }} @if (getStatusBadge(bus).text === 'APPROVED') { ✓ }
                     </span>
                 </div>
-
                 <div class="h-px bg-slate-700"></div>
-
                 <div class="space-y-3">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <div class="text-xs font-bold uppercase text-slate-400 tracking-widest">Type</div>
-                            <div class="text-sm text-white mt-1">
-                                {{ bus.template.busType || 'N/A' }}
-                            </div>
+                            <div class="text-sm text-white mt-1">{{ bus.template.busType || 'N/A' }}</div>
                         </div>
                         <div>
                             <div class="text-xs font-bold uppercase text-slate-400 tracking-widest">Company</div>
-                            <div class="text-sm text-white mt-1">
-                                {{ bus.company.companyName || 'No Company' }}
-                            </div>
+                            <div class="text-sm text-white mt-1">{{ bus.company.companyName || 'No Company' }}</div>
                         </div>
                     </div>
-
                     <div class="flex gap-2 pt-2">
                         @if (getStatusBadge(bus).text === 'NO DOCUMENTS') {
-                            <button type="button" class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition uppercase tracking-widest">
-                                Upload Documents
-                            </button>
+                            <button type="button" class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition uppercase tracking-widest" (click)="openUploadDrawer(bus)"> Upload Documents </button>
                         }
-                        
-                        <button (click)="onEditBus(bus.busId)" type="button" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold rounded-xl transition uppercase tracking-widest">
-                            Edit
-                        </button>
+                        <button (click)="onEditBus(bus.busId)" type="button" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold rounded-xl transition uppercase tracking-widest"> Edit </button>
                     </div>
                 </div>
             </div>
         }
     </div>
-}
+    }
 </div>
 
-<!-- ================= STAFF MANAGEMENT DRAWER ================= -->
 @if (staffDrawerOpen && selectedBusForEdit) {
-    <!-- Backdrop -->
-    <div 
-        (click)="closeStaffDrawer()"
-        (keydown.escape)="closeStaffDrawer()"
-        class="fixed inset-0 bg-black/40 z-40 animate-in fade-in duration-300">
-    </div>
+    <div (click)="closeStaffDrawer()" (keydown.escape)="closeStaffDrawer()" class="fixed inset-0 bg-black/40 z-40 animate-in fade-in duration-300"></div>
 
-    <!-- Bottom Drawer -->
     <div class="fixed bottom-0 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300 ease-in-out">
-        <div [style.width.%]="100" class="bg-slate-800 border-t border-slate-700 rounded-t-3xl max-h-[85vh] overflow-y-auto">
+        <div class="bg-slate-800 border-t border-slate-700 rounded-t-3xl max-h-[85vh] overflow-y-auto">
             
-            <!-- ========== BUS METADATA SECTION ========== -->
-            <div class="sticky top-0 bg-slate-800 border-b border-slate-700 p-6 space-y-4 rounded-t-3xl">
-                <!-- Close Button & Header -->
+            <div class="sticky top-0 bg-slate-800 border-b border-slate-700 p-6 space-y-4 rounded-t-3xl z-10">
                 <div class="flex justify-between items-start">
                     <div>
                         <h2 class="text-xl font-bold text-white">Manage Bus Staff</h2>
                         <p class="text-xs text-slate-400 mt-1">Bus: {{ selectedBusForEdit.busName }}</p>
                     </div>
-                    <button 
-                        (click)="closeStaffDrawer()" 
-                        class="text-slate-400 hover:text-white transition">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
+                    <button (click)="closeStaffDrawer()" class="text-slate-400 hover:text-white transition">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
                     </button>
                 </div>
-
-                <!-- Bus Details Grid -->
                 <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <div class="text-xs font-bold uppercase text-slate-400 tracking-widest">Bus ID</div>
-                        <div class="text-sm text-white mt-1 font-mono">{{ selectedBusForEdit.busId }}</div>
-                    </div>
-                    <div>
-                        <div class="text-xs font-bold uppercase text-slate-400 tracking-widest">Registration</div>
-                        <div class="text-sm text-white mt-1">{{ selectedBusForEdit.registrationNumber || 'N/A' }}</div>
-                    </div>
-                    <div>
-                        <div class="text-xs font-bold uppercase text-slate-400 tracking-widest">Type</div>
-                        <div class="text-sm text-white mt-1">{{ selectedBusForEdit.template.busType || 'N/A' }}</div>
-                    </div>
-                    <div>
-                        <div class="text-xs font-bold uppercase text-slate-400 tracking-widest">Company</div>
-                        <div class="text-sm text-white mt-1">{{ selectedBusForEdit.company.companyName }}</div>
-                    </div>
+                    <div><div class="text-xs font-bold uppercase text-slate-400 tracking-widest">Bus ID</div><div class="text-sm text-white mt-1 font-mono">{{ selectedBusForEdit.busId }}</div></div>
+                    <div><div class="text-xs font-bold uppercase text-slate-400 tracking-widest">Registration</div><div class="text-sm text-white mt-1">{{ selectedBusForEdit.registrationNumber || 'N/A' }}</div></div>
                 </div>
             </div>
 
-            <!-- ========== BUS LAYOUT PREVIEW SECTION ========== -->
-            <div class="bg-slate-900/50 border border-slate-700 rounded-xl p-4">
-                @if (getBusLayoutData(); as layout) {
-                    <app-bus-layout-preview [layoutData]="layout"></app-bus-layout-preview>
+            <div class="bg-slate-900/50 border-b border-slate-700 p-4">
+                @if (getBusLayoutData(); as layout) { <app-bus-layout-preview [layoutData]="layout"></app-bus-layout-preview> }
+                @else { <div class="py-6 text-center text-slate-500 italic text-sm">No layout found.</div> }
+            </div>
+
+            <div class="p-6 border-t border-slate-700/50">
+                @if (existingBusDocuments) {
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="text-sm font-bold text-white uppercase tracking-widest">Legal Documents</h3>
+                            <p class="text-[10px] text-slate-500 uppercase">Verified Records</p>
+                        </div>
+                        <button (click)="deleteBusDocs()" class="px-3 py-1 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white text-[10px] font-bold rounded-lg transition-all border border-red-500/20 uppercase">
+                            Delete Documents
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        @for (item of [
+                            { label: 'RC Book', data: existingBusDocuments.rcBook },
+                            { label: 'Insurance Policy', data: existingBusDocuments.insurancePolicy },
+                            { label: 'Registration Plate', data: existingBusDocuments.registrationNumberPlate }
+                        ]; track item.label) {
+                            <div class="flex flex-col bg-slate-950 border border-slate-800 rounded-3xl overflow-hidden hover:border-blue-500 transition-all group">
+                                <div class="relative h-48 w-full bg-slate-950 flex items-center justify-center border-b border-slate-800">
+                                    @if (item.data?.url) {
+                                        <pdf-viewer [src]="item.data.url" [render-text]="false" [original-size]="false" [autoresize]="true" [fit-to-page]="true" class="w-full h-full"></pdf-viewer>
+                                        <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <a [href]="item.data.url" target="_blank" class="p-2 bg-blue-600 rounded-lg text-white">View Full</a>
+                                        </div>
+                                    } @else {
+                                        <span class="text-[10px] text-slate-600 uppercase">Missing</span>
+                                    }
+                                </div>
+                                <div class="p-3 bg-slate-900/80"><span class="text-[10px] font-bold text-slate-400 uppercase">{{ item.label }}</span></div>
+                            </div>
+                        }
+                    </div>
                 } @else {
-                    <div class="py-10 text-center text-slate-500 italic text-sm">
-                        No layout configuration found for this bus type.
+                    <div class="bg-blue-600/5 border border-blue-500/20 rounded-3xl p-6">
+                        <h4 class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-4">Upload Required Documents</h4>
+                        <app-upload-bus-document-component
+                            [isUploading]="isDocumentUploading"
+                            [request]="uploadRequest"
+                            (fileChanged)="onFileSelected($event.file,$event.key)"
+                            (upload)="uploadBusDocuments()"
+                            (close)="closeUploadDrawer()">
+                        </app-upload-bus-document-component>
                     </div>
                 }
             </div>
 
-            <!-- ========== STAFF ASSIGNMENT SECTION ========== -->
-            <div class="p-6">
+            <div class="p-6 border-t border-slate-700/50">
                 @if (availableCompanyStaff.length > 0) {
                     <app-manage-staff-modal
                         [busId]="selectedBusForEdit.busId"
@@ -185,15 +152,31 @@
                         [companyStaff]="availableCompanyStaff"
                         [currentStaff]="currentBusStaff"
                         [isVisible]="true"
-                        (save)="onStaffSaved($event)"   (closeModal)="closeStaffDrawer()">
+                        (save)="onStaffSaved($event)" (closeModal)="closeStaffDrawer()">
                     </app-manage-staff-modal>
                 } @else {
-                    <div class="text-center py-4 text-slate-400">
-                        <div class="animate-spin inline-block w-4 h-4 border-2 border-current border-t-transparent text-blue-600 rounded-full mb-2"></div>
-                        <p class="text-xs font-semibold uppercase tracking-widest">Loading Company Staff...</p>
-                    </div>
+                    <div class="text-center py-4 text-slate-400 text-xs font-semibold uppercase">Loading Staff...</div>
                 }
             </div>
+        </div>
+    </div>
+}
+
+@if (uploadDocumentDrawer && selectedBusForUploadDocument) {
+    <div (click)="closeUploadDrawer()" class="fixed inset-0 bg-black/40 z-40"></div>
+    <div class="fixed bottom-0 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300">
+        <div class="bg-slate-800 border-t border-slate-700 rounded-t-3xl p-6 max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-white">Upload Documents</h2>
+                <button (click)="closeUploadDrawer()" class="text-slate-400 hover:text-white">✕</button>
+            </div>
+            <app-upload-bus-document-component
+                [isUploading]="isDocumentUploading"
+                [request]="uploadRequest"
+                (fileChanged)="onFileSelected($event.file,$event.key)"
+                (upload)="uploadBusDocuments()"
+                (close)="closeUploadDrawer()">
+            </app-upload-bus-document-component>
         </div>
     </div>
 }

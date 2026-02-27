@@ -3,6 +3,7 @@ package org.hexaware.busservice.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hexaware.busservice.enums.VerificationStatus;
 
 import java.util.List;
 import java.util.UUID;
@@ -39,11 +40,13 @@ public class Bus {
     @Column(unique = true, nullable = false)
     private String rcNumber;
 
+    private VerificationStatus status = VerificationStatus.NOT_SUBMITTED;
+
     // Documentation fields
     // at the time of document upload
-    private String registrationNumberPlateId;
-    private String registrationNumberPlateUrl;
-    private String insurancePolicyNumberUrl;
+    private String registrationNumberPlateDocId;
+    private String registrationNumberPlateDOCUrl;
+    private String insurancePolicyDocUrl;
     private String insurancePolicyDocId;
     private String rcDocid;
     private String rcDocUrl; // Registration Certificate

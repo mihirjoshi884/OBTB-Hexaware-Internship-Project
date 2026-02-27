@@ -10,6 +10,8 @@ import java.util.UUID;
 public interface ImageUploadService {
 
     public Map uploadImage(MultipartFile aadharCard, MultipartFile panCard, UUID busOperatorId) throws RuntimeException,  IOException;
+    public Map uploadBusDocuments(MultipartFile rcBook, MultipartFile insurance, MultipartFile registrationNumberPlate,UUID busOperatorId,String companyName, UUID busId) throws IOException ;
     public Map<String, String> uploadDriverLicense(MultipartFile driverLicense, UUID staffId) throws RuntimeException,  IOException;
+    void deleteFile(String publicId) throws IOException;
 
 }

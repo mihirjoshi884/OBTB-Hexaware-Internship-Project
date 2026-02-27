@@ -1,0 +1,123 @@
+<div class="space-y-6">
+    <div class="space-y-4">
+        
+        <div class="bg-slate-900 border border-slate-700 p-4 rounded-2xl">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">RC Book (Registration)</span>
+                @if (request?.rcBook) { <span class="text-[10px] bg-green-500/20 text-green-500 px-2 py-0.5 rounded">Selected</span> }
+            </div>
+
+            @if (!request?.rcBook) {
+                <div (click)="rcInput.click()" class="border-2 border-dashed border-slate-700 py-8 rounded-xl flex flex-col items-center hover:border-blue-500 hover:bg-blue-500/5 cursor-pointer transition group">
+                    <svg class="w-8 h-8 text-slate-500 group-hover:text-blue-500 mb-2 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span class="text-xs text-slate-500 group-hover:text-slate-300">Upload PDF or Image</span>
+                    <input #rcInput type="file" class="hidden" (change)="onFileChange($event, 'rcBook')" accept="image/*,application/pdf">
+                </div>
+            } @else {
+                <div class="flex items-center justify-between bg-blue-600/10 border border-blue-500/30 p-3 rounded-xl">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <div class="bg-blue-600 p-2 rounded-lg">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4.586A1 1 0 0111 2.586V7a1 1 0 001 1h4.414a1 1 0 01.707 1.707l-6 6a1 1 0 01-1.414 0l-6-6A1 1 0 014 9V4z"/></svg>
+                        </div>
+                        @if (request?.rcBook; as rcFile) {
+                            <span class="text-sm text-blue-400 truncate font-medium">
+                                {{ rcFile.name }}
+                            </span>
+                        }
+                    </div>
+                    <button (click)="removeFile('rcBook')" class="p-2 hover:bg-red-500/10 rounded-full transition text-slate-500 hover:text-red-500">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    </button>
+                </div>
+            }
+        </div>
+
+        <div class="bg-slate-900 border border-slate-700 p-4 rounded-2xl">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Insurance Policy</span>
+                @if (request?.insurance) { <span class="text-[10px] bg-green-500/20 text-green-500 px-2 py-0.5 rounded">Selected</span> }
+            </div>
+
+            @if (!request?.insurance) {
+                <div (click)="rcInput.click()" class="border-2 border-dashed border-slate-700 py-8 rounded-xl flex flex-col items-center hover:border-blue-500 hover:bg-blue-500/5 cursor-pointer transition group">
+                    <svg class="w-8 h-8 text-slate-500 group-hover:text-blue-500 mb-2 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span class="text-xs text-slate-500 group-hover:text-slate-300">Upload PDF or Image</span>
+                    <input #rcInput type="file" class="hidden" (change)="onFileChange($event, 'insurance')" accept="image/*,application/pdf">
+                </div>
+            } @else {
+                <div class="flex items-center justify-between bg-blue-600/10 border border-blue-500/30 p-3 rounded-xl">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <div class="bg-blue-600 p-2 rounded-lg">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4.586A1 1 0 0111 2.586V7a1 1 0 001 1h4.414a1 1 0 01.707 1.707l-6 6a1 1 0 01-1.414 0l-6-6A1 1 0 014 9V4z"/></svg>
+                        </div>
+                        @if (request?.insurance; as insuranceFile) {
+                            <span class="text-sm text-blue-400 truncate font-medium">
+                                {{ insuranceFile.name }}
+                            </span>
+                        }
+                    </div>
+                    <button (click)="removeFile('insurance')" class="p-2 hover:bg-red-500/10 rounded-full transition text-slate-500 hover:text-red-500">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    </button>
+                </div>
+            }
+        </div>
+
+        <div class="bg-slate-900 border border-slate-700 p-4 rounded-2xl">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Registration Number Plate</span>
+                @if (request?.registrationNumberPlate) { <span class="text-[10px] bg-green-500/20 text-green-500 px-2 py-0.5 rounded">Selected</span> }
+            </div>
+
+            @if (!request?.registrationNumberPlate) {
+                <div (click)="rcInput.click()" class="border-2 border-dashed border-slate-700 py-8 rounded-xl flex flex-col items-center hover:border-blue-500 hover:bg-blue-500/5 cursor-pointer transition group">
+                    <svg class="w-8 h-8 text-slate-500 group-hover:text-blue-500 mb-2 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span class="text-xs text-slate-500 group-hover:text-slate-300">Upload PDF or Image</span>
+                    <input #rcInput type="file" class="hidden" (change)="onFileChange($event, 'registrationNumberPlate')" accept="image/*,application/pdf">
+                </div>
+            } @else {
+                <div class="flex items-center justify-between bg-blue-600/10 border border-blue-500/30 p-3 rounded-xl">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <div class="bg-blue-600 p-2 rounded-lg">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4a2 2 0 012-2h4.586A1 1 0 0111 2.586V7a1 1 0 001 1h4.414a1 1 0 01.707 1.707l-6 6a1 1 0 01-1.414 0l-6-6A1 1 0 014 9V4z"/></svg>
+                        </div>
+                        @if (request?.registrationNumberPlate; as numberPlateFile) {
+                            <span class="text-sm text-blue-400 truncate font-medium">
+                                {{numberPlateFile.name }}
+                            </span>
+                        }
+                    </div>
+                    <button (click)="removeFile('insurance')" class="p-2 hover:bg-red-500/10 rounded-full transition text-slate-500 hover:text-red-500">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    </button>
+                </div>
+            }
+        </div>
+
+    </div>
+
+    <div class="pt-4 border-t border-slate-700 flex flex-col gap-3">
+        <button 
+            [disabled]="!request?.rcBook || !request?.insurance || !request?.registrationNumberPlate || isUploading"
+            (click)="onUploadDocuments()"
+            class="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:grayscale text-white font-bold rounded-2xl transition uppercase tracking-widest text-xs flex items-center justify-center gap-2">
+            
+            @if (isUploading) {
+                <div class="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+                <span>Uploading...</span>
+            } @else {
+                <span>Confirm and Upload Documents</span>
+            }
+        </button>
+        
+        <button [disabled]="isUploading" (click)="close.emit()" type="button" class="w-full py-4 text-slate-400 font-bold text-xs uppercase tracking-widest hover:text-white transition disabled:opacity-50">
+            Cancel
+        </button>
+    </div>
+</div>

@@ -13,8 +13,8 @@
 
     @if (!isProcessing || uploadResult) {
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl transition-all duration-500"
-             [class.opacity-50]="uploadResult" 
-             [class.pointer-events-none]="uploadResult">
+            [class.opacity-50]="uploadResult" 
+            [class.pointer-events-none]="uploadResult">
             
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-black text-white uppercase tracking-tight">Upload Documents</h2>
@@ -130,7 +130,22 @@
                         <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">PAN Preview</span>
                     </div>
                 </div>
+                <div class="flex justify-between items-center gap-3">
+                    <button (click)="prepareUpdate()" 
+                        class="flex items-center gap-2 px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 border border-amber-500/20 rounded-xl text-xs font-bold uppercase transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                        Update Documents
+                    </button>
+
+                    <button (click)="deleteDocuments()" 
+                        [disabled]="isProcessing"
+                        class="flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 rounded-xl text-xs font-bold uppercase transition-all disabled:opacity-50">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        Delete Records
+                    </button>
+                </div>
             </div>
         </div>
+
     }
 </div>

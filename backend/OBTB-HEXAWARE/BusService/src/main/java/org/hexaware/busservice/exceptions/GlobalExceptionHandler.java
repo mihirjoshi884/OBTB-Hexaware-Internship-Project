@@ -24,6 +24,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleCompanyNotFoundException(CompanyNotFoundException ex) {
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "404");
     }
+    @ExceptionHandler(BusNotFoundException.class)
+    public ResponseEntity<?> handleBusNotFoundException(BusNotFoundException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "404");
+    }
     private ResponseEntity<Object> buildResponse(HttpStatus status, String message, String errorCode) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());

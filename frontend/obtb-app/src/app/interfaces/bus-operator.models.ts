@@ -130,6 +130,7 @@ export interface BusCreationResponse {
 export interface BusFleetResponse {
     busId: string;
     busName: string;
+    status: VerificationStatus;
     registrationNumber: string;
     company: {
         companyName: string;
@@ -174,4 +175,31 @@ export interface AddBusStaffRequest {
     busId: string;
     staffName: string;
     dutyType: DutyType;
+}
+
+//bus file upload
+
+export interface BusDocumentUploadRequest {
+    ownerId: string;
+    companyId: string;
+    busId: string;
+    rcBook: File | null;
+    insurance: File | null;
+    registrationNumberPlate: File | null;
+}
+
+export interface BusDocumentUploadResponse {
+    busId: string;
+    ownerId: string;
+    companyId: string;
+    insurancePolicy: BusDocumentResponse;
+    rcBook: BusDocumentResponse; 
+    registrationNumberPlate: BusDocumentResponse;
+}
+
+export interface BusDocumentResponse {
+    docId: string;
+    docName: string;
+    url: string
+
 }

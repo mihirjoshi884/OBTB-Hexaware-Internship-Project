@@ -39,6 +39,28 @@ public class ImageUploadServiceImpl implements ImageUploadService {
     }
 
     @Override
+    public Map uploadBusDocuments(MultipartFile rcBook, MultipartFile insurance, MultipartFile registrationNumberPlate,UUID busOperatorId,String companyName, UUID busId) throws IOException {
+        Map<String, String> results = new HashMap<>();
+
+        try{
+            Map rcBookUpload = uploadToCloudinary(rcBook, "bus_operator_docs/" + busOperatorId+"/"+companyName+"/bus_docs/"+busId +"rcBook");
+            results.put("rcBookUrl", (String) rcBookUpload.get("secure_url"));
+            results.put("rcBookPublicId", (String) rcBookUpload.get("public_id"));
+
+            Map insuranceUpload = uploadToCloudinary(insurance,"bus_operator_docs/" + busOperatorId+"/"+companyName+"/bus_docs/"+busId +"insurance");
+            results.put("insuranceUrl", (String) insuranceUpload.get("secure_url"));
+            results.put("insurancePublicId", (String) insuranceUpload.get("public_id"));
+
+            Map registrationNumberPlateUpload = uploadToCloudinary(registrationNumberPlate, "bus_operator_docs/" + busOperatorId+"/"+companyName+"/bus_docs/"+busId +"registrationNumberPlate");
+            results.put("registrationNumberPlateUrl", (String) registrationNumberPlateUpload.get("secure_url"));
+            results.put("registrationNumberPlatePublicId", (String) registrationNumberPlateUpload.get("public_id"));
+            return results;
+        }catch (IOException e) {
+            throw new RuntimeException("Document upload failed", e);
+        }
+    }
+
+    @Override
     public Map<String, String> uploadDriverLicense(MultipartFile driverLicense, UUID staffId) throws RuntimeException, IOException {
         // 1. Pre-upload check to avoid unnecessary API calls
         if (driverLicense == null || driverLicense.isEmpty()) {
@@ -61,6 +83,15 @@ public class ImageUploadServiceImpl implements ImageUploadService {
             // Log the error here if you have a logger
             throw new RuntimeException("Cloudinary upload failed for staff: " + staffId, e);
         }
+    }
+
+    @Override
+    public void deleteFile(String publicId) throws IOException {
+        if (publicId == null || publicId.isEmpty()) return;
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("resource_type", "raw"); // Crucial for PDFs/Docs
+        cloudinary.uploader().destroy(publicId, params);
     }
 
     private Map uploadToCloudinary(MultipartFile file, String publicId) throws IOException {

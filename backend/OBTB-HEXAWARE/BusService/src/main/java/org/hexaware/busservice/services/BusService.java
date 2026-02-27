@@ -5,9 +5,7 @@ import org.hexaware.busservice.dtos.*;
 import org.hexaware.busservice.dtos.busDtos.*;
 import org.hexaware.busservice.dtos.companyDtos.CompanyCreationRequest;
 import org.hexaware.busservice.dtos.companyDtos.CompanyCreationResponse;
-import org.hexaware.busservice.dtos.documentDtos.DocumentResponse;
-import org.hexaware.busservice.dtos.documentDtos.DocumentUploadRequest;
-import org.hexaware.busservice.dtos.documentDtos.DocumentUploadResponse;
+import org.hexaware.busservice.dtos.documentDtos.*;
 import org.hexaware.busservice.dtos.staffDtos.AddBusStaffRequest;
 import org.hexaware.busservice.dtos.staffDtos.BusStaffCreationRequest;
 import org.hexaware.busservice.dtos.staffDtos.BusStaffCreationResponse;
@@ -21,6 +19,7 @@ import java.util.UUID;
 public interface BusService {
 
     public ResponseDto<DocumentUploadResponse> uploadBusOperatorDocument(MultipartFile aadharCard, MultipartFile panCard, DocumentUploadRequest request) throws IOException;
+    public ResponseDto<BusDocumentUploadResponse> uploadBusDocuments(BusDocumentUploadRequest request, MultipartFile rcBook,MultipartFile insurance,MultipartFile registrationNumberPlate)throws IOException;
     public ResponseDto<DocumentResponse> getDocumentsByUserId(UUID userId);
     public ResponseDto<CompanyCreationResponse> createCompany(CompanyCreationRequest companyCreationRequest);
     public ResponseDto<BusTemplateCreationResponse> saveBusTemplate(BusTemplateCreationRequest busTemplateCreationRequest);
@@ -32,4 +31,9 @@ public interface BusService {
     public ResponseDto<List<BusStaffResponse>> getAllExistingBusStaffs(UUID companyId);
     public ResponseDto<BusStaffResponse> getBusStaff(UUID id);
     public ResponseDto<BusStaffResponse> updateBusStaff(AddBusStaffRequest request);
+    public ResponseDto<BusDocumentUploadResponse> getBusDocuments(UUID busId);
+    public ResponseDto<BusDocumentUploadResponse> updateBusDocuments(UUID busId, MultipartFile rc, MultipartFile ins, MultipartFile plate) throws IOException;
+    public ResponseDto<String> deleteBusDocuments(UUID busId) throws IOException;
+    public ResponseDto<DocumentUploadResponse> updateOperatorDocuments(UUID userId, MultipartFile aadhar, MultipartFile pan) throws IOException;
+    public ResponseDto<String> deleteOperatorDocuments(UUID userId) throws IOException;
 }

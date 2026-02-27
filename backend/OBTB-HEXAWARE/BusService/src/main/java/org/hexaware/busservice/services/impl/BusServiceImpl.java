@@ -6,9 +6,7 @@ import org.hexaware.busservice.dtos.busDtos.*;
 import org.hexaware.busservice.dtos.companyDtos.CompanyCreationRequest;
 import org.hexaware.busservice.dtos.companyDtos.CompanyCreationResponse;
 import org.hexaware.busservice.dtos.companyDtos.CompanySummaryDTO;
-import org.hexaware.busservice.dtos.documentDtos.DocumentResponse;
-import org.hexaware.busservice.dtos.documentDtos.DocumentUploadRequest;
-import org.hexaware.busservice.dtos.documentDtos.DocumentUploadResponse;
+import org.hexaware.busservice.dtos.documentDtos.*;
 import org.hexaware.busservice.dtos.staffDtos.AddBusStaffRequest;
 import org.hexaware.busservice.dtos.staffDtos.BusStaffCreationRequest;
 import org.hexaware.busservice.dtos.staffDtos.BusStaffCreationResponse;
@@ -17,6 +15,7 @@ import org.hexaware.busservice.entities.*;
 import org.hexaware.busservice.enums.DutyType;
 import org.hexaware.busservice.enums.StaffType;
 import org.hexaware.busservice.enums.VerificationStatus;
+import org.hexaware.busservice.exceptions.BusNotFoundException;
 import org.hexaware.busservice.exceptions.BusTypeMismatchException;
 import org.hexaware.busservice.exceptions.CompanyNotFoundException;
 import org.hexaware.busservice.exceptions.DocumentsNotFoundException;
@@ -89,6 +88,41 @@ public class BusServiceImpl implements BusService {
                 savedBusOperator.getVerifiedAt()
         );
         return new ResponseDto<DocumentUploadResponse>(documentResponse,200,"Document uploaded");
+    }
+
+    @Override
+    public ResponseDto<BusDocumentUploadResponse> uploadBusDocuments(BusDocumentUploadRequest request,
+                                                                     MultipartFile rcBook,
+                                                                     MultipartFile insurance,
+                                                                     MultipartFile registrationNumberPlate)
+            throws IOException {
+
+
+        var bus = busRepository.findById(request.busId()).orElseThrow(() -> new BusNotFoundException("Bus not found with the id: " + request.busId()));
+        var company = companyRepository.findById(request.companyId()).orElseThrow(()-> new CompanyNotFoundException("Company not found with the id: " + request.companyId()));
+        var imageUploadResponse = imageUploadService.uploadBusDocuments(
+                rcBook, insurance, registrationNumberPlate, request.ownerId(),company.getCompanyName(),request.busId()
+        );
+        bus.setRcDocUrl((String)  imageUploadResponse.get("rcBookUrl"));
+        bus.setRcDocid((String) imageUploadResponse.get("rcBookPublicId"));
+        bus.setInsurancePolicyDocUrl((String)  imageUploadResponse.get("insuranceUrl"));
+        bus.setInsurancePolicyDocId((String) imageUploadResponse.get("insurancePolicyNumber"));
+        bus.setRegistrationNumberPlateDOCUrl((String)  imageUploadResponse.get("registrationNumberPlateUrl"));
+        bus.setRegistrationNumberPlateDocId((String)  imageUploadResponse.get("registrationNumberPlatePublicId"));
+        bus.setStatus(VerificationStatus.PENDING);
+        var updatedBus = busRepository.save(bus);
+        var insurancePolicyRes = new BusDocumentResponse(updatedBus.getInsurancePolicyDocId(),"insurance policy",updatedBus.getInsurancePolicyDocUrl());
+        var rcBookRes = new BusDocumentResponse(updatedBus.getRcDocid(),"registration book",updatedBus.getRegistrationNumberPlateDOCUrl());
+        var regNumbPlate = new BusDocumentResponse(updatedBus.getRegistrationNumberPlateDocId(),"registration number",updatedBus.getRegistrationNumberPlateDOCUrl());
+        var busDocumentUploadResponse = new BusDocumentUploadResponse(
+                updatedBus.getBusId(),
+                updatedBus.getCompany().getOwnerId(),
+                updatedBus.getCompany().getCompanyId(),
+                insurancePolicyRes,
+                rcBookRes,
+                regNumbPlate
+        );
+        return new ResponseDto<>(busDocumentUploadResponse,200,"Document uploaded");
     }
 
     @Override
@@ -242,6 +276,7 @@ public class BusServiceImpl implements BusService {
                 .map(bus -> new BusFleetResponse(
                         bus.getBusId(),
                         bus.getBusName(),
+                        bus.getStatus(),
                         bus.getRegistrationNumber(),
                         new CompanySummaryDTO(bus.getCompany().getCompanyName(), bus.getCompany().getCompanyId()),
                         new TemplateSummaryDTO(bus.getTemplate().getTemplateName(),
@@ -366,5 +401,109 @@ public class BusServiceImpl implements BusService {
                 savedStaff.getBus().getBusId()
         );
         return new  ResponseDto<>(response, 200, "Bus staff updated successfully");
+    }
+
+    @Override
+    public ResponseDto<BusDocumentUploadResponse> getBusDocuments(UUID busId) {
+        var fetchedBus = busRepository.findById(busId)
+                .orElseThrow(() -> new BusNotFoundException("Bus not found"));
+        var insurancePolicyRes = new BusDocumentResponse(fetchedBus.getInsurancePolicyDocId(),"insurance policy",fetchedBus.getInsurancePolicyDocUrl());
+        var rcBookRes = new BusDocumentResponse(fetchedBus.getRcDocid(),"registration book",fetchedBus.getRegistrationNumberPlateDOCUrl());
+        var regNumbPlate = new BusDocumentResponse(fetchedBus.getRegistrationNumberPlateDocId(),"registration number",fetchedBus.getRegistrationNumberPlateDOCUrl());
+        var busDocumentUploadResponse = new BusDocumentUploadResponse(
+                fetchedBus.getBusId(),
+                fetchedBus.getCompany().getOwnerId(),
+                fetchedBus.getCompany().getCompanyId(),
+                insurancePolicyRes,
+                rcBookRes,
+                regNumbPlate
+        );
+        return new ResponseDto<>(busDocumentUploadResponse,200,"Document uploaded");
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto<BusDocumentUploadResponse> updateBusDocuments(UUID busId, MultipartFile rc, MultipartFile ins, MultipartFile plate) throws IOException {
+        Bus bus = busRepository.findById(busId).orElseThrow(() -> new BusNotFoundException("Bus not found"));
+
+        var uploadRes = imageUploadService.uploadBusDocuments(
+                rc, ins, plate, bus.getCompany().getOwnerId(), bus.getCompany().getCompanyName(), busId
+        );
+
+        if (rc != null) {
+            bus.setRcDocUrl((String) uploadRes.get("rcBookUrl"));
+            bus.setRcDocid((String) uploadRes.get("rcBookPublicId"));
+        }
+        if (ins != null) {
+            bus.setInsurancePolicyDocUrl((String) uploadRes.get("insuranceUrl"));
+            bus.setInsurancePolicyDocId((String) uploadRes.get("insurancePublicId"));
+        }
+        if (plate != null) {
+            bus.setRegistrationNumberPlateDOCUrl((String) uploadRes.get("registrationNumberPlateUrl"));
+            bus.setRegistrationNumberPlateDocId((String) uploadRes.get("registrationNumberPlatePublicId"));
+        }
+
+        busRepository.save(bus);
+        return getBusDocuments(busId);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto<String> deleteBusDocuments(UUID busId) throws IOException {
+        Bus bus = busRepository.findById(busId).orElseThrow(() -> new BusNotFoundException("Bus not found"));
+
+        if (bus.getRcDocid() != null) imageUploadService.deleteFile(bus.getRcDocid());
+        if (bus.getInsurancePolicyDocId() != null) imageUploadService.deleteFile(bus.getInsurancePolicyDocId());
+        if (bus.getRegistrationNumberPlateDocId() != null) imageUploadService.deleteFile(bus.getRegistrationNumberPlateDocId());
+
+        bus.setRcDocUrl(null); bus.setRcDocid(null);
+        bus.setInsurancePolicyDocUrl(null); bus.setInsurancePolicyDocId(null);
+        bus.setRegistrationNumberPlateDOCUrl(null); bus.setRegistrationNumberPlateDocId(null);
+
+        busRepository.save(bus);
+        return new ResponseDto<>("Bus documents deleted", 200, "Deleted");
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto<DocumentUploadResponse> updateOperatorDocuments(UUID userId, MultipartFile aadhar, MultipartFile pan) throws IOException {
+        BusOperator operator = busOperatorRepository.findByUserId(userId)
+                .orElseThrow(() -> new DocumentsNotFoundException("Operator not found"));
+
+        // Use existing method to upload.
+        // Note: Your ImageUploadServiceImpl uses 'overwrite: true', so it replaces the file at the same PublicID
+        var results = imageUploadService.uploadImage(aadhar, pan, operator.getBusOperatorId());
+
+        if (aadhar != null && !aadhar.isEmpty()) {
+            operator.setAadharUrl((String) results.get("aadharUrl"));
+            operator.setAadharFileId((String) results.get("aadharPublicId"));
+        }
+        if (pan != null && !pan.isEmpty()) {
+            operator.setPanUrl((String) results.get("panUrl"));
+            operator.setPanFileId((String) results.get("panPublicId"));
+        }
+
+        operator.setStatus(VerificationStatus.PENDING);
+        busOperatorRepository.save(operator);
+
+        return new ResponseDto<>(null, 200, "Operator documents updated");
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto<String> deleteOperatorDocuments(UUID userId) throws IOException {
+        BusOperator operator = busOperatorRepository.findByUserId(userId).get();
+
+        if (operator.getAadharFileId() != null) imageUploadService.deleteFile(operator.getAadharFileId());
+        if (operator.getPanFileId() != null) imageUploadService.deleteFile(operator.getPanFileId());
+
+        operator.setAadharUrl(null);
+        operator.setAadharFileId(null);
+        operator.setPanUrl(null);
+        operator.setPanFileId(null);
+        operator.setStatus(VerificationStatus.NOT_SUBMITTED);
+
+        busOperatorRepository.save(operator);
+        return new ResponseDto<>("Operator documents cleared", 200, "Deleted");
     }
 }

@@ -4,6 +4,7 @@ import org.hexaware.busservice.dtos.*;
 import org.hexaware.busservice.dtos.busDtos.BusCreationRequest;
 import org.hexaware.busservice.dtos.busDtos.BusTemplateCreationRequest;
 import org.hexaware.busservice.dtos.companyDtos.CompanyCreationRequest;
+import org.hexaware.busservice.dtos.documentDtos.BusDocumentUploadRequest;
 import org.hexaware.busservice.dtos.documentDtos.DocumentUploadRequest;
 import org.hexaware.busservice.dtos.staffDtos.AddBusStaffRequest;
 import org.hexaware.busservice.dtos.staffDtos.BusStaffCreationRequest;
@@ -33,7 +34,7 @@ public class PrivateController {
 
     //http://localhost:8086/bus-api/private/v1/uploads-documents
     //http://localhost:9090/bus/bus-api/private/v1/uploads-documents
-    @PostMapping(value = "/upload-documents", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/operator/upload-documents", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadBusOperatorDocument(
             @RequestPart("data") DocumentUploadRequest request,
             @RequestPart("aadharCard") MultipartFile aadharCard,
@@ -48,13 +49,57 @@ public class PrivateController {
         ResponseDto result = busService.uploadBusOperatorDocument(aadharCard, panCard, request);
         return ResponseEntity.status(result.getStatus()).body(result);
     }
-
-    @GetMapping("/documents/{userId}")
+    @GetMapping("/operator/documents/{userId}")
     public ResponseEntity<?> getBusOperatorDocuments(@PathVariable UUID userId) {
         // This call should fetch the DocumentUploadResponse (URLs and Status) from your DB
         ResponseDto result = busService.getDocumentsByUserId(userId);
         return ResponseEntity.status(result.getStatus()).body(result);
     }
+
+    @PatchMapping(value = "/operator/documents/update/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateOperatorDocuments(
+            @PathVariable UUID userId,
+            @RequestPart(value = "aadharCard", required = false) MultipartFile aadharCard,
+            @RequestPart(value = "panCard", required = false) MultipartFile panCard) throws IOException {
+        return ResponseEntity.ok(busService.updateOperatorDocuments(userId, aadharCard, panCard));
+    }
+
+    @DeleteMapping("/operator/documents/{userId}")
+    public ResponseEntity<?> deleteOperatorDocuments(@PathVariable UUID userId) throws IOException {
+        return ResponseEntity.ok(busService.deleteOperatorDocuments(userId));
+    }
+
+    @PostMapping(value = "/bus/upload-documents", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadBusDocuments(
+            @RequestPart("data") BusDocumentUploadRequest request,
+            @RequestPart("rcBook") MultipartFile rcBook,
+            @RequestPart("insurance") MultipartFile insurance,
+            @RequestPart("registrationNumberPlate") MultipartFile registrationNumberPlate
+            ) throws IOException {
+
+        var response = busService.uploadBusDocuments(request, rcBook, insurance, registrationNumberPlate);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+    @GetMapping("/bus/documents/{busId}")
+    public ResponseEntity<?> getBusDocuments(@PathVariable UUID busId) {
+        return ResponseEntity.ok(busService.getBusDocuments(busId));
+    }
+
+    @PatchMapping(value = "/bus/documents/update/{busId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateBusDocuments(
+            @PathVariable UUID busId,
+            @RequestPart(value = "rcBook", required = false) MultipartFile rcBook,
+            @RequestPart(value = "insurance", required = false) MultipartFile insurance,
+            @RequestPart(value = "registrationNumberPlate", required = false) MultipartFile registrationNumberPlate) throws IOException {
+        return ResponseEntity.ok(busService.updateBusDocuments(busId, rcBook, insurance, registrationNumberPlate));
+    }
+
+    @DeleteMapping("/bus/documents/{busId}")
+    public ResponseEntity<?> deleteBusDocuments(@PathVariable UUID busId) throws IOException {
+        return ResponseEntity.ok(busService.deleteBusDocuments(busId));
+    }
+
+
 
     private boolean isPdf(MultipartFile file) {
         return file != null && "application/pdf".equals(file.getContentType());
@@ -141,5 +186,7 @@ public class PrivateController {
         var response = busService.updateBusStaff(request);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
+
+
 
 }

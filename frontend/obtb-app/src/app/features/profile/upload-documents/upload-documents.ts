@@ -91,19 +91,40 @@ export class UploadDocuments {
       }
     })
   }
-  resetForm() {
-  // 1. Hide the "Documents Submitted" dashboard and unlock the form
-    this.uploadResult = null;
+  prepareUpdate() {
+    if (confirm("This will allow you to select new files to update your records. Continue?")) {
+      this.uploadResult = null; 
+      this.cdr.detectChanges();
+    }
+  }
 
-    // 2. Clear the text data
+  deleteDocuments() {
+    if (!confirm("Are you sure you want to delete these document records? This action cannot be undone.")) {
+      return;
+    }
+
+    this.isProcessing = true;
+    this.busService.deleteOperatorDocuments(this.userId).subscribe({
+      next: () => {
+        alert("Documents deleted successfully");
+        this.resetForm(); // Completely clears the state
+        this.isProcessing = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error("Delete failed", error);
+        alert("Failed to delete documents. Please try again.");
+        this.isProcessing = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+  resetForm() {
+    this.uploadResult = null;
     this.aadharNumber = '';
     this.panNumber = '';
-
-    // 3. Clear the file references
     this.aadharCard = null;
     this.panCard = null;
-
-    // 4. Force UI refresh
     this.cdr.detectChanges();
   }
 }
