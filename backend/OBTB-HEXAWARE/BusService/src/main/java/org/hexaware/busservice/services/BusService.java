@@ -23,17 +23,18 @@ public interface BusService {
     public ResponseDto<DocumentResponse> getDocumentsByUserId(UUID userId);
     public ResponseDto<CompanyCreationResponse> createCompany(CompanyCreationRequest companyCreationRequest);
     public ResponseDto<BusTemplateCreationResponse> saveBusTemplate(BusTemplateCreationRequest busTemplateCreationRequest);
-    public ResponseDto<BusCreationResponse> createBus(BusCreationRequest busCreationRequest);
+    public ResponseDto<BusFleetResponse> createBus(BusCreationRequest busCreationRequest);
     public ResponseDto<CompanyCreationResponse> getCompanyDetail(UUID userId);
     public ResponseDto<List<BusTemplateResponse>> getBusTemplates(UUID userId);
     public ResponseDto<List<BusFleetResponse>> getAllExistingCompanyBuses(UUID companyId);
     public ResponseDto<BusStaffCreationResponse> createBusStaff(BusStaffCreationRequest request,MultipartFile driverLicense);
     public ResponseDto<List<BusStaffResponse>> getAllExistingBusStaffs(UUID companyId);
     public ResponseDto<BusStaffResponse> getBusStaff(UUID id);
-    public ResponseDto<BusStaffResponse> updateBusStaff(AddBusStaffRequest request);
+    public ResponseDto<BusStaffResponse> updateBusStaffList(List<AddBusStaffRequest> requests);
     public ResponseDto<BusDocumentUploadResponse> getBusDocuments(UUID busId);
     public ResponseDto<BusDocumentUploadResponse> updateBusDocuments(UUID busId, MultipartFile rc, MultipartFile ins, MultipartFile plate) throws IOException;
     public ResponseDto<String> deleteBusDocuments(UUID busId) throws IOException;
+    public ResponseDto<BusStaffResponse> updateStaffLicense(UUID staffId, MultipartFile driverLicense) throws IOException;
     public ResponseDto<DocumentUploadResponse> updateOperatorDocuments(UUID userId, MultipartFile aadhar, MultipartFile pan) throws IOException;
     public ResponseDto<String> deleteOperatorDocuments(UUID userId) throws IOException;
 }
