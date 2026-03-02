@@ -188,7 +188,7 @@ public class BusServiceImpl implements BusService {
     }
 
     @Override
-    public ResponseDto<BusCreationResponse> createBus(BusCreationRequest busCreationRequest) {
+    public ResponseDto<BusFleetResponse> createBus(BusCreationRequest busCreationRequest) {
         // 1. Fetch references for Company and Template
         // Note: getReferenceById is better than findById here because it creates a
         // Proxy. We only need the IDs to save the foreign key, avoiding an extra DB SELECT.
@@ -215,11 +215,20 @@ public class BusServiceImpl implements BusService {
         Bus savedBus = busRepository.save(bus);
 
         // 4. Map saved entity back to the Response DTO
-        BusCreationResponse busResponse = new BusCreationResponse(
+        BusFleetResponse busResponse = new BusFleetResponse(
                 savedBus.getBusId(),
                 savedBus.getBusName(),
-                savedBus.getCompany().getCompanyName(),
-                savedBus.getTemplate().getTemplateName()
+                savedBus.getStatus(),
+                savedBus.getRegistrationNumber(),
+                new CompanySummaryDTO(
+                        savedBus.getCompany().getCompanyName(),
+                        savedBus.getCompany().getCompanyId()
+                ),
+                new TemplateSummaryDTO(
+                        savedBus.getTemplate().getTemplateName(),
+                        savedBus.getTemplate().getBusType().toString(),
+                        savedBus.getTemplate().getLayoutData()
+                )
         );
 
         return new ResponseDto<>(busResponse, 201, "Bus skeleton created successfully. Please upload documents next.");
@@ -362,7 +371,9 @@ public class BusServiceImpl implements BusService {
                                 staff.getDutyType(),
                                 staff.getName(),
                                 // SAFE CHECK: If bus is null, return null (or a default UUID)
-                                staff.getBus() != null ? staff.getBus().getBusId() : null
+                                staff.getBus() != null ? staff.getBus().getBusId() : null,
+                                staff.getDriverLicenseUrl(),
+                                staff.getDriverLicenseNumber()
                         )
                 ).toList();
 
@@ -377,30 +388,66 @@ public class BusServiceImpl implements BusService {
     public ResponseDto<BusStaffResponse> getBusStaff(UUID id) {
         var staff = busStaffRepository.findById(id).orElseThrow(() -> new RuntimeException("Staff not found with ID: " + id));
         var response = new BusStaffResponse(
-          staff.getStaffType(),
-          staff.getStaffId(),
-          staff.getDutyType(),
-          staff.getName(),
-          staff.getBus().getBusId()
+                staff.getStaffType(),
+                staff.getStaffId(),
+                staff.getDutyType(),
+                staff.getName(),
+                staff.getBus().getBusId(),
+                staff.getDriverLicenseUrl(),
+                staff.getDriverLicenseNumber()
         );
         return new ResponseDto<>(response, 200, "Bus staff retrieved successfully");
     }
 
+    // BusServiceImpl.java
+
     @Override
-    public ResponseDto<BusStaffResponse> updateBusStaff(AddBusStaffRequest request) {
-        var staff = busStaffRepository.findById(request.staffId()).orElseThrow(()-> new RuntimeException("Staff not found with ID: " + request.staffId()) );
-        var bus = busRepository.findById(request.busId()).orElseThrow(()-> new RuntimeException("Bus not found with ID: " + request.busId()));
-        staff.setBus(bus);
-        staff.setDutyType(request.dutyType());
-        var savedStaff = busStaffRepository.save(staff);
-        var response = new BusStaffResponse(
-                savedStaff.getStaffType(),
-                savedStaff.getStaffId(),
-                savedStaff.getDutyType(),
-                savedStaff.getName(),
-                savedStaff.getBus().getBusId()
+    @Transactional
+    public ResponseDto<BusStaffResponse> updateBusStaffList(List<AddBusStaffRequest> requests) {
+        // 1. Guard clause: If the list is empty, return success immediately
+        if (requests == null || requests.isEmpty()) {
+            return new ResponseDto<>(null, 200, "No staff updates required");
+        }
+
+        BusStaff lastProcessedStaff = null;
+
+        for (AddBusStaffRequest req : requests) {
+            if (req.staffId() == null) continue;
+
+            var staff = busStaffRepository.findById(req.staffId())
+                    .orElseThrow(() -> new RuntimeException("Staff not found: " + req.staffId()));
+
+            if (req.busId() == null) {
+                // Unassigning staff from bus
+                staff.setBus(null);
+                staff.setDutyType(null);
+            } else {
+                // Assigning staff to bus
+                var bus = busRepository.findById(req.busId())
+                        .orElseThrow(() -> new RuntimeException("Bus not found: " + req.busId()));
+                staff.setBus(bus);
+                staff.setDutyType(req.dutyType());
+            }
+            lastProcessedStaff = busStaffRepository.save(staff);
+        }
+
+        // 2. Handle the case where the list had items but none were valid
+        if (lastProcessedStaff == null) {
+            return new ResponseDto<>(null, 200, "Processed but no records were changed");
+        }
+
+        // 3. Return the last updated staff record as per your existing structure
+        var responseBody = new BusStaffResponse(
+                lastProcessedStaff.getStaffType(),
+                lastProcessedStaff.getStaffId(),
+                lastProcessedStaff.getDutyType(),
+                lastProcessedStaff.getName(),
+                lastProcessedStaff.getBus() != null ? lastProcessedStaff.getBus().getBusId() : null,
+                lastProcessedStaff.getDriverLicenseUrl(),
+                lastProcessedStaff.getDriverLicenseNumber()
         );
-        return new  ResponseDto<>(response, 200, "Bus staff updated successfully");
+
+        return new ResponseDto<>(responseBody, 200, "Staff assignments updated successfully");
     }
 
     @Override
@@ -450,18 +497,57 @@ public class BusServiceImpl implements BusService {
     @Override
     @Transactional
     public ResponseDto<String> deleteBusDocuments(UUID busId) throws IOException {
-        Bus bus = busRepository.findById(busId).orElseThrow(() -> new BusNotFoundException("Bus not found"));
+        Bus bus = busRepository.findById(busId)
+                .orElseThrow(() -> new BusNotFoundException("Bus not found"));
 
+        // 1. Delete files from Cloudinary/Service
         if (bus.getRcDocid() != null) imageUploadService.deleteFile(bus.getRcDocid());
         if (bus.getInsurancePolicyDocId() != null) imageUploadService.deleteFile(bus.getInsurancePolicyDocId());
         if (bus.getRegistrationNumberPlateDocId() != null) imageUploadService.deleteFile(bus.getRegistrationNumberPlateDocId());
 
-        bus.setRcDocUrl(null); bus.setRcDocid(null);
-        bus.setInsurancePolicyDocUrl(null); bus.setInsurancePolicyDocId(null);
-        bus.setRegistrationNumberPlateDOCUrl(null); bus.setRegistrationNumberPlateDocId(null);
+        // 2. Clear document references
+        bus.setRcDocUrl(null);
+        bus.setRcDocid(null);
+        bus.setInsurancePolicyDocUrl(null);
+        bus.setInsurancePolicyDocId(null);
+        bus.setRegistrationNumberPlateDOCUrl(null);
+        bus.setRegistrationNumberPlateDocId(null);
+
+        // 3. FIX: Reset the status so the UI shows "Upload" instead of "Edit"
+        bus.setStatus(VerificationStatus.NOT_SUBMITTED);
 
         busRepository.save(bus);
         return new ResponseDto<>("Bus documents deleted", 200, "Deleted");
+    }
+
+
+    @Override
+    @Transactional
+    public ResponseDto<BusStaffResponse> updateStaffLicense(UUID staffId, MultipartFile driverLicense) throws IOException {
+        // 1. Find the staff member
+        BusStaff staff = busStaffRepository.findById(staffId)
+                .orElseThrow(() -> new RuntimeException("Staff not found"));
+
+        // 2. Upload new license (ImageUploadService handles replacing if FileId exists)
+        var uploadResults = imageUploadService.uploadDriverLicense(driverLicense, staffId);
+
+        // 3. Update staff details
+        staff.setDriverLicenseUrl(uploadResults.get("driverLicenseUrl"));
+        staff.setDriverLicenseDocId(uploadResults.get("driverLicensePublicId"));
+
+        var updatedStaffDoc  = busStaffRepository.save(staff);
+        UUID busId = (updatedStaffDoc.getBus() != null) ? updatedStaffDoc.getBus().getBusId() : null;
+        var response = new BusStaffResponse(
+                updatedStaffDoc.getStaffType(),
+                updatedStaffDoc.getStaffId(),
+                updatedStaffDoc.getDutyType(),
+                updatedStaffDoc.getName(),
+                busId,
+                updatedStaffDoc.getDriverLicenseUrl(),
+                updatedStaffDoc.getDriverLicenseNumber()
+        );
+        // 4. Return updated response
+        return new ResponseDto<>(response, 200, "License updated successfully");
     }
 
     @Override
