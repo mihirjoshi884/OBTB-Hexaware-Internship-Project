@@ -95,17 +95,27 @@ public class ImageUploadServiceImpl implements ImageUploadService {
     }
 
     private Map uploadToCloudinary(MultipartFile file, String publicId) throws IOException {
-        // Check if the file is a PDF
         String contentType = file.getContentType();
-        if (contentType == null || !contentType.equalsIgnoreCase("application/pdf")) {
-            throw new IllegalArgumentException("Only PDF files are allowed! Received: " + contentType);
+
+        // 1. Expanded Validation Logic
+        boolean isAllowed = contentType != null && (
+                contentType.equalsIgnoreCase("application/pdf") ||
+                        contentType.equalsIgnoreCase("image/png") ||
+                        contentType.equalsIgnoreCase("image/jpeg")
+        );
+
+        if (!isAllowed) {
+            throw new IllegalArgumentException("Only PDF, PNG, or JPG files are allowed! Received: " + contentType);
         }
 
         Map<String, Object> params = new HashMap<>();
         params.put("public_id", publicId);
         params.put("overwrite", true);
-        params.put("flags","attachment:false");
-        params.put("resource_type", "raw");
+        params.put("flags", "attachment:false");
+
+        // 2. CRITICAL: Change "raw" to "auto"
+        // "auto" allows Cloudinary to detect if it's an image or a PDF automatically
+        params.put("resource_type", "auto");
 
         return this.cloudinary.uploader().upload(file.getBytes(), params);
     }
