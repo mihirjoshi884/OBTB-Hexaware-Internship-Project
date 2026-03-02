@@ -31,6 +31,7 @@ export class ManageStaffModalComponent implements OnInit {
 
     selectedDrivers: AddBusStaffRequest[] = [];
     selectedConductors: AddBusStaffRequest[] = [];
+    removedStaffIds: string[] = [];
 
     activeSelectionType: string | null = null; 
     driverDropdownOpen = false;
@@ -138,21 +139,59 @@ export class ManageStaffModalComponent implements OnInit {
         this.conductorDropdownOpen = false;
     }
 
-    removeDriver(staffId: string): void {
-        this.selectedDrivers = this.selectedDrivers.filter(s => s.staffId !== staffId);
-    }
+
 
     removeConductor(staffId: string): void {
+        // 1. Remove from the local UI array
         this.selectedConductors = this.selectedConductors.filter(s => s.staffId !== staffId);
+        
+        // 2. IMPORTANT: Add to removal list so backend sets busId = null
+        if (!this.removedStaffIds.includes(staffId)) {
+            this.removedStaffIds.push(staffId);
+        }
+    }
+
+    removeDriver(staffId: string): void {
+        // 1. Remove from the local UI array
+        this.selectedDrivers = this.selectedDrivers.filter(s => s.staffId !== staffId);
+        
+        // 2. Add to removal list so backend sets busId = null
+        if (!this.removedStaffIds.includes(staffId)) {
+            this.removedStaffIds.push(staffId);
+        }
     }
 
     saveAssignments(): void {
-        this.isSaving = true;
-        const allAssignments = [...this.selectedDrivers, ...this.selectedConductors];
-        this.save.emit(allAssignments);
-        
-        // Brief timeout to show "Saving..." state before modal likely closes via parent
-        setTimeout(() => { this.isSaving = false; }, 500);
+        // 1. Map all currently selected staff (Drivers AND Conductors)
+        const updates = [
+            ...this.selectedDrivers,
+            ...this.selectedConductors
+        ].map(staff => ({
+            staffId: staff.staffId,
+            busId: this.busId,
+            dutyType: staff.dutyType,
+            staffName: staff.staffName
+        }));
+
+        // 2. Map removals (set busId and dutyType to null)
+        const removals = this.removedStaffIds.map(id => ({
+            staffId: id,
+            busId: null,
+            dutyType: null,
+            staffName: '' 
+        }));
+
+        const finalPayload = [...updates, ...removals];
+
+        // 3. Prevent sending an empty array to the backend
+        if (finalPayload.length === 0) {
+            console.warn('No changes to save.');
+            this.closeModalEmit();
+            return;
+        }
+
+        // 4. Emit the populated list
+        this.save.emit(finalPayload as AddBusStaffRequest[]);
     }
 
     closeModalEmit(): void {

@@ -9,6 +9,9 @@
     "clear-cache": "rimraf .angular/cache node_modules/.vite"
   },
   "private": true,
+  "overrides": {
+    "serialize-javascript": "^7.0.3"
+  },
   "dependencies": {
     "@angular-devkit/build-angular": "^21.1.0",
     "@angular/animations": "^21.1.0",

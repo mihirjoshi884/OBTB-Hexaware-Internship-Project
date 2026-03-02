@@ -237,6 +237,17 @@
                                 </div>
                             }
                         }
+                        @case('add-routes'){
+                            @if(user.roleName === 'BUS_OPERATOR'){
+                                <div class="annimate-in slide-in-from-bottom-4 duration-500">
+                                    <app-route-management-component
+                                        [userId]="user.userId"
+                                        [companyId]="companyId"
+                                    >
+                                    </app-route-management-component>
+                                </div>
+                            }
+                        }
                     } 
                 </div> </div>
         }

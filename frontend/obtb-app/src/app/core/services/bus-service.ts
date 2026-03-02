@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment.development';
 import {
   AddBusStaffRequest,
   BusCreationRequest,
-  BusCreationResponse,
   BusDocumentUploadRequest,
   BusDocumentUploadResponse,
   BusFleetResponse,
@@ -20,7 +19,9 @@ import {
   DocumentUploadRequest,
   DocumentUploadResponse,
   LayoutLookupResponse,
-  ResponseDto
+  ResponseDto,
+  RouteRequest,
+  RouteResponse
 } from '../../interfaces/bus-operator.models';
 
 
@@ -94,8 +95,8 @@ export class BusService {
   createBusTemplate(requestData: BusTemplateCreationRequest): Observable<ResponseDto<BusTemplateCreationResponse>>{
     return this.http.post<ResponseDto<BusTemplateCreationResponse>>(`${this.busServiceBaseUrl}/bus/create-template`,requestData);
   }
-  createBus(requestData: BusCreationRequest): Observable<ResponseDto<BusCreationResponse>>{
-    return this.http.post<ResponseDto<BusCreationResponse>>(`${this.busServiceBaseUrl}/bus/create-bus`,requestData);
+  createBus(requestData: BusCreationRequest): Observable<ResponseDto<BusFleetResponse>>{
+      return this.http.post<ResponseDto<BusFleetResponse>>(`${this.busServiceBaseUrl}/bus/create-bus`,requestData);
   }
   fetchBusTemplate(userId: string): Observable<ResponseDto<BusTemplate[]>>{
     return this.http.get<ResponseDto<BusTemplate[]>>(`${this.busServiceBaseUrl}/bus/get-bus-templates/${userId}`);
@@ -103,14 +104,23 @@ export class BusService {
   fetchBuses(companyId: string): Observable<ResponseDto<BusFleetResponse[]>>{
     return this.http.get<ResponseDto<BusFleetResponse[]>>(`${this.busServiceBaseUrl}/bus/get-buses/${companyId}`);
   }
+  updateStaffLicense(staffId: string, licenseFile: File): Observable<ResponseDto<BusStaffResponse>> {
+    const formData = new FormData();
+    formData.append('driverLicense', licenseFile);
+    
+    return this.http.patch<ResponseDto<BusStaffResponse>>(
+      `${this.busServiceBaseUrl}/bus/staff/${staffId}/update-license`,
+      formData
+    );
+  }
   fetchCompanyStaff(companyId: string): Observable<ResponseDto<BusStaffResponse[]>>{
     return this.http.get<ResponseDto<BusStaffResponse[]>>(`${this.busServiceBaseUrl}/bus/staff/get-all-staffs/${companyId}`);
   }
   createBusStaff(formData: FormData): Observable<ResponseDto<BusStaffCreationResponse>>{
     return this.http.post<ResponseDto<BusStaffCreationResponse>>(`${this.busServiceBaseUrl}/bus/staff/create-staff`, formData);
   }
-  updateBusStaff(request: AddBusStaffRequest): Observable<any> {
-      return this.http.patch(`${this.busServiceBaseUrl}/bus/staff/update-staff`, request);
+  updateBusStaff(requests: AddBusStaffRequest[]): Observable<any> {
+      return this.http.patch(`${this.busServiceBaseUrl}/bus/staff/update-staff`, requests);
   }
   uploadBusDocuments(request: BusDocumentUploadRequest): Observable<ResponseDto<BusDocumentUploadResponse>>{
     const formData = new FormData();
@@ -154,6 +164,20 @@ export class BusService {
       `${this.busServiceBaseUrl}/bus/documents/${busId}`
     );
   }
+  
+  fetchAllExistingCompanyRoute(companyId: string): Observable<ResponseDto<RouteResponse []>>{
+    return this.http.get<ResponseDto<RouteResponse []>>(`${this.busServiceBaseUrl}/bus/routes/company/${companyId}`);
+  }
 
+  createRouteForCompany(requestData: RouteRequest): Observable<ResponseDto<RouteResponse>>{
+    return this.http.post<ResponseDto<RouteResponse>>(`${this.busServiceBaseUrl}/bus/routes/create`,requestData);
+  }
 
+  updateRouteForCompnay(requestData: RouteRequest,routeId: string): Observable<ResponseDto<RouteResponse>>{
+    return this.http.patch<ResponseDto<RouteResponse>>(`${this.busServiceBaseUrl}/bus/routes/update/${routeId}`,requestData);
+  }
+
+  deleteRouteForCompany(routeId: string): Observable<ResponseDto<RouteResponse>>{
+    return this.http.delete<ResponseDto<RouteResponse>>(`${this.busServiceBaseUrl}/bus/routes/${routeId}`);
+  }
 }

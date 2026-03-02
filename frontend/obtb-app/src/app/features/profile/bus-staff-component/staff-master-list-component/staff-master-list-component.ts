@@ -1,16 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { BusService } from 'src/app/core/services/bus-service'; // Ensure correct path
 import {
     BusStaffResponse,
     DutyType,
     StaffType
 } from 'src/app/interfaces/bus-operator.models';
 
+
 @Component({
     selector: 'app-staff-master-list-component',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule,PdfViewerModule],
     templateUrl: './staff-master-list-component.html',
     styleUrl: './staff-master-list-component.css'
 })
@@ -21,6 +24,11 @@ export class StaffMasterListComponent implements OnInit {
     @Input() driverCount = 0;
     @Input() conductorCount = 0;
 
+    constructor(
+        private readonly busService: BusService,
+        private readonly cdr: ChangeDetectorRef
+    ) {}
+
     searchQuery = '';
     filterType: 'all' | 'driver' | 'conductor' = 'all';
     selectedStaff: BusStaffResponse | null = null;
@@ -28,6 +36,8 @@ export class StaffMasterListComponent implements OnInit {
 
     StaffType = StaffType;
     DutyType = DutyType;
+
+    isUpdatingLicense = false;
 
     ngOnInit(): void {
         // Component initialized with staff list input
@@ -53,7 +63,31 @@ export class StaffMasterListComponent implements OnInit {
 
         return filtered;
     }
+    
 
+    onLicenseChange(event: any, staffId: string) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        this.isUpdatingLicense = true;
+        this.busService.updateStaffLicense(staffId, file).subscribe({
+            next: (response) => {
+                this.isUpdatingLicense = false;
+                alert('License updated successfully!');
+                // Update the local staff object if needed
+                if (this.selectedStaff && this.selectedStaff.staffId === staffId) {
+                    this.selectedStaff.driverLicenseUrl = response.body.driverLicenseUrl;
+                }
+                this.cdr.detectChanges();
+            },
+            error: (err) => {
+                this.isUpdatingLicense = false;
+                console.error("License upload failed", err);
+                alert('Failed to update license.');
+                this.cdr.detectChanges();
+            }
+        });
+    }
     getDriversOnly(): BusStaffResponse[] {
         return this.getFilteredStaff().filter(s => s.staffType === StaffType.BUS_DRIVER);
     }

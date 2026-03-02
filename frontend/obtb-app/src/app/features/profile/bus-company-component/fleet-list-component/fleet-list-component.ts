@@ -2,11 +2,9 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Input, NO_ERRORS_SCHEMA, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { forkJoin } from 'rxjs';
 import { BusService } from 'src/app/core/services/bus-service';
 import {
   AddBusStaffRequest,
-  BusCreationResponse,
   BusDocumentUploadRequest,
   BusDocumentUploadResponse,
   BusFleetResponse,
@@ -33,7 +31,7 @@ export class FleetListComponent implements OnInit, OnChanges {
 
   @Input() companyId!: string | undefined;
   @Input() userId!: string;
-  @Input() newlyCreatedBus?: BusCreationResponse | null;
+  @Input() newlyCreatedBus?: BusFleetResponse | null;
 
   // Now using the nested interface we defined
   buses: BusFleetResponse[] = [];
@@ -52,15 +50,10 @@ export class FleetListComponent implements OnInit, OnChanges {
       this.fetchBusFleet();
     }
 
-    /* TODO: Handle newly created bus structure mapping
-      The structure of BusCreationResponse doesn't match BusFleetResponse yet.
-      Commenting this out to prevent UI crashes.
-    */
-    /*
     if (changes['newlyCreatedBus'] && this.newlyCreatedBus) {
-       this.fetchBusFleet(); // Refresh the whole list instead for now
+      this.fetchBusFleet(); 
     }
-    */
+
   }
 
   fetchBusFleet() {
@@ -163,24 +156,18 @@ export class FleetListComponent implements OnInit, OnChanges {
   }
 
   onStaffSaved(assignments: AddBusStaffRequest[]): void {
-    if (!assignments || assignments.length === 0) {
-        this.closeStaffDrawer();
-        return;
-    }
+    console.log('Sending Assignments to Backend:', assignments); // Debugging log
 
-    this.loading = true;
-    const updateRequests = assignments.map(staff => this.busService.updateBusStaff(staff));
-
-    forkJoin(updateRequests).subscribe({
-        next: (results) => {
-            console.log('All staff updated successfully', results);
-            this.loading = false;
-            this.fetchBusFleet();
-            this.closeStaffDrawer();
+    this.busService.updateBusStaff(assignments).subscribe({
+        next: (response) => {
+            if (response.status === 200) {
+                this.fetchBusFleet(); // Refresh the list
+                this.closeStaffDrawer();
+            }
         },
         error: (err) => {
-            console.error('Error updating staff:', err);
-            this.loading = false;
+            console.error('Failed to update staff:', err);
+            alert('Error updating staff. Check console for details.');
         }
     });
   }

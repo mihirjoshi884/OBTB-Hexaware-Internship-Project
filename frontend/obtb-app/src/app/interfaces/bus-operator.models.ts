@@ -168,11 +168,13 @@ export interface BusStaffResponse {
     dutyType: DutyType | null;
     staffName: string;
     busId?: string;
+    driverLicenseUrl: string;
+    driverLicenseNumber: string;
 }
 
 export interface AddBusStaffRequest {
     staffId: string;
-    busId: string;
+    busId: string | null;
     staffName: string;
     dutyType: DutyType;
 }
@@ -202,4 +204,35 @@ export interface BusDocumentResponse {
     docName: string;
     url: string
 
+}
+
+//route management 
+
+export interface RouteStopDto{
+    stopName: string;
+    stopOrder: number;
+    distanceFromPreviousStop: number;
+    timeOffsetFromOrigin: number;
+    minutesFromPrevious?: number;
+}
+
+export interface RouteRequest{
+    companyId: string;
+    routeName: string;
+    origin: string;
+    destination: string;
+    totalDistance: number;
+    estimatedDuration: number;
+    stops: RouteStopDto[];
+}
+
+export interface RouteResponse{
+    routeId: string;
+    routeName: string;
+    origin: string;
+    destination: string;
+    totalDistance: number;
+    estimatedDuration: number;
+    stops: RouteStopDto[];
+    
 }

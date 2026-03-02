@@ -12,6 +12,7 @@ import { WithdrawFunds } from '../withdraw-funds/withdraw-funds';
 import { BusCompanyComponent } from './bus-company-component/bus-company-component';
 import { BusStaffComponent } from './bus-staff-component/bus-staff-component';
 import { EditUserProfile } from './edit-user-profile/edit-user-profile';
+import { RouteManagementComponent } from './route-management-component/route-management-component';
 import { UploadDocuments } from './upload-documents/upload-documents';
 
 @Component({
@@ -26,6 +27,7 @@ import { UploadDocuments } from './upload-documents/upload-documents';
     UploadDocuments,
     BusCompanyComponent,
     BusStaffComponent,
+    RouteManagementComponent
     
   ],
   templateUrl: 'user-dashboard.html',
@@ -40,7 +42,7 @@ export class UserDashboard implements OnInit {
 
   transactions: any[] = [];
   isHistoryLoading: boolean = false;
-  companyId?: string;
+  companyId: string = '';
   
   activeTab: string = 'overview';
 

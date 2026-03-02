@@ -243,6 +243,44 @@
                             <p class="text-amber-400 font-semibold">⚠️ UNASSIGNED</p>
                         }
                     </div>
+                    <div class="mt-4 rounded-xl overflow-hidden border border-slate-700 bg-slate-900">
+                        @if (selectedStaff && selectedStaff.driverLicenseUrl) {
+                            @if (selectedStaff.driverLicenseUrl.toLowerCase().match(/\.(png|jpg|jpeg|webp)$/) || 
+                                selectedStaff.driverLicenseUrl.includes("image/upload")) {
+                                
+                                <div class="p-4 flex justify-center bg-slate-900">
+                                    <img [src]="selectedStaff.driverLicenseUrl" 
+                                        class="w-full h-auto max-h-[450px] object-contain rounded-lg shadow-2xl"
+                                        alt="Driver License">
+                                </div>
+
+                            } @else {
+                                <pdf-viewer
+                                    [src]="selectedStaff.driverLicenseUrl"
+                                    [render-text]="false"
+                                    [original-size]="false"
+                                    [autoresize]="true"
+                                    [show-all]="true"
+                                    class="w-full block"
+                                    style="height: 450px;">
+                                </pdf-viewer>
+                            }
+
+                            <div class="p-4 bg-slate-800/50 border-t border-slate-700 flex justify-between items-center">
+                                <span class="text-xs font-semibold text-slate-400">Driver License Document</span>
+                                <button (click)="licenseFileInput.click()" 
+                                        [disabled]="isUpdatingLicense"
+                                        class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition font-bold disabled:opacity-50">
+                                    {{ isUpdatingLicense ? 'Uploading...' : 'Update Document' }}
+                                </button>
+                                <input #licenseFileInput 
+                                    type="file" 
+                                    (change)="onLicenseChange($event, selectedStaff.staffId)" 
+                                    class="hidden" 
+                                    accept=".pdf,image/png,image/jpeg,image/jpg">
+                            </div>
+                        }
+                    </div>
 
                     <!-- Close Button -->
                     <button 

@@ -59,15 +59,18 @@ export class StaffCreationComponent implements OnInit {
     onLicenseFileSelected(event: any): void {
         const file = event.target.files?.[0];
         if (file) {
-        if (file.type === 'application/pdf') {
-            this.licenseFile = file;
-            this.licenseFileName = file.name;
-            this.validationErrors['license'] = null;
-        } else {
-            this.validationErrors['license'] = 'Only PDF files are allowed';
-            this.licenseFile = null;
-            this.licenseFileName = '';
-        }
+            // Updated: Allow PDF and common image types
+            const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+            
+            if (allowedTypes.includes(file.type)) {
+                this.licenseFile = file;
+                this.licenseFileName = file.name;
+                this.validationErrors['license'] = null;
+            } else {
+                this.validationErrors['license'] = 'Only PDF, PNG, or JPG files are allowed';
+                this.licenseFile = null;
+                this.licenseFileName = '';
+            }
         }
     }
 
