@@ -6,8 +6,10 @@ import org.hexaware.busservice.enums.StaffType;
 import java.util.UUID;
 
 public record BusStaffResponse(
-    StaffType staffType,
-    UUID staffId,
-    DutyType dutyType,
-    String staffName,
-    UUID busId) { }
+        StaffType staffType,
+        UUID staffId,
+        DutyType dutyType,
+        String staffName,
+        UUID busId,
+        String driverLicenseUrl,
+        String driverLicenseNumber) { }
