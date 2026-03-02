@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BusService } from 'src/app/core/services/bus-service';
-import { BusCreationRequest, BusCreationResponse, BusTemplate, ResponseDto } from 'src/app/interfaces/bus-operator.models';
+import { BusCreationRequest, BusFleetResponse, BusTemplate, ResponseDto } from 'src/app/interfaces/bus-operator.models';
 import { BusLayoutPreviewComponent } from '../bus-layout-preview.component/bus-layout-preview.component';
 
 @Component({
@@ -41,7 +41,7 @@ export class BusCreationComponentComponent implements OnInit{
   busTypeDropdownOpen = false;
 
   @Output() back = new EventEmitter<void>();
-  @Output() createdBus = new EventEmitter<BusCreationResponse>();
+  @Output() createdBus = new EventEmitter<BusFleetResponse>();
   @Input() userId!: string;
   @Input() companyId!: string | undefined;
   busTemplates: BusTemplate [] = [];
@@ -127,7 +127,7 @@ export class BusCreationComponentComponent implements OnInit{
       
     }
     this.busService.createBus(requestData).subscribe({
-      next: (response: ResponseDto<BusCreationResponse>) =>{
+      next: (response: ResponseDto<BusFleetResponse>) =>{
         this.isCreating = false;
         this.submitSuccess = response?.message || 'Bus created successfully!';
         this.createdBus.emit(response.body)
