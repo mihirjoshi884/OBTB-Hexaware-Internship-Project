@@ -1,4 +1,4 @@
-package org.hexaware.busservice.dtos.routesDtos;
+package org.hexaware.busservice.dtos.routeDtos;
 
 import java.util.List;
 import java.util.UUID;

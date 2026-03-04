@@ -1,9 +1,8 @@
 package org.hexaware.busservice.services;
 
 import org.hexaware.busservice.dtos.ResponseDto;
-import org.hexaware.busservice.dtos.routesDtos.RouteRequest;
-import org.hexaware.busservice.dtos.routesDtos.RouteResponse;
-import org.hexaware.busservice.entities.Route;
+import org.hexaware.busservice.dtos.routeDtos.RouteRequest;
+import org.hexaware.busservice.dtos.routeDtos.RouteResponse;
 
 import java.util.List;
 import java.util.UUID;
