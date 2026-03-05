@@ -34,13 +34,20 @@ public class SecurityConfig {
                 .authorizeExchange(exchanges -> exchanges
                         // 2. Critical: Permit OPTIONS pre-flight requests globally
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
-
+                        .pathMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/webjars/**",
+                                "/*/v3/api-docs/**" // Allows Gateway to fetch docs from sub-services
+                        ).permitAll()
                         // 3. Permit your specific public endpoints
                         .pathMatchers("/auth-api/v1/recover-account").permitAll()
                         .pathMatchers("/auth/auth-api/v1/recover-account").permitAll()
                         .pathMatchers("/user/user-api/v1/fetch-user-email/**").permitAll()
                         .pathMatchers("/auth/**", "/login/**", "/oauth2/**").permitAll()
                         .pathMatchers("/bus/bus-api/public/v1/**").permitAll()
+                        .pathMatchers("/booking/booking-api/public/v1/**").permitAll()
                         .pathMatchers("/auth/auth-api/v1/change-password").authenticated()
                         .anyExchange().authenticated()
                 )

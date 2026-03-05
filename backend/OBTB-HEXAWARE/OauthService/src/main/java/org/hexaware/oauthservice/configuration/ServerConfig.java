@@ -102,6 +102,8 @@ public class ServerConfig {
     @Bean
     public org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
+                .requestMatchers("/v3/api-docs", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
                 .requestMatchers("/auth-api/v1/recover-account")
                 .requestMatchers("/auth-api/v1/register")
                 .requestMatchers("/auth-api/v1/user/verify/**")
@@ -293,6 +295,15 @@ public class ServerConfig {
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .build();
+        var bookingServiceClient = RegisteredClient.withId("obtb-client-007")
+                .clientId("obtb-client-007")
+                .clientName("obtb-BookingService-client-007")
+                .clientSecret("{noop}obtb-BookingService-client-007")
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .scope(OidcScopes.OPENID)
+                .scope(OidcScopes.PROFILE)
+                .build();
         var apiGatewayClient = RegisteredClient.withId("obtb-api-gateway")
                 .clientId("obtb-api-gateway")
                 .clientName("OBTB API Gateway")
@@ -304,6 +315,7 @@ public class ServerConfig {
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 // CRITICAL: This must match the resolved {baseUrl} pattern
                 .redirectUri("http://localhost:9090/login/oauth2/code/api-gateway")
+                .redirectUri("http://localhost:9090/swagger-ui/oauth2-redirect.html")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .clientSettings(ClientSettings.builder()
@@ -317,7 +329,8 @@ public class ServerConfig {
                 apiGatewayClient,
                 userserviceClient,
                 transactionServiceClient,
-                busServiceClient);
+                busServiceClient,
+                bookingServiceClient);
     }
 
     @Bean

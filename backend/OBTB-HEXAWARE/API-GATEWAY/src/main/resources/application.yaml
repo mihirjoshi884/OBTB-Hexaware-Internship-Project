@@ -4,94 +4,108 @@ spring:
 
   cloud:
     gateway:
-      # CRITICAL: Forces CORS headers even for unmatched routes (prevents CORS error on 404)
       globalcors:
         add-to-simple-url-handler-mapping: true
-
 
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
 
       routes:
-        - id: auth-service-public-route
-          uri: ${authservice.base-uri:http://localhost:8081}
-          order: -2
-          predicates:
-            # Add the non-prefixed paths as well
-            - Path=/auth/auth-api/v1/user/verify/**, /auth/auth-api/v1/user/activate/**, /auth/auth-api/v1/register, /auth/auth-api/v1/recover-account, /auth-api/v1/recover-account
-          filters:
-            - RewritePath=/auth/(?<segment>.*), /${segment}
-        # 1. Login Page Route (Maps /auth/login -> /login on Auth Service)
-        - id: auth-login-page
-          uri: ${authservice.base-uri:http://localhost:8081}
-          predicates:
-            - Path=/auth/login
-          filters:
-            - RewritePath=/auth/login, /login
-
-        # 2. OIDC Discovery Route (Required for frontend handshake)
-        - id: auth-oidc-route
+        # ==========================================
+        # 01. AUTH SERVICE ROUTES
+        # ==========================================
+        - id: auth-service-docs
           uri: ${authservice.base-uri:http://localhost:8081}
           order: -1
           predicates:
-            - Path=/auth/.well-known/**, /auth/oauth2/jwks
+            - Path=/auth/v3/api-docs
           filters:
             - RewritePath=/auth/(?<segment>.*), /${segment}
 
-        # NEW: Public route for Fetch Email (NO TokenRelay)
-        - id: user-service-public-route
-          uri: ${userservice.base-uri:http://localhost:8082}
+        - id: auth-service-route
+          uri: ${authservice.base-uri:http://localhost:8081}
           predicates:
-            - Path=/user/user-api/v1/fetch-user-email/**
+            - Path=/auth/**
+          filters:
+            - RewritePath=/auth/(?<segment>.*), /${segment}
+
+        # ==========================================
+        # 02. USER SERVICE ROUTES
+        # ==========================================
+        - id: user-service-docs
+          uri: ${userservice.base-uri:http://localhost:8082}
+          order: -1
+          predicates:
+            - Path=/user/v3/api-docs
           filters:
             - RewritePath=/user/(?<segment>.*), /${segment}
 
-        # EXISTING: Protected route for everything else (HAS TokenRelay)
         - id: user-service-route
           uri: ${userservice.base-uri:http://localhost:8082}
           predicates:
-            - Path=/user/user-api/v1/**
+            - Path=/user/**
           filters:
             - RewritePath=/user/(?<segment>.*), /${segment}
             - TokenRelay
 
-        # 4. Auth Service API (Register, Verify, etc.)
-        - id: auth-service-route
-          uri: ${authservice.base-uri:http://localhost:8081}
-          predicates:
-            - Path=/auth/auth-api/v1/**
-          filters:
-            - RewritePath=/auth/(?<segment>.*), /${segment}
-            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
-        #http://localhost:8086/bus-api/private/v1/uploads-documents
-        #http://localhost:9090/bus/bus-api/private/v1/uploads-documents
-        # bus service private endpoints
-        - id: bus-service-private-route
+        # ==========================================
+        # 03. BUS SERVICE ROUTES
+        # ==========================================
+        - id: bus-service-docs
           uri: ${busService.base-uri:http://localhost:8086}
+          order: -1
           predicates:
-            - Path=/bus/bus-api/private/v1/** # Fixed order
+            - Path=/bus/v3/api-docs
           filters:
             - RewritePath=/bus/(?<segment>.*), /${segment}
-            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
 
-        # bus-service public routes
-        # bus-service public routes
-        - id: bus-service-public-route
+        - id: bus-service-route
           uri: ${busService.base-uri:http://localhost:8086}
           predicates:
-            - Path=/bus/bus-api/public/v1/** # Fixed order
+            - Path=/bus/**
           filters:
             - RewritePath=/bus/(?<segment>.*), /${segment}
+            # Add TokenRelay if Bus Service requires it
+            # - TokenRelay
+
+        # ==========================================
+        # 04. BOOKING SERVICE ROUTES
+        # ==========================================
+        - id: booking-service-docs
+          uri: ${bookingService.base-uri:http://localhost:8087}
+          order: -1
+          predicates:
+            - Path=/booking/v3/api-docs
+          filters:
+            - RewritePath=/booking/(?<segment>.*), /${segment}
+
+        - id: booking-service-route
+          uri: ${bookingService.base-uri:http://localhost:8087}
+          predicates:
+            - Path=/booking/**
+          filters:
+            - RewritePath=/booking/(?<segment>.*), /${segment}
+
+        # ==========================================
+        # 05. TRANSACTION SERVICE ROUTES
+        # ==========================================
+        - id: transaction-service-docs
+          uri: ${transactionservice.base-uri:http://localhost:8085}
+          order: -1
+          predicates:
+            - Path=/txn/v3/api-docs
+          filters:
+            - RewritePath=/txn/(?<segment>.*), /${segment}
 
         - id: transaction-service-route
           uri: ${transactionservice.base-uri:http://localhost:8085}
           predicates:
-            - Path=/txn/txn-api/v1/**
+            - Path=/txn/**
           filters:
             - RewritePath=/txn/(?<segment>.*), /${segment}
             - TokenRelay
 
-  # Security and OAuth2 stay at the same level as 'cloud'
+  # --- SECURITY CONFIGURATION ---
   security:
     oauth2:
       client:
@@ -111,15 +125,31 @@ spring:
         jwt:
           issuer-uri: ${authservice.base-uri:http://localhost:8081}
           jwk-set-uri: ${authservice.base-uri:http://localhost:8081}/oauth2/jwks
-          audiences:
-            - obtb-client-001
-            - obtb-client-002
-            - obtb-client-003
-            - obtb-client-004
-            - obtb-api-gateway
 
+# --- SWAGGER UI AGGREGATION ---
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    urls:
+      - name: 01. Auth Service
+        url: /auth/v3/api-docs
+      - name: 02. User Service
+        url: /user/v3/api-docs
+      - name: 03. Bus Service
+        url: /bus/v3/api-docs
+      - name: 04. Booking Service
+        url: /booking/v3/api-docs
+      - name: 05. Transaction Service
+        url: /txn/v3/api-docs
+    oauth:
+      client-id: obtb-api-gateway
+      client-secret: obtb-api-gateway-secret
+      use-pkce-with-authorization-code-grant: true
 
 logging:
   level:
+    org.springframework.cloud.gateway: TRACE
     org.springframework.security: DEBUG
-    org.springframework.web: DEBUG

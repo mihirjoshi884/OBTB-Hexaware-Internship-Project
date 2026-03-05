@@ -29,6 +29,7 @@
         <module>API-GATEWAY</module>
         <module>TransactionService</module>
         <module>BusService</module>
+        <module>BookingService</module>
     </modules>
 
     <dependencies>

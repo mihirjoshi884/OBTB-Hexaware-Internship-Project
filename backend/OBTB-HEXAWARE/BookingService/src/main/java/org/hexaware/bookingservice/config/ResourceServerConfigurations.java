@@ -1,4 +1,4 @@
-package org.hexaware.busservice.config;
+package org.hexaware.bookingservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +10,11 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class ResourceServerConfig {
+public class ResourceServerConfigurations {
 
     @Bean
     public SecurityFilterChain resourceServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -21,11 +22,11 @@ public class ResourceServerConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/bus-api/public/v1/**").permitAll()
-                        .requestMatchers("/v3/api-docs", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/booking-api/public/v1/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         // This looks for "ROLE_BUS_OPERATOR" in the authorities list
-                        .requestMatchers("/bus-api/private/v1/**").hasRole("BUS_OPERATOR")
-                        .requestMatchers("/bus-api/private/v1/**").hasAuthority("ROLE_BUS_OPERATOR")
+                        .requestMatchers("/booking-api/private/v1/**").hasRole("BUS_OPERATOR")
+                        .requestMatchers("/booking-api/private/v1/**").hasAuthority("ROLE_BUS_OPERATOR")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
