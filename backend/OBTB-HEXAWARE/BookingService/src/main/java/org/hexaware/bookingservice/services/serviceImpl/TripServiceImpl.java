@@ -104,8 +104,9 @@ public class TripServiceImpl implements TripService {
     }
 
     private BusFleetResponse fetchBusFromService(UUID companyId, UUID busId) {
+        String fullUrl = busServiceUrl + "/bus-api/private/v1/bus/get-buses/{companyId}";
         ResponseDto<List<BusFleetResponse>> response = bookingWebClient.get()
-                .uri(busServiceUrl + "/bus-api/private/v1/get-buses/{companyId}", companyId)
+                .uri(fullUrl, companyId)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<ResponseDto<List<BusFleetResponse>>>() {})
                 .block();

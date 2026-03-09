@@ -46,7 +46,7 @@ public class ResourceClientConfiguration {
                 .clientSecret(clientSecret)
                 .tokenUri(tokenUri)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .scope(Arrays.asList("openid", "profile"))
+                .scope(Arrays.asList("openid", "profile", "internal"))
                 .build();
 
         return new SimpleClientRegistrationRepository(clientRegistration);

@@ -303,6 +303,7 @@ public class ServerConfig {
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
+                .scope("internal")
                 .build();
         var apiGatewayClient = RegisteredClient.withId("obtb-api-gateway")
                 .clientId("obtb-api-gateway")

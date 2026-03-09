@@ -27,7 +27,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/bus-api/private/v1")
-@PreAuthorize("hasRole('BUS_OPERATOR')")
+@PreAuthorize("hasRole('BUS_OPERATOR') or hasAuthority('SCOPE_internal')")
 public class PrivateController {
 
     @Autowired

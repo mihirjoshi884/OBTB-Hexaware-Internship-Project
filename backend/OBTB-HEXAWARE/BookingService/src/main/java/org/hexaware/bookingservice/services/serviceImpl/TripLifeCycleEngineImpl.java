@@ -108,9 +108,10 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
         instance.setActualArrival(LocalDateTime.of(date, template.getArrivalTime()));
         instance.setStatus(TripStatus.SCHEDULED);
 
+        String fullUrl = busServiceUrl + "/bus-api/private/v1/bus/get-buses/{companyId}";
         // Fetch Bus Data (Reuse your logic)
         ResponseDto<List<BusFleetResponse>> busResponse = bookingWebClient.get()
-                .uri(busServiceUrl + "/bus-api/private/v1/get-buses/{companyId}", template.getCompanyId())
+                .uri(fullUrl, template.getCompanyId())
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<ResponseDto<List<BusFleetResponse>>>() {})
                 .block();
