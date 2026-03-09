@@ -94,7 +94,7 @@ public class ResourceClientConfiguration {
 
     // FINAL FIX: Reverted to the original filter class, enabled by the pom.xml change
     @Bean
-    public WebClient BusServicedWebClient(OAuth2AuthorizedClientManager authorizedClientManager) {
+    public WebClient BookingServicedWebClient(OAuth2AuthorizedClientManager authorizedClientManager) {
         ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2 =
                 new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
 

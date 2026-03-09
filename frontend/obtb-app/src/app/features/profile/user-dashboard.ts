@@ -14,6 +14,7 @@ import { BusStaffComponent } from './bus-staff-component/bus-staff-component';
 import { EditUserProfile } from './edit-user-profile/edit-user-profile';
 import { RouteManagementComponent } from './route-management-component/route-management-component';
 import { UploadDocuments } from './upload-documents/upload-documents';
+import { TripManagementComponent } from './trip-management-component/trip-management-component';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -27,7 +28,8 @@ import { UploadDocuments } from './upload-documents/upload-documents';
     UploadDocuments,
     BusCompanyComponent,
     BusStaffComponent,
-    RouteManagementComponent
+    RouteManagementComponent,
+    TripManagementComponent
     
   ],
   templateUrl: 'user-dashboard.html',
@@ -179,7 +181,8 @@ export class UserDashboard implements OnInit {
         { id: 'verification', label: 'verification' },      // For AI Face
         { id: 'manage-fleet', label: 'Manage Company & Bus' },
         { id: 'add-routes', label: 'Routes' },
-        {id: 'add-bus-staff', label: 'Add & Manage Bus Staff'}
+        {id: 'add-bus-staff', label: 'Add & Manage Bus Staff'},
+        { id: 'trip-mgmt', label: 'Trip Schedules' }
       ];
     }else if(role === 'ADMIN'){
       this.Tabs = [...commonTabs, { id: 'admin-verify', label: 'Pending Approvals' }, { id: 'user-management', label: 'Users' }];

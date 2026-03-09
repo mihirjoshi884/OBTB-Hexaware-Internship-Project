@@ -12,8 +12,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "trip_seats", indexes = {
-        // This allows A1 to exist for Trip 1 AND Trip 2, but not twice for Trip 1
-        @Index(name = "idx_trip_seat_unique", columnList = "trip_id, seat_number", unique = true)
+        // Updated index to use instance_id
+        @Index(name = "idx_trip_seat_unique", columnList = "instance_id, seat_number", unique = true)
 })
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class TripSeat {
@@ -21,9 +21,10 @@ public class TripSeat {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID tripSeatId;
 
+    // Change from Trip to TripInstance
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trip_id")
-    private Trip trip;
+    @JoinColumn(name = "instance_id")
+    private TripInstance tripInstance;
 
     @Column(name = "seat_number")
     private String seatNumber;

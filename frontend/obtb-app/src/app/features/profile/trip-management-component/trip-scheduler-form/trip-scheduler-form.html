@@ -1,0 +1,44 @@
+<form (ngSubmit)="submit()" class="space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-2">
+            <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">Base Fare (₹)</label>
+            <input [(ngModel)]="request.baseFare" name="fare" type="number" 
+                class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition">
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">Daily Time (Regular)</label>
+            <input [(ngModel)]="request.dailyDepartureTime" name="dept" type="time" 
+                class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition">
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">First Departure (Instance)</label>
+            <input 
+                [ngModel]="request.firstDepartureTime | date:'yyyy-MM-ddTHH:mm'" 
+                (ngModelChange)="onDateChange($event, 'firstDepartureTime')"
+                name="firstDept" type="datetime-local" 
+                class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition">
+        </div>
+
+        <div class="space-y-2">
+            <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">First Arrival (Instance)</label>
+            <input 
+                [ngModel]="request.firstArrivalTime | date:'yyyy-MM-ddTHH:mm'" 
+                (ngModelChange)="onDateChange($event, 'firstArrivalTime')"
+                name="firstArr" type="datetime-local" 
+                class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition">
+        </div>
+    </div>
+
+    <div class="flex gap-4 pt-4">
+        <button type="button" (click)="onCancel.emit()" 
+                class="flex-1 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-2xl font-bold uppercase tracking-widest text-xs transition">
+            Discard
+        </button>
+        <button type="submit" 
+                class="flex-1 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold uppercase tracking-widest text-xs transition shadow-lg shadow-blue-900/40">
+            Deploy Blueprint
+        </button>
+    </div>
+</form>

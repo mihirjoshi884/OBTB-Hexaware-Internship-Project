@@ -248,6 +248,16 @@
                                 </div>
                             }
                         }
+                        @case ('trip-mgmt') {
+                            @if(user.roleName === 'BUS_OPERATOR'){
+                                <div class="animate-in slide-in-from-bottom-4 duration-500">
+                                    <app-trip-management-component
+                                        [userId]="user.userId"
+                                        [companyId]="companyId">
+                                    </app-trip-management-component>
+                                </div>
+                            }
+                        }
                     } 
                 </div> </div>
         }

@@ -8,6 +8,7 @@ export const environment = {
         'authservice.base-uri': 'http://localhost:9090/auth',
         'authservice.issuer': 'http://localhost:8081',
         'txnBaseUri': 'http://localhost:9090/txn',
-        'busService.base-uri':'http://localhost:9090/bus'
+        'busService.base-uri':'http://localhost:9090/bus',
+        'bookingService.base-uri':'http://localhost:9090/booking'
     }
 };

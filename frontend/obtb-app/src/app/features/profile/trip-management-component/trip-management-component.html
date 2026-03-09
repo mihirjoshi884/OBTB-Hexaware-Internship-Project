@@ -1,0 +1,104 @@
+<div class="space-y-8 animate-in slide-in-from-bottom-4 duration-500">
+    <div class="bg-slate-800/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6 shadow-2xl">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h3 class="text-blue-400 text-xs font-bold uppercase tracking-widest">Service Blueprints</h3>
+                <p class="text-white text-lg font-semibold">Master Schedules</p>
+            </div>
+            <button (click)="openCreateTripModal()" 
+                class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-xs font-bold uppercase tracking-widest transition-all">
+                + New Schedule
+            </button>
+        </div>
+
+        <div class="overflow-hidden rounded-xl border border-slate-700/30">
+            @if (templates.length > 0) {
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-900/50 text-slate-400 uppercase text-[10px] tracking-wider">
+                        <tr>
+                            <th class="px-4 py-3">Route</th>
+                            <th class="px-4 py-3">Bus Details</th>
+                            <th class="px-4 py-3">Schedule</th>
+                            <th class="px-4 py-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700/30 text-slate-200">
+                        @for (t of templates; track t.templateId) {
+                            <tr class="hover:bg-slate-700/20 transition-colors">
+                                <td class="px-4 py-4 font-medium">{{ t.routeName }}</td>
+                                <td class="px-4 py-4 text-slate-400">{{ t.busName }} ({{ t.busType }})</td>
+                                <td class="px-4 py-4">{{ t.scheduledDay }} @ {{ t.dailyDepartureTime }}</td>
+                                <td class="px-4 py-4">
+                                    <button (click)="onToggleStatus(t)"
+                                        [class]="t.active ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'"
+                                        class="px-2 py-1 rounded text-[10px] font-bold uppercase transition-all">
+                                        {{ t.active ? 'ACTIVE' : 'PAUSED' }}
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            } @else {
+                <div class="py-20 text-center">
+                    <div class="inline-flex p-4 rounded-full bg-slate-700/20 mb-4">
+                        <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                    </div>
+                    <p class="text-slate-400 font-medium">No master schedules found.</p>
+                    <p class="text-slate-500 text-xs mt-1">Click "+ New Schedule" to define your first bus route blueprint.</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <h3 class="text-xl font-bold text-white">Live Instances (Next 7 Days)</h3>
+        @if (upcomingJourneys.length > 0) {
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                @for (trip of upcomingJourneys; track trip.tripId) {
+                    }
+            </div>
+        } @else {
+            <div class="bg-slate-800/20 border border-dashed border-slate-700 rounded-2xl p-10 text-center">
+                <p class="text-slate-500 text-sm">No active journeys found for current routes.</p>
+            </div>
+        }
+    </div>
+</div>
+
+@if (schedulerDrawerOpen) {
+    <div (click)="closeSchedulerDrawer()" 
+        class="fixed inset-0 bg-black/40 z-40 animate-in fade-in duration-300">
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300 ease-in-out">
+        <div class="bg-slate-800 border-t border-slate-700 rounded-t-3xl max-h-[90vh] overflow-y-auto">
+            
+            <div class="sticky top-0 bg-slate-800 border-b border-slate-700 p-6 space-y-2 rounded-t-3xl z-10">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 class="text-xl font-bold text-white uppercase tracking-tight">Create Trip Blueprint</h2>
+                        <p class="text-xs text-slate-400">Define a recurring schedule for your fleet</p>
+                    </div>
+                    <button (click)="closeSchedulerDrawer()" class="text-slate-400 hover:text-white transition p-2 bg-slate-900 rounded-full">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <div class="bg-slate-900/50 border border-slate-700 rounded-2xl p-6">
+                    <app-trip-scheduler-form 
+                        (onSuccess)="onScheduleCreated()"
+                        (onCancel)="closeSchedulerDrawer()">
+                    </app-trip-scheduler-form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}

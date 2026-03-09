@@ -24,7 +24,7 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "trip_id")
-    private Trip trip;
+    private TripInstance trip;
 
     private String seatNumber;
     private String sourceStop;
