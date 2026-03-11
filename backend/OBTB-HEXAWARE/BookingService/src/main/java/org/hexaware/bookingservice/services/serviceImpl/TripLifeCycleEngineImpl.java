@@ -10,10 +10,7 @@ import org.hexaware.bookingservice.entites.TripArchive;
 import org.hexaware.bookingservice.entites.TripInstance;
 import org.hexaware.bookingservice.entites.TripSeat;
 import org.hexaware.bookingservice.entites.TripTemplate;
-import org.hexaware.bookingservice.enums.SeatStatus;
-import org.hexaware.bookingservice.enums.SeatType;
-import org.hexaware.bookingservice.enums.TripStatus;
-import org.hexaware.bookingservice.enums.TripType;
+import org.hexaware.bookingservice.enums.*;
 import org.hexaware.bookingservice.repositories.ArchiveRepository;
 import org.hexaware.bookingservice.repositories.TripInstanceRepository;
 import org.hexaware.bookingservice.repositories.TripTemplateRepository;
@@ -82,11 +79,11 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
         List<TripTemplate> activeRegular = templateRepository.findByIsActiveTrueAndTripType(TripType.REGULAR);
 
         for (TripTemplate tt : activeRegular) {
-            // Calculate the date for the NEXT occurrence of the scheduled day
-            // e.g., If today is Monday and schedule is FRIDAY, this returns next Friday
-            LocalDate nextDate = LocalDate.now().with(TemporalAdjusters.nextOrSame(tt.getScheduledDay()));
+            // Map your custom enum to java.time.DayOfWeek
+            java.time.DayOfWeek standardDay = java.time.DayOfWeek.valueOf(tt.getScheduledDay().name());
 
-            // Safety Check: Does an instance already exist for this date?
+            LocalDate nextDate = LocalDate.now().with(TemporalAdjusters.nextOrSame(standardDay));
+
             boolean exists = instanceRepository.existsByTemplate_TemplateIdAndActualDepartureBetween(
                     tt.getTemplateId(),
                     nextDate.atStartOfDay(),
@@ -94,7 +91,7 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
             );
 
             if (!exists) {
-                instantiate(tt, nextDate); // Create the new instance and seat map
+                instantiate(tt, nextDate);
             }
         }
     }

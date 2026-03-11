@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hexaware.bookingservice.enums.DayOfWeek;
 import org.hexaware.bookingservice.enums.TripType;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -30,9 +31,11 @@ public class TripTemplate {
     private TripType tripType; // REGULAR or ONE_TIME
 
     // Scheduled relative times
-    private java.time.DayOfWeek scheduledDay;
+    private DayOfWeek scheduledDay;
     private java.time.LocalTime departureTime;
     private java.time.LocalTime arrivalTime;
+    private java.time.LocalDate departureDate;
+    private java.time.LocalDate arrivalDate;
 
     private boolean isActive = true;
 }

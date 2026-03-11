@@ -4,128 +4,116 @@
             <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">
                 your company id is
             </label>
-            <span class="max-w-fit bg-slate-800 border rounded-2xl border-slate-950 text-slate-400">
+            <span class="px-4 py-1 bg-slate-800 border rounded-2xl border-slate-950 text-slate-400 text-xs font-mono">
                 {{companyId}}
             </span>
         </div>
+
         <div class="form-group mb-4">
             <label for="busSelect" class="block mb-2 text-[10px] font-bold text-slate-500 uppercase ml-2">select bus from your fleet</label>
             <select
                 id="busSelect"
-                [(ngModel)] = "selectedBusId"
-                [ngModelOptions]="{standalone: true}"
-                (change)="onBusSelect($event)"
-                class="block w-full px-3 py-2 bg-slate-950 border-slate-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <option value="" disabled select>--choose a bus--</option>
+                [(ngModel)]="selectedBusId"
+                name="busSelect"
+                class="block w-full px-4 py-3 bg-slate-950 border border-slate-700 text-white rounded-2xl shadow-sm focus:outline-none focus:border-blue-500 transition sm:text-sm appearance-none">
+                <option value="" disabled>--choose a bus--</option>
                 @for (bus of buses; track bus.busId) {
-                    <option [value]="bus.busId">{{bus.busName}}|{{bus.registrationNumber}}</option>
-                }@empty {
+                    <option [value]="bus.busId">{{bus.busName}} | {{bus.registrationNumber}}</option>
+                } @empty {
                     <option disabled>No buses available</option>
                 }
             </select> 
         </div>
+
         <div class="form-group mb-4">
-            <label for="routeSelect" class="block mb-2 text-[10px] font-bold text-slate-500 uppercase ml-2">select route from global routes you have created</label>
+            <label for="routeSelect" class="block mb-2 text-[10px] font-bold text-slate-500 uppercase ml-2">select route from global routes</label>
             <select
                 id="routeSelect"
-                [(ngModel)] = "selectedRouteId"
-                [ngModelOptions]="{standalone: true}"
-                (change)="onRouteSelect($event)"
-                class="block w-full px-3 py-2 bg-slate-950 border-slate-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <option value="" disabled select>--choose a route--</option>
+                [(ngModel)]="selectedRouteId"
+                name="routeSelect"
+                class="block w-full px-4 py-3 bg-slate-950 border border-slate-700 text-white rounded-2xl shadow-sm focus:outline-none focus:border-blue-500 transition sm:text-sm appearance-none">
+                <option value="" disabled>--choose a route--</option>
                 @for (route of routes; track route.routeId) {
                     <option [value]="route.routeId">{{route.routeName}}</option>
-                }@empty {
-                    <option disabled>No no routes available</option>
-                }
-            </select> 
-        </div>
-
-        <div class="form-group mb-4">
-            <label for="tripTypeSelect" class="block mb-2 text-[10px] font-bold text-slate-500 uppercase ml-2">select type of your trip</label>
-            <select
-                id="tripSelect"
-                [(ngModel)] = "selectedTripType"
-                [ngModelOptions]="{standalone: true}"
-                (change)="onTripTypeSelect($event)"
-                class="block w-full px-3 py-2 bg-slate-950 border-slate-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <option value="" disabled select>--choose a route--</option>
-                @for (type of tripTypes; track type) {
-                    <option [value]="type">
-                        {{ type }}{{ type === 'ONE_TIME' ? ' (Default)' : '' }}
-                    </option>   
                 } @empty {
-                    <option disabled>No trip types available</option>
+                    <option disabled>No routes available</option>
                 }
             </select> 
         </div>
 
-        <div class="space-y-2">
-            <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">Base Fare (₹)</label>
-            <input [(ngModel)]="request.baseFare" name="fare" type="number" 
-                class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition">
-        </div>
-        
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
-        @if (selectedTripType === TripType.REGULAR) {
-            <div class="space-y-2">
-                <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">Daily Time (Regular)</label>
-                <input [(ngModel)]="request.regularDepartureTime" name="dept" type="time" 
-                    class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition">
-            </div>
-            <div class="space-y-2">
-                <label for="weekDays" class="text-[10px] font-bold text-slate-500 uppercase ml-2">select of week for your regular schedule</label>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="form-group">
+                <label for="tripSelect" class="block mb-2 text-[10px] font-bold text-slate-500 uppercase ml-2">select trip type</label>
                 <select
-                    id="daySelect"
-                    [(ngModel)] = "selectedDay"
-                    [ngModelOptions]="{standalone: true}"
-                    (change)="onDaySelect($event)"
-                    class=" w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition h-[60px] appearance-none">
-                    <option value="" disabled select>--choose a day of week when you want your bus to run regularly--</option>
-                    @for (day of daysOfWeek; track day) {
-                        <option [value]="day">
-                            {{ day }}{{ day === 'MONDAY' ? ' (Default)' : '' }}
+                    id="tripSelect"
+                    [(ngModel)]="selectedTripType"
+                    name="tripType"
+                    class="block w-full px-4 py-3 bg-slate-950 border border-slate-700 text-white rounded-2xl shadow-sm focus:outline-none focus:border-blue-500 transition sm:text-sm appearance-none">
+                    @for (type of tripTypes; track type) {
+                        <option [value]="type">
+                            {{ type }}{{ type === 'ONE_TIME' ? ' (Default)' : '' }}
                         </option>   
-                    } 
+                    }
                 </select> 
             </div>
 
+            <div class="space-y-2">
+                <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">Base Fare (₹)</label>
+                <input [(ngModel)]="baseFare" name="fare" type="number" placeholder="0.00"
+                    class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-3 text-white focus:border-blue-500 outline-none transition">
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6">
+        @if (selectedTripType === TripType.REGULAR) {
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">Daily Time (Regular)</label>
+                    <input [(ngModel)]="selectedRegularDepartureTime" name="regTime" type="time" 
+                        class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition h-[60px]">
+                </div>
+                <div class="space-y-2">
+                    <label for="daySelect" class="text-[10px] font-bold text-slate-500 uppercase ml-2">select day of week</label>
+                    <select
+                        id="daySelect"
+                        [(ngModel)]="selectedDay"
+                        name="daySelect"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white shadow-sm focus:outline-none focus:border-blue-500 transition h-[60px] appearance-none">
+                        @for (day of daysOfWeek; track day) {
+                            <option [value]="day">{{ day }}</option>   
+                        } 
+                    </select> 
+                </div>
+            </div>
         } 
         @else {
             <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-2">
+                <div class="space-y-2">
                     <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">Departure Date</label>
-                    <input 
-                        [ngModel]="request.departureTime | date:'yyyy-MM-ddTHH:mm'" 
-                        (ngModelChange)="onDateChange($event, 'departureTime')"
-                        name="firstDept" type="datetime-local" 
-                        class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition">
+                    <input type="date" [(ngModel)]="selectedDepartureDate" name="deptDate"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition h-[60px]">
                 </div>
                 <div class="space-y-2">
                     <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">Departure Time</label>
-                    <input 
-                        [ngModel]="request.departureTime | date:'yyyy-MM-ddTHH:mm'" 
-                        (ngModelChange)="onDateChange($event, 'departureTime')"
-                        name="firstDept" type="datetime-local" 
-                        class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition">
+                    <input type="time" [(ngModel)]="selectedDepartureTime" name="deptTime"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition h-[60px]">
                 </div>
             </div>
-            
 
-            <div class="space-y-2">
-                <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">Arrival Time</label>
-                <input 
-                    [ngModel]="request.arrivalTime | date:'yyyy-MM-ddTHH:mm'" 
-                    (ngModelChange)="onDateChange($event, 'arrivalTime')"
-                    name="firstArr" type="datetime-local" 
-                    class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">Arrival Date</label>
+                    <input type="date" [(ngModel)]="selectedArrivalDate" name="arrDate"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition h-[60px]">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-slate-500 uppercase ml-2">Arrival Time</label>
+                    <input type="time" [(ngModel)]="selectedArrivalTime" name="arrTime"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-2xl p-4 text-white focus:border-blue-500 outline-none transition h-[60px]">
+                </div>
             </div>
-
         }
-
-        
     </div>
 
     <div class="flex gap-4 pt-4">

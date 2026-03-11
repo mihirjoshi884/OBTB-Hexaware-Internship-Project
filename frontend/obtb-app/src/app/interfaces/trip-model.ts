@@ -38,15 +38,17 @@ export interface BusFleetResponse {
     };
 }
 
-export interface tripCreationRequest {
+export interface TripCreationRequest {
     routeId: string;
     busId: string;
     companyId: string;
     tripType: TripType;
-    departureTime: Date; // Changed from date to Date
-    arrivalTime: Date;   // Changed from date to Date
-    scheduledDay: any;
-    regularDepartureTime: Date;
+    departureDate: string | null; // Changed to string
+    departureTime: string | null; // Changed to string
+    arrivalDate: string | null;   // Changed to string
+    arrivalTime: string | null;   // Changed to string
+    scheduledDay: any | null;
+    regularDepartureTime: string | null; // Consistent with others
     baseFare: number;
 }
 

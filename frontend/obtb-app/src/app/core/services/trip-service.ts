@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import {
-  tripCreationRequest, 
+  TripCreationRequest,
   tripDetail
 } from '../../interfaces/trip-model';
 
@@ -20,7 +20,7 @@ export class TripService {
    * CREATE: Define a new schedule and spawn the first instance
    * Maps to: POST /trip/create-trip
    */
-  createTrip(request: tripCreationRequest): Observable<any> {
+  createTrip(request: TripCreationRequest): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/trip/create-trip`, request);
   }
 

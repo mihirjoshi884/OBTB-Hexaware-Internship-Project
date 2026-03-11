@@ -7,6 +7,7 @@ import org.hexaware.bookingservice.dtos.tripDtos.TripCreationRequest;
 import org.hexaware.bookingservice.dtos.tripDtos.TripDetails;
 import org.hexaware.bookingservice.entites.TripInstance;
 import org.hexaware.bookingservice.entites.TripTemplate;
+import org.hexaware.bookingservice.enums.DayOfWeek;
 import org.hexaware.bookingservice.enums.TripStatus;
 import org.hexaware.bookingservice.repositories.TripInstanceRepository;
 import org.hexaware.bookingservice.repositories.TripTemplateRepository;
@@ -18,7 +19,9 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,10 +50,12 @@ public class TripServiceImpl implements TripService {
         template.setBaseFare(request.baseFare());
 
         // Extract recurring schedule from the request
-        template.setScheduledDay(request.firstDepartureTime().getDayOfWeek());
-        template.setDepartureTime(request.firstDepartureTime().toLocalTime());
-        template.setArrivalTime(request.firstArrivalTime().toLocalTime());
+        template.setScheduledDay(DayOfWeek.valueOf(request.scheduledDay().toUpperCase()));
+        template.setDepartureTime(LocalTime.parse(request.departureTime()));
+        template.setArrivalTime(LocalTime.parse(request.arrivalTime()));
         template.setActive(true);
+        template.setDepartureDate(LocalDate.parse(request.departureDate()));
+        template.setArrivalDate(LocalDate.parse(request.arrivalDate()));
 
         TripTemplate savedTemplate = templateRepository.save(template);
 
@@ -58,7 +63,7 @@ public class TripServiceImpl implements TripService {
         // We pass the LocalDate of the first departure to the engine
         TripInstance firstInstance = lifecycleEngine.instantiate(
                 savedTemplate,
-                request.firstDepartureTime().toLocalDate()
+                LocalDate.parse(request.departureTime())
         );
         var busResponse = fetchBusFromService(savedTemplate.getCompanyId(), savedTemplate.getBusId());
         // 3. Return the Details of the specific Instance created

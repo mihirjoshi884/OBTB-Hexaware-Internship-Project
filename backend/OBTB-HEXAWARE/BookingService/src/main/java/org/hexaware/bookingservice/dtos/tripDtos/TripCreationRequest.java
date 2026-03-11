@@ -11,15 +11,21 @@ public record TripCreationRequest(
         UUID companyId,
         TripType tripType,
 
-        // The first time this bus ever runs
-        LocalDateTime firstDepartureTime,
-        LocalDateTime firstArrivalTime,
+        // Matches selectedDepartureDate (YYYY-MM-DD)
+        String departureDate,
+        // Matches selectedDepartureTime (HH:mm)
+        String departureTime,
 
-        // Explicit schedule data for the Template
-        // (You can extract these from the dates above in the Service,
-        // but having them here is clearer for the UI/API)
-        java.time.DayOfWeek scheduledDay,
-        java.time.LocalTime dailyDepartureTime,
+        // Matches selectedArrivalDate (YYYY-MM-DD)
+        String arrivalDate,
+        // Matches selectedArrivalTime (HH:mm)
+        String arrivalTime,
+
+        // Matches selectedDay ("MONDAY", etc.)
+        String scheduledDay,
+
+        // Matches selectedRegularDepartureTime (HH:mm)
+        String regularDepartureTime,
 
         Double baseFare
 ) { }
