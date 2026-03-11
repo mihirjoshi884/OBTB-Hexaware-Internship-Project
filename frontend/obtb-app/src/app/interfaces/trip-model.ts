@@ -1,5 +1,7 @@
 // src/app/interfaces/trip-model.ts
 
+import { Time } from "@angular/common";
+
 export enum BusType {
     AC_SEATER = 'AC_SEATER',
     AC_SLEEPER = 'AC_SLEEPER',
@@ -41,18 +43,20 @@ export interface tripCreationRequest {
     busId: string;
     companyId: string;
     tripType: TripType;
-    firstDepartureTime: Date; // Changed from date to Date
-    firstArrivalTime: Date;   // Changed from date to Date
+    departureTime: Date; // Changed from date to Date
+    arrivalTime: Date;   // Changed from date to Date
     scheduledDay: any;
-    dailyDepartureTime: any;
+    regularDepartureTime: Date;
     baseFare: number;
 }
 
 export interface tripDetail {
     tripId: string;
     busId: string;
-    arrivalTime: Date;   // Changed from date to Date
-    departureTime: Date; // Changed from date to Date
+    arrivalDate: Date;
+    arrivalTime: Time;
+    departureDate: Date;   // Changed from date to Date
+    departureTime: Time; // Changed from date to Date
     baseFare: number;
     busDetails: BusFleetResponse;
 }

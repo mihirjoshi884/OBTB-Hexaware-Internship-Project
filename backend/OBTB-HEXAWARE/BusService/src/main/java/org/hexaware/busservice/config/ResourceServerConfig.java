@@ -63,7 +63,7 @@ public class ResourceServerConfig {
             // 2. Convert Roles (For human users coming via Gateway)
             JwtGrantedAuthoritiesConverter roleConverter = new JwtGrantedAuthoritiesConverter();
             roleConverter.setAuthoritiesClaimName("roles");
-            roleConverter.setAuthorityPrefix("ROLE_");
+            roleConverter.setAuthorityPrefix("");
             authorities.addAll(roleConverter.convert(jwt));
 
             // DEBUG: Keep this line until you see "SCOPE_internal" in your logs!

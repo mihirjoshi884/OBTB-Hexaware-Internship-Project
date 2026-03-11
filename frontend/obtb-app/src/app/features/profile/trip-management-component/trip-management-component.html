@@ -80,7 +80,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <h2 class="text-xl font-bold text-white uppercase tracking-tight">Create Trip Blueprint</h2>
-                        <p class="text-xs text-slate-400">Define a recurring schedule for your fleet</p>
+                        <p class="text-xs text-slate-400">Define a  schedule for your fleet</p>
                     </div>
                     <button (click)="closeSchedulerDrawer()" class="text-slate-400 hover:text-white transition p-2 bg-slate-900 rounded-full">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,7 +92,8 @@
 
             <div class="p-6">
                 <div class="bg-slate-900/50 border border-slate-700 rounded-2xl p-6">
-                    <app-trip-scheduler-form 
+                    <app-trip-scheduler-form
+                        [companyId]="companyId"
                         (onSuccess)="onScheduleCreated()"
                         (onCancel)="closeSchedulerDrawer()">
                     </app-trip-scheduler-form>
