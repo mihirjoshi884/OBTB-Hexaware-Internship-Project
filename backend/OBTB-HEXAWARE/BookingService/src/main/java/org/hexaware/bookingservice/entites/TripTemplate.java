@@ -32,6 +32,7 @@ public class TripTemplate {
 
     // Scheduled relative times
     private DayOfWeek scheduledDay;
+    private java.time.LocalTime regularTime;
     private java.time.LocalTime departureTime;
     private java.time.LocalTime arrivalTime;
     private java.time.LocalDate departureDate;

@@ -79,30 +79,30 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
         List<TripTemplate> activeRegular = templateRepository.findByIsActiveTrueAndTripType(TripType.REGULAR);
 
         for (TripTemplate tt : activeRegular) {
-            // Map your custom enum to java.time.DayOfWeek
+            // We still need the date here just for the 'exists' check
             java.time.DayOfWeek standardDay = java.time.DayOfWeek.valueOf(tt.getScheduledDay().name());
-
-            LocalDate nextDate = LocalDate.now().with(TemporalAdjusters.nextOrSame(standardDay));
+            LocalDate nextOccurrence = LocalDate.now().with(TemporalAdjusters.nextOrSame(standardDay));
 
             boolean exists = instanceRepository.existsByTemplate_TemplateIdAndActualDepartureBetween(
                     tt.getTemplateId(),
-                    nextDate.atStartOfDay(),
-                    nextDate.atTime(LocalTime.MAX)
+                    nextOccurrence.atStartOfDay(),
+                    nextOccurrence.atTime(LocalTime.MAX)
             );
 
             if (!exists) {
-                instantiate(tt, nextDate);
+                // Calling your specific signature: instantiate(TripTemplate, LocalTime)
+                instantiate(tt, tt.getDepartureTime());
             }
         }
     }
 
     @Override
     @Transactional
-    public TripInstance instantiate(TripTemplate template, LocalDate date) {
+    public TripInstance instantiate(TripTemplate template, LocalTime time) {
         TripInstance instance = new TripInstance();
         instance.setTemplate(template);
-        instance.setActualDeparture(LocalDateTime.of(date, template.getDepartureTime()));
-        instance.setActualArrival(LocalDateTime.of(date, template.getArrivalTime()));
+        instance.setActualDeparture(LocalDateTime.of(template.getDepartureDate(), template.getDepartureTime()));
+        instance.setActualArrival(LocalDateTime.of(template.getArrivalDate(), template.getArrivalTime()));
         instance.setStatus(TripStatus.SCHEDULED);
 
         String fullUrl = busServiceUrl + "/bus-api/private/v1/bus/get-buses/{companyId}";

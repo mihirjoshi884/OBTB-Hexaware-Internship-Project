@@ -9,6 +9,7 @@ import org.hexaware.bookingservice.entites.TripInstance;
 import org.hexaware.bookingservice.entites.TripTemplate;
 import org.hexaware.bookingservice.enums.DayOfWeek;
 import org.hexaware.bookingservice.enums.TripStatus;
+import org.hexaware.bookingservice.enums.TripType;
 import org.hexaware.bookingservice.repositories.TripInstanceRepository;
 import org.hexaware.bookingservice.repositories.TripTemplateRepository;
 import org.hexaware.bookingservice.services.TripLifecycleEngine;
@@ -49,13 +50,21 @@ public class TripServiceImpl implements TripService {
         template.setTripType(request.tripType());
         template.setBaseFare(request.baseFare());
 
-        // Extract recurring schedule from the request
-        template.setScheduledDay(DayOfWeek.valueOf(request.scheduledDay().toUpperCase()));
-        template.setDepartureTime(LocalTime.parse(request.departureTime()));
-        template.setArrivalTime(LocalTime.parse(request.arrivalTime()));
+        if(request.tripType().equals(TripType.ONE_TIME)){
+            template.setDepartureTime(LocalTime.parse(request.departureTime()));
+            template.setArrivalTime(LocalTime.parse(request.arrivalTime()));
+            template.setDepartureDate(LocalDate.parse(request.departureDate()));
+            template.setArrivalDate(LocalDate.parse(request.arrivalDate()));
+        }else {
+            // Extract recurring schedule from the request
+            template.setScheduledDay(DayOfWeek.valueOf(request.scheduledDay().toUpperCase()));
+            template.setRegularTime(LocalTime.parse(request.regularDepartureTime()));
+        }
+
+
+
         template.setActive(true);
-        template.setDepartureDate(LocalDate.parse(request.departureDate()));
-        template.setArrivalDate(LocalDate.parse(request.arrivalDate()));
+
 
         TripTemplate savedTemplate = templateRepository.save(template);
 
@@ -63,7 +72,7 @@ public class TripServiceImpl implements TripService {
         // We pass the LocalDate of the first departure to the engine
         TripInstance firstInstance = lifecycleEngine.instantiate(
                 savedTemplate,
-                LocalDate.parse(request.departureTime())
+                LocalTime.parse(request.departureTime())
         );
         var busResponse = fetchBusFromService(savedTemplate.getCompanyId(), savedTemplate.getBusId());
         // 3. Return the Details of the specific Instance created
