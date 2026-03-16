@@ -22,6 +22,16 @@ export enum TripType {
     ONE_TIME = 'ONE_TIME'
 }
 
+export enum DayOfWeek {
+    MONDAY = 'MONDAY',
+    TUESDAY = 'TUESDAY',
+    WEDNESDAY = 'WEDNESDAY',
+    THURSDAY = 'THURSDAY',
+    FRIDAY = 'FRIDAY',
+    SATURDAY = 'SATURDAY',
+    SUNDAY = 'SUNDAY'
+}
+
 export interface BusFleetResponse {
     busId: string;
     busName: string;
@@ -61,4 +71,22 @@ export interface tripDetail {
     departureTime: Time; // Changed from date to Date
     baseFare: number;
     busDetails: BusFleetResponse;
+}
+export interface TripTemplateDto {
+    templateId: string; // UUID
+    routeId: string;
+    routeName: string;
+    busId: string;
+    busName: string;
+    companyId: string;
+    companyName: string;
+    baseFare: number;
+    tripType: TripType;
+    scheduledDay?: DayOfWeek; // Optional based on TripType logic
+    regularTime?: string;     // LocalTime (format "HH:mm:ss")
+    departureTime?: string;   // LocalTime
+    arrivalTime?: string;     // LocalTime
+    departureDate?: string;   // LocalDate (format "YYYY-MM-DD")
+    arrivalDate?: string;     // LocalDate
+    isActive: boolean;
 }

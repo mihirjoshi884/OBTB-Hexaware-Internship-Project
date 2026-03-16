@@ -14,12 +14,12 @@ public class TripEngineTriggerImpl implements TripEngineTrigger {
     @Autowired
     private TripLifecycleEngine engine;
 
-    @Override
-    @EventListener(ApplicationReadyEvent.class)
-    public void onStartup() {
-        System.out.println("Triggering Trip Engine: Application Startup Sync...");
-        engine.processLifecycle();
-    }
+//    @Override
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void onStartup() {
+//        System.out.println("Triggering Trip Engine: Application Startup Sync...");
+//        engine.processLifecycle();
+//    }
 
     @Override
     @Scheduled(fixedRate = 3600000)

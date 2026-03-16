@@ -1,11 +1,8 @@
 package org.hexaware.bookingservice.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter @Setter
+@Getter @Setter @ToString
 @NoArgsConstructor @AllArgsConstructor
 public class ResponseDto<T> {
     private T body;

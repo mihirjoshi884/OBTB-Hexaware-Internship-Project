@@ -2,6 +2,7 @@ package org.hexaware.busservice.controller;
 
 import org.hexaware.busservice.dtos.*;
 import org.hexaware.busservice.dtos.busDtos.BusCreationRequest;
+import org.hexaware.busservice.dtos.busDtos.BusFleetResponse;
 import org.hexaware.busservice.dtos.busDtos.BusTemplateCreationRequest;
 import org.hexaware.busservice.dtos.companyDtos.CompanyCreationRequest;
 import org.hexaware.busservice.dtos.documentDtos.BusDocumentUploadRequest;
@@ -221,7 +222,20 @@ public class PrivateController {
         ResponseDto<RouteResponse> response = routeService.updateRoute(routeId, request);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
-
+    // /bus-api/private/v1/bus/get-buses-bulk
+    @PostMapping("/bus/get-buses-bulk")
+    public ResponseEntity<?> getBusesByBusIds(@RequestBody List<UUID> busIds){
+        ResponseDto<List<BusFleetResponse>> response = busService.getAllBuses(busIds);
+        System.out.println(response);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+    // /bus-api/private/v1/bus/routes/get-routes-bulk
+    @PostMapping("/bus/routes/get-routes-bulk")
+    public ResponseEntity<?> getRoutesByRouteIds(@RequestBody List<UUID> routeIds){
+        ResponseDto<List<RouteResponse>> response = busService.getAllRoutes(routeIds);
+        System.out.println(response);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
 
     @DeleteMapping("/bus/routes/{routeId}")
     public ResponseEntity<?> deleteRoute(@PathVariable UUID routeId) {

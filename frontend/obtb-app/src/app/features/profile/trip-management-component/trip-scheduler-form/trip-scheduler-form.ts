@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BusFleetResponse, RouteResponse } from 'src/app/interfaces/bus-operator.models';
 import { BusService } from '../../../../core/services/bus-service';
@@ -43,7 +43,7 @@ export class TripSchedulerForm implements OnInit {
   baseFare: number = 0;
 
   constructor(
-    private readonly tripService: TripService,
+    @Inject(TripService) private readonly tripService: TripService,
     private readonly busService: BusService,
     private readonly cdr: ChangeDetectorRef
   ) {}

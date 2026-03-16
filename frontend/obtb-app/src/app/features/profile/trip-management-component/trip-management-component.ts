@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
+import { TripService } from '../../../core/services/trip-service';
+import { tripDetail, TripTemplateDto } from '../../../interfaces/trip-model';
 import { TripSchedulerForm } from './trip-scheduler-form/trip-scheduler-form';
-import { TripService } from '../../../core/services/trip-service'; 
-import { tripDetail } from '../../../interfaces/trip-model';
 
 @Component({
   selector: 'app-trip-management-component',
@@ -15,14 +15,18 @@ export class TripManagementComponent implements OnInit {
   @Input() userId: string = '';
 
   private tripService: TripService = inject(TripService);
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
-  templates: any[] = [];
+  templates: TripTemplateDto[] = [];
   upcomingJourneys: tripDetail[] = [];
   isLoading = false;
   schedulerDrawerOpen: boolean = false;
 
   ngOnInit(): void {
+    
     if (this.companyId) this.loadDashboard();
+    console.log(this.companyId);
+    console.log(this.userId);
   }
 
   // CHANGED: Renamed to match the (click) event in your HTML
@@ -39,15 +43,27 @@ export class TripManagementComponent implements OnInit {
   loadDashboard(): void {
     this.isLoading = true;
     this.tripService.getMyTemplates(this.companyId).subscribe({
-      next: (data: any[]) => {
-        this.templates = data || [];
-        if (this.templates.length > 0 && this.templates[0].routeId) {
+      next: response =>  {
+        console.log('Full API Response:', response); // CHECK THIS IN CONSOLE 
+        // If your API returns { status: 200, message: "...", body: [...] }
+        if (response && response.body) {
+          this.templates = [ ...response.body];
+          console.log(this.templates[0].busId +"\t" +this.templates[0].busName);
+          this.cdr.detectChanges()
+        } else if (Array.isArray(response)) {
+          // Fallback if the service already mapped it to the array
+          this.templates = response;
+        }
+
+        console.log('Templates assigned to variable:', this.templates);
+
+        if (this.templates.length > 0) {
           this.loadUpcomingForRoute(this.templates[0].routeId);
         }
         this.isLoading = false;
       },
-      error: (err: any) => {
-        console.error('Error fetching templates', err);
+      error: (err) => {
+        console.error('API Error:', err);
         this.isLoading = false;
       }
     });
@@ -55,7 +71,10 @@ export class TripManagementComponent implements OnInit {
 
   loadUpcomingForRoute(routeId: string): void {
     this.tripService.getActiveJourneys(routeId).subscribe({
-      next: (journeys: tripDetail[]) => this.upcomingJourneys = journeys,
+      next: journey => {this.upcomingJourneys = [ ...journey];
+        console.log(journey)
+        console.log(this.upcomingJourneys[0].busId);
+      },
       error: (err: any) => console.error('Error fetching journeys', err)
     });
   }
@@ -65,10 +84,11 @@ export class TripManagementComponent implements OnInit {
     this.loadDashboard(); 
   }
 
-  onToggleStatus(template: any): void {
-    const newStatus = !template.active;
+  onToggleStatus(template: TripTemplateDto): void {
+    const newStatus = !template.isActive; // Corrected: isActive instead of active
     this.tripService.toggleTemplateStatus(template.templateId, newStatus).subscribe({
-      next: () => template.active = newStatus
+      next: () => template.isActive = newStatus,
+      error: (err) => console.error('Status toggle failed', err)
     });
   }
 }

@@ -3,8 +3,10 @@ package org.hexaware.bookingservice.services.serviceImpl;
 import jakarta.transaction.Transactional;
 import org.hexaware.bookingservice.dtos.ResponseDto;
 import org.hexaware.bookingservice.dtos.busDtos.BusFleetResponse;
+import org.hexaware.bookingservice.dtos.routeDtos.RouteResponse;
 import org.hexaware.bookingservice.dtos.tripDtos.TripCreationRequest;
 import org.hexaware.bookingservice.dtos.tripDtos.TripDetails;
+import org.hexaware.bookingservice.dtos.tripDtos.TripTemplateDto;
 import org.hexaware.bookingservice.entites.TripInstance;
 import org.hexaware.bookingservice.entites.TripTemplate;
 import org.hexaware.bookingservice.enums.DayOfWeek;
@@ -23,8 +25,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TripServiceImpl implements TripService {
@@ -42,40 +44,38 @@ public class TripServiceImpl implements TripService {
     @Override
     @Transactional
     public ResponseDto<TripDetails> createTrip(TripCreationRequest request) {
-        // 1. Create the Permanent Template (The Blueprint)
         TripTemplate template = new TripTemplate();
         template.setRouteId(request.routeId());
         template.setBusId(request.busId());
         template.setCompanyId(request.companyId());
         template.setTripType(request.tripType());
         template.setBaseFare(request.baseFare());
+        template.setActive(true);
 
-        if(request.tripType().equals(TripType.ONE_TIME)){
-            template.setDepartureTime(LocalTime.parse(request.departureTime()));
+        // Determine which time to use for the initial instantiation
+        LocalTime startTime;
+
+        if (request.tripType().equals(TripType.ONE_TIME)) {
+            startTime = LocalTime.parse(request.departureTime());
+            template.setDepartureTime(startTime);
             template.setArrivalTime(LocalTime.parse(request.arrivalTime()));
             template.setDepartureDate(LocalDate.parse(request.departureDate()));
             template.setArrivalDate(LocalDate.parse(request.arrivalDate()));
-        }else {
-            // Extract recurring schedule from the request
+        } else {
+            startTime = LocalTime.parse(request.regularDepartureTime());
             template.setScheduledDay(DayOfWeek.valueOf(request.scheduledDay().toUpperCase()));
-            template.setRegularTime(LocalTime.parse(request.regularDepartureTime()));
+            template.setRegularTime(startTime);
         }
-
-
-
-        template.setActive(true);
-
 
         TripTemplate savedTemplate = templateRepository.save(template);
 
-        // 2. Spawn the Initial Instance (The first bookable journey)
-        // We pass the LocalDate of the first departure to the engine
-        TripInstance firstInstance = lifecycleEngine.instantiate(
-                savedTemplate,
-                LocalTime.parse(request.departureTime())
-        );
+        // 2. Spawn the Initial Instance
+        // Pass 'startTime' which we already parsed above safely
+        TripInstance firstInstance = lifecycleEngine.instantiate(savedTemplate, startTime);
+
+        // 3. Fetch Bus Details for the response
         var busResponse = fetchBusFromService(savedTemplate.getCompanyId(), savedTemplate.getBusId());
-        // 3. Return the Details of the specific Instance created
+
         TripDetails details = new TripDetails(
                 firstInstance.getInstanceId(),
                 savedTemplate.getBusId(),
@@ -89,8 +89,67 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public List<TripTemplate> getTemplatesByCompany(UUID companyId) {
-        return templateRepository.findByCompanyId(companyId);
+    public ResponseDto<List<TripTemplateDto>> getTemplatesByCompany(UUID companyId) {
+        List<TripTemplate> templates = templateRepository.findByCompanyId(companyId);
+        if (templates.isEmpty()) return (ResponseDto<List<TripTemplateDto>>) Collections.emptyList();
+
+        Set<UUID> busIds = templates.stream().map(TripTemplate::getBusId).collect(Collectors.toSet());
+        Set<UUID> routeIds = templates.stream().map(TripTemplate::getRouteId).collect(Collectors.toSet());
+
+        ParameterizedTypeReference<ResponseDto<List<BusFleetResponse>>> busResponseType =
+                new ParameterizedTypeReference<>() {};
+
+        ResponseDto<List<BusFleetResponse>> busResponse = bookingWebClient.post()
+                .uri(busServiceUrl + "/bus-api/private/v1/bus/get-buses-bulk")
+                .bodyValue(busIds) // Use .bodyValue for direct objects
+                .retrieve()
+                .bodyToMono(busResponseType)
+                .block();
+
+        ParameterizedTypeReference<ResponseDto<List<RouteResponse>>> routeResponseType =
+                new ParameterizedTypeReference<>() {};
+
+        ResponseDto<List<RouteResponse>> routeResponse = bookingWebClient.post()
+                .uri(busServiceUrl+"/bus-api/private/v1/bus/routes/get-routes-bulk")
+                .bodyValue(routeIds)
+                .retrieve()
+                .bodyToMono(routeResponseType)
+                .block();
+
+        Map<UUID, BusFleetResponse> busMap = (busResponse != null && busResponse.getBody() != null)
+                ? busResponse.getBody().stream().collect(Collectors.toMap(BusFleetResponse::busId, b -> b))
+                : Collections.emptyMap();
+
+        Map<UUID, RouteResponse> routeMap = (routeResponse != null && routeResponse.getBody() != null)
+                ? routeResponse.getBody().stream().collect(Collectors.toMap(RouteResponse::routeId, r -> r))
+                : Collections.emptyMap();
+
+        List<TripTemplateDto> dtoList = templates.stream().map(t -> {
+            BusFleetResponse busInfo = busMap.get(t.getBusId());
+            RouteResponse routeInfo = routeMap.get(t.getRouteId());
+
+            // Construct the record with all fields at once
+            return new TripTemplateDto(
+                    t.getTemplateId(),
+                    routeInfo.routeId(),
+                    routeInfo.routeName(),
+                    busInfo.busId(),
+                    busInfo.busName(),
+                    busInfo.company().companyId(),
+                    busInfo.company().companyName(),
+                    t.getBaseFare(),
+                    t.getTripType(),
+                    t.getScheduledDay(),
+                    t.getRegularTime(),
+                    t.getDepartureTime(),
+                    t.getArrivalTime(),
+                    t.getDepartureDate(),
+                    t.getArrivalDate(),
+                    t.isActive()
+            );
+        }).collect(Collectors.toList());
+
+        return new ResponseDto<>(dtoList, 200, "Templates retrieved and enriched successfully");
     }
 
     @Override

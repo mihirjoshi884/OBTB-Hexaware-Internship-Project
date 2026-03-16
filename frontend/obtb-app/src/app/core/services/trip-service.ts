@@ -1,10 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ResponseDto } from 'src/app/interfaces/bus-operator.models';
 import { environment } from 'src/environments/environment.development';
 import {
   TripCreationRequest,
-  tripDetail
+  tripDetail,
+  TripTemplateDto
 } from '../../interfaces/trip-model';
 
 @Injectable({
@@ -28,8 +30,8 @@ export class TripService {
    * READ: Get all master schedules (Templates) for the operator's company
    * Maps to: GET /templates/company/{companyId}
    */
-  getMyTemplates(companyId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/templates/company/${companyId}`);
+  getMyTemplates(companyId: string): Observable<ResponseDto<TripTemplateDto []>> {
+    return this.http.get<ResponseDto<TripTemplateDto []>>(`${this.baseUrl}/templates/company/${companyId}`);
   }
 
   /**

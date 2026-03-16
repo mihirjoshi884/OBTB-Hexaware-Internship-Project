@@ -104,7 +104,7 @@ public class RouteServiceImpl implements RouteService {
         RouteStop stop = new RouteStop();
         stop.setStopName(dto.stopName());
         stop.setStopOrder(dto.stopOrder());
-        stop.setDistanceFromPreviousStop(dto.distanceFromPreviousStop());
+        stop.setDistanceFromOrigin(dto.distanceFromOrigin());
         stop.setTimeOffsetFromOrigin(dto.timeOffsetFromOrigin());
         stop.setRoute(route);
         return stop;
@@ -115,7 +115,7 @@ public class RouteServiceImpl implements RouteService {
                 .map(s -> new RouteStopDTO(
                         s.getStopName(),
                         s.getStopOrder(),
-                        s.getDistanceFromPreviousStop(),
+                        s.getDistanceFromOrigin(),
                         s.getTimeOffsetFromOrigin()))
                 .collect(Collectors.toList());
 

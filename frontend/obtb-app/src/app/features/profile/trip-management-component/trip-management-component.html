@@ -12,7 +12,7 @@
         </div>
 
         <div class="overflow-hidden rounded-xl border border-slate-700/30">
-            @if (templates.length > 0) {
+            @if (templates && templates.length > 0) {
                 <table class="w-full text-left text-sm">
                     <thead class="bg-slate-900/50 text-slate-400 uppercase text-[10px] tracking-wider">
                         <tr>
@@ -23,16 +23,31 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-700/30 text-slate-200">
-                        @for (t of templates; track t.templateId) {
+                        @for (t of this.templates; track t.templateId) {
                             <tr class="hover:bg-slate-700/20 transition-colors">
-                                <td class="px-4 py-4 font-medium">{{ t.routeName }}</td>
-                                <td class="px-4 py-4 text-slate-400">{{ t.busName }} ({{ t.busType }})</td>
-                                <td class="px-4 py-4">{{ t.scheduledDay }} @ {{ t.dailyDepartureTime }}</td>
+                                <td class="px-4 py-4">
+                                    <div class="font-medium text-white">{{ t.routeName }}</div>
+                                    <div class="text-[10px] text-slate-500 uppercase">{{ t.tripType }}</div>
+                                </td>
+                                <td class="px-4 py-4 text-slate-400">
+                                    {{ t.busName }}
+                                </td>
+
+                                <td class="px-4 py-4">
+                                    @if (t.tripType === 'REGULAR') {
+                                        <span class="text-blue-400 font-semibold">{{ t.scheduledDay }}</span> 
+                                        <span class="text-slate-500"> @ </span> {{ t.regularTime }}
+                                    } @else {
+                                        <span class="text-emerald-400 font-semibold">{{ t.departureDate }}</span> 
+                                        <span class="text-slate-500"> @ </span> {{ t.departureTime }}
+                                    }
+                                </td>
+                                
                                 <td class="px-4 py-4">
                                     <button (click)="onToggleStatus(t)"
-                                        [class]="t.active ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'"
-                                        class="px-2 py-1 rounded text-[10px] font-bold uppercase transition-all">
-                                        {{ t.active ? 'ACTIVE' : 'PAUSED' }}
+                                        [ngClass]="t.isActive ? 'bg-green-500/20 text-green-400 border-green-500/50' : 'bg-rose-500/20 text-rose-400 border-rose-500/50'"
+                                        class="px-3 py-1 rounded-full border text-[10px] font-bold uppercase transition-all">
+                                        {{ t.isActive ? 'ACTIVE' : 'PAUSED' }}
                                     </button>
                                 </td>
                             </tr>
@@ -41,13 +56,7 @@
                 </table>
             } @else {
                 <div class="py-20 text-center">
-                    <div class="inline-flex p-4 rounded-full bg-slate-700/20 mb-4">
-                        <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                    </div>
                     <p class="text-slate-400 font-medium">No master schedules found.</p>
-                    <p class="text-slate-500 text-xs mt-1">Click "+ New Schedule" to define your first bus route blueprint.</p>
                 </div>
             }
         </div>

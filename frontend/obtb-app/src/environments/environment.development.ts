@@ -10,5 +10,6 @@ export const environment = {
         'txnBaseUri': 'http://localhost:9090/txn',
         'busService.base-uri':'http://localhost:9090/bus',
         'bookingService.base-uri':'http://localhost:9090/booking'
-    }
+    },
+    mapApiKey: 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjA2OGMzMDRiYWIwODQxNWZiZmQ1M2FjN2RlYTMzMmZjIiwiaCI6Im11cm11cjY0In0='
 };

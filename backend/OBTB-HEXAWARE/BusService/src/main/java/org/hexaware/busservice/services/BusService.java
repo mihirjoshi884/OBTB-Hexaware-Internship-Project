@@ -6,6 +6,7 @@ import org.hexaware.busservice.dtos.busDtos.*;
 import org.hexaware.busservice.dtos.companyDtos.CompanyCreationRequest;
 import org.hexaware.busservice.dtos.companyDtos.CompanyCreationResponse;
 import org.hexaware.busservice.dtos.documentDtos.*;
+import org.hexaware.busservice.dtos.routeDtos.RouteResponse;
 import org.hexaware.busservice.dtos.staffDtos.AddBusStaffRequest;
 import org.hexaware.busservice.dtos.staffDtos.BusStaffCreationRequest;
 import org.hexaware.busservice.dtos.staffDtos.BusStaffCreationResponse;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface BusService {
@@ -37,4 +39,6 @@ public interface BusService {
     public ResponseDto<BusStaffResponse> updateStaffLicense(UUID staffId, MultipartFile driverLicense) throws IOException;
     public ResponseDto<DocumentUploadResponse> updateOperatorDocuments(UUID userId, MultipartFile aadhar, MultipartFile pan) throws IOException;
     public ResponseDto<String> deleteOperatorDocuments(UUID userId) throws IOException;
+    public ResponseDto<List<BusFleetResponse>> getAllBuses(List<UUID> busIds);
+    public ResponseDto<List<RouteResponse>> getAllRoutes(List<UUID> routeIds);
 }

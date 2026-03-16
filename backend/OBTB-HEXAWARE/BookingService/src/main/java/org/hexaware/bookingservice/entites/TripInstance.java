@@ -29,6 +29,10 @@ public class TripInstance {
     private LocalDateTime actualDeparture;
     private LocalDateTime actualArrival;
 
+    @OneToMany(mappedBy = "tripInstance", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("stopOrder ASC")
+    private List<TripStopInstance> stops = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     private TripStatus status; // SCHEDULED, COMPLETED
 

@@ -7,6 +7,8 @@ import org.hexaware.busservice.dtos.companyDtos.CompanyCreationRequest;
 import org.hexaware.busservice.dtos.companyDtos.CompanyCreationResponse;
 import org.hexaware.busservice.dtos.companyDtos.CompanySummaryDTO;
 import org.hexaware.busservice.dtos.documentDtos.*;
+import org.hexaware.busservice.dtos.routeDtos.RouteResponse;
+import org.hexaware.busservice.dtos.routeDtos.RouteStopDTO;
 import org.hexaware.busservice.dtos.staffDtos.AddBusStaffRequest;
 import org.hexaware.busservice.dtos.staffDtos.BusStaffCreationRequest;
 import org.hexaware.busservice.dtos.staffDtos.BusStaffCreationResponse;
@@ -52,6 +54,8 @@ public class BusServiceImpl implements BusService {
     private LayoutRepository layoutRepository;
     @Autowired
     private BusStaffRepository busStaffRepository;
+    @Autowired
+    private RouteRepository routeRepository;
 
 
     @Override
@@ -591,5 +595,56 @@ public class BusServiceImpl implements BusService {
 
         busOperatorRepository.save(operator);
         return new ResponseDto<>("Operator documents cleared", 200, "Deleted");
+    }
+
+    @Override
+    public ResponseDto<List<BusFleetResponse>> getAllBuses(List<UUID> busIds) {
+        List<Bus> busResponse = busRepository.findAllById(busIds);
+        List<BusFleetResponse> response = busResponse.stream().map(this::mapToBusFleetResponse).toList();
+        return new  ResponseDto<>(response, 200, "All bus fleets found");
+    }
+
+    @Override
+    public ResponseDto<List<RouteResponse>> getAllRoutes(List<UUID> routeIds) {
+        List<Route> routeResponse = routeRepository.findAllById(routeIds);
+        List<RouteResponse> response = routeResponse.stream().map(this::mapToRouteResponse).toList();
+        return new   ResponseDto<>(response, 200, "All routes found");
+    }
+
+    private RouteResponse mapToRouteResponse(Route route) {
+        return new RouteResponse(
+                route.getRouteId(),
+                route.getRouteName(),
+                route.getOrigin(),
+                route.getDestination(),
+                route.getTotalDistance(),
+                route.getEstimatedDuration(),
+                route.getStops().stream().map(this::mapToRouteStop).toList()
+        );
+    }
+    private RouteStopDTO mapToRouteStop(RouteStop routeStop) {
+        return new RouteStopDTO(
+                routeStop.getStopName(),
+                routeStop.getStopOrder(),
+                routeStop.getDistanceFromOrigin(),
+                routeStop.getTimeOffsetFromOrigin()
+        );
+    }
+    private BusFleetResponse mapToBusFleetResponse(Bus bus) {
+        return new BusFleetResponse(
+                bus.getBusId(),
+                bus.getBusName(),
+                bus.getStatus(),
+                bus.getRegistrationNumber(),
+                new CompanySummaryDTO(
+                        bus.getCompany().getCompanyName(),
+                        bus.getCompany().getCompanyId()
+                ),
+                new TemplateSummaryDTO(
+                        bus.getTemplate().getTemplateName(),
+                        bus.getTemplate().getBusType().toString(),
+                        bus.getTemplate().getLayoutData()
+                )
+        );
     }
 }

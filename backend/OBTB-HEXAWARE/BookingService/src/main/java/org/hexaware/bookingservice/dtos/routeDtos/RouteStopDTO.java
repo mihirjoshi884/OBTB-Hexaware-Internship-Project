@@ -1,4 +1,4 @@
-package org.hexaware.busservice.dtos.routeDtos;
+package org.hexaware.bookingservice.dtos.routeDtos;
 
 public record RouteStopDTO(
         String stopName,

@@ -20,6 +20,6 @@ public class RouteStop {
 
     private String stopName;
     private Integer stopOrder; // 0 for Origin, 1, 2...
-    private Double distanceFromPreviousStop;
+    private Double distanceFromOrigin;
     private Integer timeOffsetFromOrigin; // minutes from start
 }
