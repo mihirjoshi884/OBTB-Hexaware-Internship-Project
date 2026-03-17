@@ -38,4 +38,6 @@ public class TripInstance {
 
     @OneToMany(mappedBy = "tripInstance", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TripSeat> seatMap = new ArrayList<>();
+
+
 }

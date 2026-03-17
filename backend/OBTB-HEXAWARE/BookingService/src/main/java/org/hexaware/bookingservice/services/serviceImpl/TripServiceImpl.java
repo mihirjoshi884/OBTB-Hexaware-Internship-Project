@@ -1,13 +1,18 @@
 package org.hexaware.bookingservice.services.serviceImpl;
 
 import jakarta.transaction.Transactional;
+import org.apache.logging.log4j.CloseableThreadContext;
 import org.hexaware.bookingservice.dtos.ResponseDto;
 import org.hexaware.bookingservice.dtos.busDtos.BusFleetResponse;
+import org.hexaware.bookingservice.dtos.instanceDtos.InstanceDto;
+import org.hexaware.bookingservice.dtos.instanceDtos.StopsDto;
 import org.hexaware.bookingservice.dtos.routeDtos.RouteResponse;
 import org.hexaware.bookingservice.dtos.tripDtos.TripCreationRequest;
 import org.hexaware.bookingservice.dtos.tripDtos.TripDetails;
 import org.hexaware.bookingservice.dtos.tripDtos.TripTemplateDto;
 import org.hexaware.bookingservice.entites.TripInstance;
+import org.hexaware.bookingservice.entites.TripSeat;
+import org.hexaware.bookingservice.entites.TripStopInstance;
 import org.hexaware.bookingservice.entites.TripTemplate;
 import org.hexaware.bookingservice.enums.DayOfWeek;
 import org.hexaware.bookingservice.enums.TripStatus;
@@ -152,11 +157,7 @@ public class TripServiceImpl implements TripService {
         return new ResponseDto<>(dtoList, 200, "Templates retrieved and enriched successfully");
     }
 
-    @Override
-    public List<TripInstance> getUpcomingInstancesByRoute(UUID routeId) {
-        return instanceRepository.findByTemplate_RouteIdAndStatusAndActualDepartureBetween(
-                routeId, TripStatus.SCHEDULED, LocalDateTime.now(), LocalDateTime.now().plusDays(7));
-    }
+
 
     @Override
     @Transactional
@@ -188,5 +189,39 @@ public class TripServiceImpl implements TripService {
                 .filter(b -> b.busId().equals(busId))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Bus details not found"));
+    }
+
+    @Override
+    public ResponseDto<List<InstanceDto>> getUpcomingInstancesByTemplateIds(List<UUID> templateIds) {
+
+        if (templateIds == null || templateIds.isEmpty()) {
+            return new ResponseDto<>(Collections.emptyList(), 200, "No IDs provided");
+        }
+        var results = instanceRepository.findAllByTemplate_TemplateIds(templateIds, TripStatus.SCHEDULED);
+        var instanceResult = results.stream().map(this::mapInstanceToInstanceDto).collect(Collectors.toList());
+        var response = new  ResponseDto<>(instanceResult, 200, "Instances retrieved successfully");
+        return response;
+    }
+
+    private InstanceDto mapInstanceToInstanceDto(TripInstance instance) {
+        List<StopsDto> stops = new ArrayList<>();
+        for(TripStopInstance stop : instance.getStops()) {
+            stops.add(new StopsDto(
+                    stop.getId(),
+                    stop.getStopName(),
+                    stop.getStopOrder(),
+                    stop.getArrivalTime(),
+                    stop.getDepartureTime()
+            ));
+        }
+        return new InstanceDto(
+                instance.getInstanceId(),
+                instance.getTemplate().getTemplateId(),
+                instance.getActualDeparture(),
+                instance.getActualArrival(),
+                stops,
+                instance.getStatus()
+
+        );
     }
 }

@@ -32,6 +32,12 @@ export enum DayOfWeek {
     SUNDAY = 'SUNDAY'
 }
 
+export enum TripStatus{
+    SCHEDULED = "SCHEDULED", 
+    COMPLETED = "COMPLETED"
+
+}
+
 export interface BusFleetResponse {
     busId: string;
     busName: string;
@@ -89,4 +95,20 @@ export interface TripTemplateDto {
     departureDate?: string;   // LocalDate (format "YYYY-MM-DD")
     arrivalDate?: string;     // LocalDate
     isActive: boolean;
+}
+export interface StopsDto{
+    stopId: string;
+    stopName: string;
+    stopOrder: number;
+    arrivalTime: string;
+    departureTime: string;
+}
+export interface TripInstanceDto{
+    instanceId: string;
+    templateId: string;
+    actualDeparture: string;
+    actualArrival: string;
+    stops: StopsDto [];
+    status: TripStatus;
+
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -33,9 +34,10 @@ public class PrivateController {
     }
 
     // READ: Get all upcoming bookable journeys (Instances) for a specific route
-    @GetMapping("/instances/route/{routeId}")
-    public ResponseEntity<?> getActiveJourneys(@PathVariable UUID routeId) {
-        return ResponseEntity.ok(tripService.getUpcomingInstancesByRoute(routeId));
+    @PostMapping("/instances/get-active-instances")
+    public ResponseEntity<?> getActiveJourneys(@RequestBody List<UUID> templateIds) {
+        var response = tripService.getUpcomingInstancesByTemplateIds(templateIds);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     // UPDATE: Activate or Deactivate a schedule

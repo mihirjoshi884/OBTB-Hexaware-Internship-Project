@@ -5,7 +5,7 @@ import { ResponseDto } from 'src/app/interfaces/bus-operator.models';
 import { environment } from 'src/environments/environment.development';
 import {
   TripCreationRequest,
-  tripDetail,
+  TripInstanceDto,
   TripTemplateDto
 } from '../../interfaces/trip-model';
 
@@ -38,8 +38,8 @@ export class TripService {
    * READ: Get all upcoming bookable journeys (Instances) for a specific route
    * Maps to: GET /instances/route/{routeId}
    */
-  getActiveJourneys(routeId: string): Observable<tripDetail[]> {
-    return this.http.get<tripDetail[]>(`${this.baseUrl}/instances/route/${routeId}`);
+  getActiveJourneys(templateIds: string []): Observable<ResponseDto<TripInstanceDto []>> {
+    return this.http.post<ResponseDto<TripInstanceDto []>>(`${this.baseUrl}/instances/get-active-instances`,templateIds);
   }
 
   /**

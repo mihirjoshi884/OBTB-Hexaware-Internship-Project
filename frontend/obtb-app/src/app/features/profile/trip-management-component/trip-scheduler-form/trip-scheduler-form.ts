@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BusFleetResponse, RouteResponse } from 'src/app/interfaces/bus-operator.models';
 import { BusService } from '../../../../core/services/bus-service';
@@ -81,10 +81,12 @@ export class TripSchedulerForm implements OnInit {
       next: response => {
         this.buses = [...response.body];
         this.is_busLoading = false;
+        this.cdr.detectChanges();
       },
       error: error => {
         this.is_busLoading = false;
         console.error("Bus fetch failed:", error);
+        this.cdr.detectChanges();
       }
     });
   }
@@ -95,10 +97,12 @@ export class TripSchedulerForm implements OnInit {
       next: response => {
         this.routes = [...response.body];
         this.is_busRoutesLoading = false;
+        this.cdr.detectChanges();
       },
       error: error => {
         this.is_busRoutesLoading = false;
         console.error("Route fetch failed:", error);
+        this.cdr.detectChanges();
       }
     });
   }

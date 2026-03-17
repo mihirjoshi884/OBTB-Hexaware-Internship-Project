@@ -34,6 +34,16 @@ public interface TripInstanceRepository extends JpaRepository<TripInstance, UUID
 
     void deleteByTemplate_TemplateIdAndStatus(UUID templateId, TripStatus status);
 
+    @Query("SELECT DISTINCT ti FROM TripInstance ti " +
+            "LEFT JOIN FETCH ti.stops " +
+            "JOIN ti.template t " +
+            "WHERE ti.status = :status " +
+            "AND t.templateId IN :templateIds")
+    List<TripInstance> findAllByTemplate_TemplateIds(
+            @Param("templateIds") List<UUID> templateIds,
+            @Param("status") TripStatus status
+    );
+
     // Used for the Public Search API (Customer finding buses for a specific route/date)
     List<TripInstance> findByTemplate_RouteIdAndStatusAndActualDepartureBetween(
             UUID routeId,

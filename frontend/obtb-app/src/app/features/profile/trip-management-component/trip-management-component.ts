@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import { TripService } from '../../../core/services/trip-service';
-import { tripDetail, TripTemplateDto } from '../../../interfaces/trip-model';
+import { TripInstanceDto, TripTemplateDto } from '../../../interfaces/trip-model';
 import { TripSchedulerForm } from './trip-scheduler-form/trip-scheduler-form';
 
 @Component({
@@ -18,9 +18,10 @@ export class TripManagementComponent implements OnInit {
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   templates: TripTemplateDto[] = [];
-  upcomingJourneys: tripDetail[] = [];
+  upcomingJourneys: TripInstanceDto[] = [];
   isLoading = false;
   schedulerDrawerOpen: boolean = false;
+  templateIds: string[] = [];
 
   ngOnInit(): void {
     
@@ -58,7 +59,9 @@ export class TripManagementComponent implements OnInit {
         console.log('Templates assigned to variable:', this.templates);
 
         if (this.templates.length > 0) {
-          this.loadUpcomingForRoute(this.templates[0].routeId);
+          this.templateIds = this.templates.map(t => t.templateId);
+          console.log("collected templateIds are:\t"+this.templateIds);
+          this.loadUpcomingForRoute(this.templateIds);
         }
         this.isLoading = false;
       },
@@ -69,13 +72,20 @@ export class TripManagementComponent implements OnInit {
     });
   }
 
-  loadUpcomingForRoute(routeId: string): void {
-    this.tripService.getActiveJourneys(routeId).subscribe({
-      next: journey => {this.upcomingJourneys = [ ...journey];
-        console.log(journey)
-        console.log(this.upcomingJourneys[0].busId);
+  loadUpcomingForRoute(templateIds: string[]): void {
+    this.isLoading = true;
+    this.tripService.getActiveJourneys(templateIds).subscribe({
+      next: response =>{
+        console.log(response.body);
+        this.upcomingJourneys = [ ...response.body];
+        this.isLoading = false;
+        this.cdr.detectChanges();
       },
-      error: (err: any) => console.error('Error fetching journeys', err)
+      error: err => {
+        this.isLoading = false;
+        console.error('Error fetching journeys', err)
+        this.cdr.detectChanges();
+      }
     });
   }
 
