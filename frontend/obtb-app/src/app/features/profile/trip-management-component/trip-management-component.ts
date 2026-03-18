@@ -3,11 +3,12 @@ import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/co
 import { TripService } from '../../../core/services/trip-service';
 import { TripInstanceDto, TripTemplateDto } from '../../../interfaces/trip-model';
 import { TripSchedulerForm } from './trip-scheduler-form/trip-scheduler-form';
+import { ViewMoreTemplateInfo } from './view-more-template-info/view-more-template-info';
 
 @Component({
   selector: 'app-trip-management-component',
   standalone: true,
-  imports: [CommonModule, TripSchedulerForm],
+  imports: [CommonModule, TripSchedulerForm, ViewMoreTemplateInfo],
   templateUrl: './trip-management-component.html'
 })
 export class TripManagementComponent implements OnInit {
@@ -18,9 +19,11 @@ export class TripManagementComponent implements OnInit {
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   templates: TripTemplateDto[] = [];
+  selectedTemplate: TripTemplateDto | null = null;
   upcomingJourneys: TripInstanceDto[] = [];
   isLoading = false;
   schedulerDrawerOpen: boolean = false;
+  viewMoreTemplateInfo: boolean = false;
   templateIds: string[] = [];
 
   ngOnInit(): void {
@@ -38,6 +41,18 @@ export class TripManagementComponent implements OnInit {
 
   closeSchedulerDrawer() {
     this.schedulerDrawerOpen = false;
+    document.body.style.overflow = 'auto';
+  }
+
+  openViewMoreTemplateInfo(template: TripTemplateDto){
+    this.selectedTemplate = template;
+    this.viewMoreTemplateInfo = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeViewMoreTemplateInfo(){
+    this.selectedTemplate = null;
+    this.viewMoreTemplateInfo = false;
     document.body.style.overflow = 'auto';
   }
 
