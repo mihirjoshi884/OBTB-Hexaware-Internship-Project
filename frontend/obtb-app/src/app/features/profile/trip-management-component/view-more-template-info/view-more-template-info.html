@@ -1,9 +1,141 @@
 
 <div class="space-y-4 p-6">
-    <div class="grid col-2 gap-4 justify-center items-center">
-        <div>
-            <p class="bg-slate-900/50 p-2 rounded-2xl">template id</p>
-            <span class="bg-slate-900/50 p-2 rounded-2xl">ref:{{template?.templateId.slice(0,5)}}</span>
+    <div class="bg-slate-800/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6">
+        
+        <div class="flex justify-between items-start mb-2">
+            <div>
+                <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Base Fare</p>
+            </div>
+            
+            <div class="flex gap-2">
+                <span class="px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/30 rounded-full text-[10px] font-bold uppercase tracking-tight">
+                    {{ template?.tripType }}
+                </span>
+                
+                @if(template?.isActive){
+                    <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-full text-[10px] font-bold uppercase">
+                        ACTIVE
+                    </span>
+                } @else {
+                    <span class="px-3 py-1 bg-rose-500/10 text-rose-400 border border-rose-500/30 rounded-full text-[10px] font-bold uppercase">
+                        PAUSED
+                    </span>
+                }
+            </div>
+        </div>
+
+        <div class="flex items-baseline gap-1">
+            <span class="text-blue-500 text-xl font-medium">₹</span>
+            <span class="text-white text-5xl font-bold tracking-tighter">
+                {{ template?.baseFare }}
+            </span>
+        </div>
+    </div>
+    <div class="bg-slate-800/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6">
+        <div class="mb-6">
+            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Route & Bus Info</p>
+        </div>
+
+        <div class="flex justify-between items-center border-t border-slate-700/30 pt-4">
+            <div>
+                <p class="text-slate-500 text-[14px] font-medium tracking-tight">Route Name</p>
+            </div>
+            <div>
+                <span class="text-white text-[14px] font-bold uppercase tracking-tight flex items-center gap-2">
+                    {{template?.routeName}} 
+                </span>
+            </div>
+        </div>
+        <div class="flex justify-between items-center border-t border-slate-700/30 pt-4">
+            <div>
+                <p class="text-slate-500 text-[14px] font-medium tracking-tight">Route Id</p>
+            </div>
+            <div>
+                <span class="text-white text-[14px] font-bold uppercase tracking-tight flex items-center gap-2">
+                    route: {{template?.routeId?.slice(0,10)}}... 
+                </span>
+            </div>
+        </div>
+        <div class="flex justify-between items-center border-t border-slate-700/30 pt-4">
+            <div>
+                <p class="text-slate-500 text-[14px] font-medium tracking-tight">Bus Name</p>
+            </div>
+            <div>
+                <span class="text-white text-[14px] font-bold uppercase tracking-tight flex items-center gap-2">
+                    {{template?.busName}} 
+                </span>
+            </div>
+        </div>
+        <div class="flex justify-between items-center border-t border-slate-700/30 pt-4">
+            <div>
+                <p class="text-slate-500 text-[14px] font-medium tracking-tight">Bus Id</p>
+            </div>
+            <div>
+                <span class="text-white text-[14px] font-bold uppercase tracking-tight flex items-center gap-2">
+                    bus: {{template?.busId?.slice(0,10)}}...
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="bg-slate-800/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6">
+        <div class="mb-6">
+            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Company Info</p>
+        </div>
+        <div class="flex justify-between items-center border-t border-slate-700/30 pt-4">
+            <div>
+                <p class="text-slate-500 text-[14px] font-medium tracking-tight">Company Name</p>
+            </div>
+            <div>
+                <span class="text-white text-[14px] font-bold uppercase tracking-tight flex items-center gap-2">
+                    {{template?.companyName}} 
+                </span>
+            </div>
+        </div>
+        <div class="flex justify-between items-center border-t border-slate-700/30 pt-4">
+            <div>
+                <p class="text-slate-500 text-[14px] font-medium tracking-tight">Company Id</p>
+            </div>
+            <div>
+                <span class="text-white text-[14px] font-bold uppercase tracking-tight flex items-center gap-2">
+                    company: {{template?.companyId?.slice(0,10)}}...
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="bg-slate-800/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6">
+        <div class="mb-4">
+            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Schedule — {{template?.tripType}} Trip</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 justify-center items-center">
+            
+            @if(template?.tripType === 'REGULAR') {
+                <div class="bg-slate-900/40 border border-slate-700/50 rounded-xl p-4 flex flex-col items-center justify-center space-y-1">
+                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-tighter">Scheduled Day</p>
+                    <p class="text-blue-400 text-lg font-bold">{{template?.scheduledDay}}</p>
+                </div>
+
+                <div class="bg-slate-900/40 border border-slate-700/50 rounded-xl p-4 flex flex-col items-center justify-center space-y-1">
+                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-tighter">Regular Time</p>
+                    <p class="text-white text-lg font-mono font-bold">{{template?.regularTime}}</p>
+                </div>
+            } @else if(template?.tripType === 'ONE_TIME'){
+                <div class="bg-slate-900/40 border border-slate-700/50 rounded-xl p-4 flex flex-col items-center justify-center space-y-1">
+                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-tighter">Departure</p>
+                    <p class="text-blue-300 text-lg font-mono font-bold">{{template?.departureTime}}</p>
+                </div>
+
+                <div class="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-4 flex flex-col items-center justify-center space-y-1">
+                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-tighter">Arrival</p>
+                    <p class="text-emerald-400 text-lg font-mono font-bold">{{template?.arrivalTime}}</p>
+                </div>
+            }            
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-700/30">
+            <p class="text-slate-600 text-[10px] font-mono">
+                <span class="uppercase font-bold mr-2">Template ID</span> {{template?.templateId}}
+            </p>
         </div>
     </div>
 </div>

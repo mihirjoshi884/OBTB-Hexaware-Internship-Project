@@ -8,7 +8,9 @@ import org.hexaware.bookingservice.enums.DayOfWeek;
 import org.hexaware.bookingservice.enums.TripType;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity

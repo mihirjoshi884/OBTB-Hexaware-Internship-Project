@@ -1,6 +1,7 @@
 package org.hexaware.bookingservice.dtos.tripDtos;
 
 import org.hexaware.bookingservice.enums.DayOfWeek;
+import org.hexaware.bookingservice.enums.TripStatus;
 import org.hexaware.bookingservice.enums.TripType;
 
 import java.util.UUID;

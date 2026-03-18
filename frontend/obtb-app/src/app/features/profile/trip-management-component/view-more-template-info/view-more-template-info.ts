@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TripTemplateDto } from 'src/app/interfaces/trip-model';
 
 @Component({
   selector: 'app-view-more-template-info',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './view-more-template-info.html'
 })
 export class ViewMoreTemplateInfo {
