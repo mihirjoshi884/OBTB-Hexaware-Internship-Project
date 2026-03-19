@@ -3,11 +3,12 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth-service';
+import { BusSearchEngine } from './bus-search-engine/bus-search-engine';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, BusSearchEngine],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -23,34 +24,5 @@ export class Home {
     return this.authService.getUsername();
   }
 
-  // Form state
-  tripType = 'oneway';
-  fromLocation = '';
-  toLocation = '';
-  departDate = '';
-  returnDate = '';
-
-  searchBuses(): void {
-    if (this.fromLocation && this.toLocation && this.departDate) {
-      console.log('Searching for buses:', {
-        from: this.fromLocation,
-        to: this.toLocation,
-        departDate: this.departDate,
-        returnDate: this.returnDate,
-        tripType: this.tripType
-      });
-      // Integration with backend API will be implemented in future updates
-      alert('Search functionality coming soon! Your search parameters have been logged.');
-    } else {
-      alert('Please fill in all required fields');
-    }
-  }
-
-  resetSearch(): void {
-    this.tripType = 'oneway';
-    this.fromLocation = '';
-    this.toLocation = '';
-    this.departDate = '';
-    this.returnDate = '';
-  }
+  
 }

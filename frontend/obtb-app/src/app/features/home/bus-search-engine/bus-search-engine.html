@@ -1,0 +1,126 @@
+  <section class="min-h-screen flex items-center justify-center px-4 py-12" data-section="search"
+    style="background-image: url('/image.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <div class="absolute inset-0 bg-black/20"></div>
+    <div class="w-full max-w-5xl relative z-10">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Find Your Perfect Bus</h2>
+        <p class="text-lg text-gray-100">Search, compare, and book your bus ticket in seconds</p>
+      </div>
+
+      <!-- Search Card -->
+      <div class="bg-white/20 backdrop-blur-lg rounded-3xl shadow-2xl p-8 md:p-12 border border-white/30">
+        
+        <!-- Trip Type Selection -->
+        <div class="mb-10 flex gap-8 justify-center">
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <input
+              type="radio"
+              [(ngModel)]="tripType"
+              value="oneway"
+              class="w-5 h-5 accent-blue-600"
+            />
+            <span class="text-white font-semibold text-lg group-hover:text-blue-300 transition">One Way</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <input
+              type="radio"
+              [(ngModel)]="tripType"
+              value="roundtrip"
+              class="w-5 h-5 accent-blue-600"
+            />
+            <span class="text-white font-semibold text-lg group-hover:text-blue-300 transition">Round Trip</span>
+          </label>
+        </div>
+
+        <!-- Search Form Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <!-- From Location -->
+          <div>
+            <label for="fromLocation" class="block text-sm font-semibold text-white mb-2">From</label>
+            <div class="relative">
+              <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <input
+                id="fromLocation"
+                type="text"
+                [(ngModel)]="fromLocation"
+                placeholder="Departure city"
+                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              />
+            </div>
+          </div>
+
+          <!-- To Location -->
+          <div>
+            <label for="toLocation" class="block text-sm font-semibold text-white mb-2">To</label>
+            <div class="relative">
+              <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <input
+                id="toLocation"
+                type="text"
+                [(ngModel)]="toLocation"
+                placeholder="Arrival city"
+                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              />
+            </div>
+          </div>
+
+          <!-- Depart Date -->
+          <div>
+            <label for="departDate" class="block text-sm font-semibold text-white mb-2">Departure</label>
+            <div class="relative">
+              <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <input
+                id="departDate"
+                type="date"
+                [(ngModel)]="departDate"
+                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              />
+            </div>
+          </div>
+
+          <!-- Return Date (conditional) -->
+          @if (tripType === 'roundtrip') {
+            <div>
+              <label for="returnDate" class="block text-sm font-semibold text-white mb-2">Return</label>
+              <div class="relative">
+                <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <input
+                  id="returnDate"
+                  type="date"
+                  [(ngModel)]="returnDate"
+                  class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                />
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Search Button -->
+        <div class="flex gap-4">
+          <button
+            (click)="searchBuses()"
+            class="flex-1 px-8 py-4 bg-linear-to-r from-blue-500 to-purple-600 text-white font-bold text-lg rounded-lg hover:shadow-lg hover:from-blue-600 hover:to-purple-700 transition-all"
+          >
+            Search Buses
+          </button>
+          <button
+            (click)="resetSearch()"
+            class="px-8 py-4 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-gray-400 transition-all"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>

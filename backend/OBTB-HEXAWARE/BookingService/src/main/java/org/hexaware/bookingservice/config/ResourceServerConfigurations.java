@@ -27,6 +27,7 @@ public class ResourceServerConfigurations {
                         // This looks for "ROLE_BUS_OPERATOR" in the authorities list
                         .requestMatchers("/booking-api/private/v1/**").hasRole("BUS_OPERATOR")
                         .requestMatchers("/booking-api/private/v1/**").hasAuthority("ROLE_BUS_OPERATOR")
+                        .requestMatchers("/booking-api/bookings/v1/**").hasAnyRole("BUS_OPERATOR","CUSTOMER")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
