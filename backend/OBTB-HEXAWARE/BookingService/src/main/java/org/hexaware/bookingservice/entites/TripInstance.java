@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hexaware.bookingservice.enums.TripStatus;
 
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ import java.util.UUID;
         @Index(name = "idx_instance_departure", columnList = "actualDeparture"),
         @Index(name = "idx_instance_status", columnList = "status")
 })
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class TripInstance {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

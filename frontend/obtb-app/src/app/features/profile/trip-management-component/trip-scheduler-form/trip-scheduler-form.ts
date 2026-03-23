@@ -24,6 +24,7 @@ export class TripSchedulerForm implements OnInit {
 
   is_busLoading = false;
   is_busRoutesLoading = false;
+  is_submitting = false;
 
   // Selection Variables (UI State)
   selectedBusId: string = "";
@@ -35,11 +36,11 @@ export class TripSchedulerForm implements OnInit {
   daysOfWeek: string[] = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
   
   // Picker Variables (Strings for HTML5 input compatibility)
-  selectedDepartureTime: string | null = null;
-  selectedArrivalTime: string | null = null;
-  selectedDepartureDate: string | null = null;
-  selectedArrivalDate: string | null = null;
-  selectedRegularDepartureTime: string | null = null;
+  selectedDepartureTime: string = "";
+  selectedArrivalTime: string = "";
+  selectedDepartureDate: string = "";
+  selectedArrivalDate: string = "";
+  selectedRegularDepartureTime: string = "";
   baseFare: number = 0;
 
   constructor(
@@ -57,20 +58,40 @@ export class TripSchedulerForm implements OnInit {
 
   // --- UI Event Handlers ---
 
-  onBusSelect(event: any): void {
-    this.selectedBusId = event.target.value;
+  onBusSelect(event: Event): void {
+    this.selectedBusId = this.getElementValue(event);
   }
 
-  onRouteSelect(event: any): void {
-    this.selectedRouteId = event.target.value;
+  onRouteSelect(event: Event): void {
+    this.selectedRouteId = this.getElementValue(event);
   }
 
-  onDaySelect(event: any): void {
-    this.selectedDay = event.target.value;
+  onDaySelect(event: Event): void {
+    this.selectedDay = this.getElementValue(event);
   }
 
-  onTripTypeSelect(event: any): void {
-    this.selectedTripType = event.target.value;
+  onTripTypeSelect(event: Event): void {
+    this.selectedTripType = this.getElementValue(event) as TripType;
+  }
+
+  onDepartureDateInput(event: Event): void {
+    this.selectedDepartureDate = this.getElementValue(event);
+  }
+
+  onDepartureTimeInput(event: Event): void {
+    this.selectedDepartureTime = this.getElementValue(event);
+  }
+
+  onArrivalDateInput(event: Event): void {
+    this.selectedArrivalDate = this.getElementValue(event);
+  }
+
+  onArrivalTimeInput(event: Event): void {
+    this.selectedArrivalTime = this.getElementValue(event);
+  }
+
+  onRegularDepartureTimeInput(event: Event): void {
+    this.selectedRegularDepartureTime = this.getElementValue(event);
   }
 
   // --- Data Fetching ---
@@ -109,32 +130,81 @@ export class TripSchedulerForm implements OnInit {
 
   // --- Submission ---
 
-  submit() {
-    // Constructing the DTO right before the API call ensures we have the latest UI state
+  isTripFormValid(): boolean {
+    const hasCoreSelections = this.hasValue(this.selectedBusId)
+      && this.hasValue(this.selectedRouteId)
+      && this.hasValidFare();
+
+    if (!hasCoreSelections) {
+      return false;
+    }
+
+    if (this.selectedTripType === TripType.REGULAR) {
+      return this.hasValue(this.selectedDay) && this.hasValue(this.selectedRegularDepartureTime);
+    }
+
+    return this.hasValue(this.selectedDepartureDate)
+      && this.hasValue(this.selectedDepartureTime)
+      && this.hasValue(this.selectedArrivalDate)
+      && this.hasValue(this.selectedArrivalTime);
+  }
+
+  submit(): void {
+    if (!this.isTripFormValid()) {
+      alert('Please fill all required trip details before submitting.');
+      return;
+    }
+
+    this.is_submitting = true;
+    const isOneTimeTrip = this.selectedTripType === TripType.ONE_TIME;
     const request: TripCreationRequest = {
       routeId: this.selectedRouteId,
       busId: this.selectedBusId,
       companyId: this.companyId,
       tripType: this.selectedTripType,
-      departureDate: this.selectedDepartureDate as any, 
-      departureTime: this.selectedDepartureTime as any,
-      arrivalDate: this.selectedArrivalDate as any,
-      arrivalTime: this.selectedArrivalTime as any,
-      scheduledDay: this.selectedDay,
-      regularDepartureTime: this.selectedRegularDepartureTime as any,
-      baseFare: this.baseFare
+      departureDate: isOneTimeTrip ? this.toNullableValue(this.selectedDepartureDate) : null,
+      departureTime: isOneTimeTrip ? this.toNullableValue(this.selectedDepartureTime) : null,
+      arrivalDate: isOneTimeTrip ? this.toNullableValue(this.selectedArrivalDate) : null,
+      arrivalTime: isOneTimeTrip ? this.toNullableValue(this.selectedArrivalTime) : null,
+      scheduledDay: isOneTimeTrip ? null : this.toNullableValue(this.selectedDay),
+      regularDepartureTime: isOneTimeTrip ? null : this.toNullableValue(this.selectedRegularDepartureTime),
+      baseFare: Number(this.baseFare)
     };
 
-    
+    console.log(request);
 
     this.tripService.createTrip(request).subscribe({
       next: () => {
         console.log("Trip created successfully:", request);
         this.onSuccess.emit();
+        this.is_submitting = false;
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         console.error('Creation failed', err);
+        this.is_submitting = false;
+        this.cdr.detectChanges();
       }
     });
+  }
+
+  private getElementValue(event: Event): string {
+    return (event.target as HTMLInputElement | HTMLSelectElement | null)?.value ?? '';
+  }
+
+  private hasValue(value: string | null | undefined): boolean {
+    return this.toNullableValue(value) !== null;
+  }
+
+  private hasValidFare(): boolean {
+    return this.baseFare !== null
+      && this.baseFare !== undefined
+      && !Number.isNaN(Number(this.baseFare))
+      && Number(this.baseFare) >= 0;
+  }
+
+  private toNullableValue(value: string | null | undefined): string | null {
+    const normalizedValue = value?.trim() ?? '';
+    return normalizedValue.length > 0 ? normalizedValue : null;
   }
 }

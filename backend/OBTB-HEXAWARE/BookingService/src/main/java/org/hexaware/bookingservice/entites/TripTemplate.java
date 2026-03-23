@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hexaware.bookingservice.enums.DayOfWeek;
 import org.hexaware.bookingservice.enums.TripType;
 
@@ -18,7 +19,7 @@ import java.util.UUID;
         @Index(name = "idx_template_company_id", columnList = "companyId"),
         @Index(name = "idx_template_active_type", columnList = "isActive, tripType")
 })
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class TripTemplate {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

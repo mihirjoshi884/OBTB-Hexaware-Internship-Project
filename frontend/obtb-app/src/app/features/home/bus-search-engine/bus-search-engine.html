@@ -16,8 +16,9 @@
           <label class="flex items-center gap-3 cursor-pointer group">
             <input
               type="radio"
-              [(ngModel)]="tripType"
-              value="oneway"
+              [(ngModel)]="selectedJourneyType"
+              (change)="onSelectJourneyType($event)"
+              [value]="JourneyType.ONE_WAY"
               class="w-5 h-5 accent-blue-600"
             />
             <span class="text-white font-semibold text-lg group-hover:text-blue-300 transition">One Way</span>
@@ -25,8 +26,9 @@
           <label class="flex items-center gap-3 cursor-pointer group">
             <input
               type="radio"
-              [(ngModel)]="tripType"
-              value="roundtrip"
+              [(ngModel)]="selectedJourneyType"
+              (change)="onSelectJourneyType($event)"
+              [value]="JourneyType.ROUND_TRIP"
               class="w-5 h-5 accent-blue-600"
             />
             <span class="text-white font-semibold text-lg group-hover:text-blue-300 transition">Round Trip</span>
@@ -46,7 +48,8 @@
               <input
                 id="fromLocation"
                 type="text"
-                [(ngModel)]="fromLocation"
+                [(ngModel)]="selectedSourceLocation"
+                (change)="onSelectSourceLocation($event)"
                 placeholder="Departure city"
                 class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               />
@@ -64,7 +67,8 @@
               <input
                 id="toLocation"
                 type="text"
-                [(ngModel)]="toLocation"
+                [(ngModel)]="selectedDestinationLocation"
+                (change)="onSelectDestinationLocation($event)"
                 placeholder="Arrival city"
                 class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               />
@@ -81,14 +85,15 @@
               <input
                 id="departDate"
                 type="date"
-                [(ngModel)]="departDate"
+                [(ngModel)]="selectedDepartureDate"
+                (change)="onSelectDepartureDate($event)"
                 class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               />
             </div>
           </div>
 
           <!-- Return Date (conditional) -->
-          @if (tripType === 'roundtrip') {
+          @if (selectedJourneyType === JourneyType.ROUND_TRIP) {
             <div>
               <label for="returnDate" class="block text-sm font-semibold text-white mb-2">Return</label>
               <div class="relative">
@@ -98,7 +103,8 @@
                 <input
                   id="returnDate"
                   type="date"
-                  [(ngModel)]="returnDate"
+                  [(ngModel)]="selectedReturnDate"
+                  (change)="onSelectReturnDate($event)"
                   class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                 />
               </div>

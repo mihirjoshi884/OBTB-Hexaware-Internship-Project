@@ -3,6 +3,8 @@ package org.hexaware.bookingservice.repositories;
 import org.hexaware.bookingservice.entites.TripTemplate;
 import org.hexaware.bookingservice.enums.TripType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,4 +18,10 @@ public interface TripTemplateRepository extends JpaRepository<TripTemplate, UUID
 
     // Find templates by company (useful for the operator dashboard)
     List<TripTemplate> findByCompanyId(UUID companyId);
+
+    @Query("""
+        SELECT DISTINCT t FROM TripTemplate t
+        WHERE t.routeId IN :routeIds AND t.isActive= true
+    """)
+    List<TripTemplate> findActiveTripTemplatesByRouteIds(@Param("routeIds") List<UUID> routeIds);
 }

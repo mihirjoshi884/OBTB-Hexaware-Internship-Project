@@ -3,6 +3,7 @@ package org.hexaware.busservice.services.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.hexaware.busservice.dtos.ResponseDto;
+import org.hexaware.busservice.dtos.routeDtos.FetchRoute;
 import org.hexaware.busservice.dtos.routeDtos.RouteRequest;
 import org.hexaware.busservice.dtos.routeDtos.RouteResponse;
 import org.hexaware.busservice.dtos.routeDtos.RouteStopDTO;
@@ -88,6 +89,14 @@ public class RouteServiceImpl implements RouteService {
         routeRepository.delete(existingRoute);
 
         return new ResponseDto<>(deletedRouteResponse, 200, "Route deleted successfully");
+    }
+
+    @Override
+    public ResponseDto<List<RouteResponse>> fetchRouteBetweenSourceAndDestination(FetchRoute route) {
+        var routes = routeRepository.findRoutesByOriginAndDestination(route.source(), route.destination());
+        var response = routes.stream().map(this::mapToResponse).collect(Collectors.toList());
+        String message = response.isEmpty() ? "No routes available for this path." : "Routes found successfully!";
+        return new ResponseDto<>(response, 200, message);
     }
 
     // --- Helper Methods for Cleaner Code ---

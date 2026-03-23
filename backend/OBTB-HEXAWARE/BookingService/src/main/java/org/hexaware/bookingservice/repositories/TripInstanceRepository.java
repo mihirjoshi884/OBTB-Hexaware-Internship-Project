@@ -1,5 +1,6 @@
 package org.hexaware.bookingservice.repositories;
 
+import org.hexaware.bookingservice.dtos.searchDtos.TripSearchResponseDto;
 import org.hexaware.bookingservice.entites.TripInstance;
 import org.hexaware.bookingservice.enums.TripStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -44,11 +45,24 @@ public interface TripInstanceRepository extends JpaRepository<TripInstance, UUID
             @Param("status") TripStatus status
     );
 
-    // Used for the Public Search API (Customer finding buses for a specific route/date)
-    List<TripInstance> findByTemplate_RouteIdAndStatusAndActualDepartureBetween(
-            UUID routeId,
-            TripStatus status,
-            LocalDateTime startOfDay,
-            LocalDateTime endOfDay
+
+    @Query("""
+        SELECT DISTINCT ti FROM TripInstance ti
+        LEFT JOIN FETCH ti.template t
+        LEFT JOIN FETCH ti.stops s
+        WHERE t.templateId IN :templateIds
+        AND (
+            CAST(ti.actualDeparture AS LocalDate) = CAST(:departureDate AS LocalDate)
+            OR EXISTS (
+                SELECT 1 FROM TripStopInstance tsi 
+                WHERE tsi.tripInstance = ti 
+                AND CAST(tsi.departureTime AS LocalDate) = CAST(:departureDate AS LocalDate)
+            )
+        )
+    """)
+    List<TripInstance> findAvailableTrips(
+            @Param("templateIds") List<UUID> templateIds,
+            @Param("departureDate") LocalDateTime departureDate
     );
+
 }

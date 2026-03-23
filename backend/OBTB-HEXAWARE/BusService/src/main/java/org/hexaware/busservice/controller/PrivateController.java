@@ -7,6 +7,7 @@ import org.hexaware.busservice.dtos.busDtos.BusTemplateCreationRequest;
 import org.hexaware.busservice.dtos.companyDtos.CompanyCreationRequest;
 import org.hexaware.busservice.dtos.documentDtos.BusDocumentUploadRequest;
 import org.hexaware.busservice.dtos.documentDtos.DocumentUploadRequest;
+import org.hexaware.busservice.dtos.routeDtos.FetchRoute;
 import org.hexaware.busservice.dtos.routeDtos.RouteRequest;
 import org.hexaware.busservice.dtos.routeDtos.RouteResponse;
 import org.hexaware.busservice.dtos.staffDtos.AddBusStaffRequest;
@@ -243,5 +244,9 @@ public class PrivateController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
-
+    @PostMapping("/find/routes")
+    public ResponseEntity<?> getAllRoutesBetweenSourceAndDestination(@RequestBody FetchRoute route){
+        ResponseDto<?> response = routeService.fetchRouteBetweenSourceAndDestination(route);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
 }
