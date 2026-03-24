@@ -5,6 +5,7 @@ import org.hexaware.bookingservice.dtos.routeDtos.RouteResponse;
 import org.hexaware.bookingservice.dtos.searchDtos.FetchRoute;
 import org.hexaware.bookingservice.entites.TripInstance;
 import org.hexaware.bookingservice.entites.TripTemplate;
+import org.hexaware.bookingservice.enums.JourneyType;
 import org.hexaware.bookingservice.repositories.TripTemplateRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -19,10 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,27 +40,55 @@ public class BusSearchServiceImpl implements BusSearchService {
     @Transactional(readOnly = true)
     @Override
     public ResponseDto<List<TripSearchResponseDto>> searchBuses(SearchRequestDto request) {
-//        LocalDateTime travelDate = LocalDateTime.parse(request.departureDate() + "T00:00:00");
-        var routesResults = fetchRouteDetails(new FetchRoute(request.source(), request.destination()));
+        LocalDateTime departureDateTime = LocalDateTime.parse(request.departureDate() + "T00:00:00");
+        List<TripSearchResponseDto> allResults = new ArrayList<>();
+
+        // 1. Fetch Outbound leg
+        allResults.addAll(searchJourney(
+                new FetchRoute(request.source(), request.destination()),
+                departureDateTime,
+                "OUTBOUND"
+        ));
+
+        // 2. Fetch Inbound leg if Round Trip
+        if (JourneyType.ROUND_TRIP.equals(request.journeyType()) && request.returnDate() != null) {
+            LocalDateTime returnDateTime = LocalDateTime.parse(request.returnDate() + "T00:00:00");
+            allResults.addAll(searchJourney(
+                    new FetchRoute(request.destination(), request.source()),
+                    returnDateTime,
+                    "INBOUND"
+            ));
+        }
+
+        return new ResponseDto<>(allResults, 200, "success");
+    }
+
+    private List<TripSearchResponseDto> searchJourney(FetchRoute fetchRequest, LocalDateTime searchDate, String direction) {
+        var routesResults = fetchRouteDetails(fetchRequest);
+
+        if (routesResults == null || routesResults.getBody() == null || routesResults.getBody().isEmpty()) {
+            return Collections.emptyList();
+        }
 
         Map<UUID, String> routeNameMap = routesResults.getBody().stream()
                 .collect(Collectors.toMap(RouteResponse::routeId, RouteResponse::routeName));
-        var routesIds = new ArrayList<>(routeNameMap.keySet());
 
-        List<TripTemplate> activeTemplates = tripTemplateRepository.findActiveTripTemplatesByRouteIds(routesIds);
+        List<UUID> routeIds = new ArrayList<>(routeNameMap.keySet());
 
-        var templateIds = activeTemplates.stream().map(TripTemplate::getTemplateId).toList();
-        List<TripInstance> instances = repository.findAvailableTrips(templateIds,
-                LocalDateTime.parse(request.departureDate() + "T00:00:00"));
+        List<TripTemplate> activeTemplates = tripTemplateRepository.findActiveTripTemplatesByRouteIds(routeIds);
+        if (activeTemplates.isEmpty()) {
+            return Collections.emptyList();
+        }
 
+        List<UUID> templateIds = activeTemplates.stream().map(TripTemplate::getTemplateId).toList();
+        List<TripInstance> instances = repository.findAvailableTrips(templateIds, searchDate);
 
-        var response = instances.stream().map(
-                instance -> {
+        return instances.stream()
+                .map(instance -> {
                     String routeName = routeNameMap.get(instance.getTemplate().getRouteId());
-                    return mapInstancesToSearchResponseDto(instance,routeName);
-                }).toList();
-
-        return new ResponseDto<>(response,200,"success");
+                    return mapInstancesToSearchResponseDto(instance, routeName, direction);
+                })
+                .collect(Collectors.toList());
     }
 
     private ResponseDto<List<RouteResponse>> fetchRouteDetails(FetchRoute fetchRequest){
@@ -77,7 +103,7 @@ public class BusSearchServiceImpl implements BusSearchService {
         return routes;
     }
 
-    private TripSearchResponseDto mapInstancesToSearchResponseDto(TripInstance instance, String routeName){
+    private TripSearchResponseDto mapInstancesToSearchResponseDto(TripInstance instance, String routeName, String direction){
         return new TripSearchResponseDto(
                 instance.getInstanceId(),
                 routeName,
@@ -85,7 +111,8 @@ public class BusSearchServiceImpl implements BusSearchService {
                 instance.getActualArrival(),
                 instance.getTemplate().getBaseFare(),
                 instance.getSeatMap().stream().count(),
-                instance.getStatus()
+                instance.getStatus(),
+                direction
         );
     }
 }

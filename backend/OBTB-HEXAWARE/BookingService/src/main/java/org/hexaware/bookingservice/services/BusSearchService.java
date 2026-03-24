@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface BusSearchService {
 
-    public ResponseDto<List<TripSearchResponseDto>> searchBuses(SearchRequestDto request);
+    public ResponseDto<?> searchBuses(SearchRequestDto request);
 }

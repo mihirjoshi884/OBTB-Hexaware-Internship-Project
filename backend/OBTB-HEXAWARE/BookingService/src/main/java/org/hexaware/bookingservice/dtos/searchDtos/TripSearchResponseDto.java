@@ -11,5 +11,6 @@ public record TripSearchResponseDto(
         LocalDateTime arrivalTime,
         Double fare,
         long availableSeats,
-        TripStatus status
+        TripStatus status,
+        String direction
 ) {}

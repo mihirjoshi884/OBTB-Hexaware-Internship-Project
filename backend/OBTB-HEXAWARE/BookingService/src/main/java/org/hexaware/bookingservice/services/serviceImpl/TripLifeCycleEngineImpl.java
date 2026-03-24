@@ -47,25 +47,28 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
     public void processLifecycle() {
         LocalDateTime now = LocalDateTime.now();
 
-        // 1. Get the stale instances that aren't archived yet
+        // 1. Get the stale instances
         List<TripInstance> staleInstances = instanceRepository.findByStatusAndActualArrivalBefore(
                 TripStatus.SCHEDULED, now);
 
         for (TripInstance ti : staleInstances) {
-            // 1. Create Archive Record
-            TripArchive archive = new TripArchive();
-            archive.setInstanceId(ti.getInstanceId());
-            archive.setTemplateId(ti.getTemplate().getTemplateId());
-            archive.setActualDeparture(ti.getActualDeparture());
-            archive.setActualArrival(ti.getActualArrival());
-            archive.setFinalFare(ti.getTemplate().getBaseFare());
-            archive.setArchivedAt(LocalDateTime.now());
+            // CHECK: Does this archive already exist?
+            if (!archiveRepository.existsById(ti.getInstanceId())) {
+                // 1. Create Archive Record only if it's missing
+                TripArchive archive = new TripArchive();
+                archive.setInstanceId(ti.getInstanceId());
+                archive.setTemplateId(ti.getTemplate().getTemplateId());
+                archive.setActualDeparture(ti.getActualDeparture());
+                archive.setActualArrival(ti.getActualArrival());
+                archive.setFinalFare(ti.getTemplate().getBaseFare());
+                archive.setArchivedAt(LocalDateTime.now());
 
-            archiveRepository.save(archive);
+                archiveRepository.save(archive);
+            } else {
+                System.out.println("Archive already exists for instance: " + ti.getInstanceId() + ". Skipping insert.");
+            }
 
-            // 2. The "Nuclear" Clean Slate
-            // Because orphanRemoval=true is set in TripInstance, deleting the
-            // instance automatically wipes all TripSeats from memory
+            // 2. The "Nuclear" Clean Slate - ALWAYS delete from active instances
             instanceRepository.delete(ti);
 
             // 3. One-Time Template Management
@@ -74,7 +77,7 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
             }
         }
 
-        // Final flush for deletions before Part 2 starts
+        // Final flush
         instanceRepository.flush();
 
         // PART 2: REGULATION
