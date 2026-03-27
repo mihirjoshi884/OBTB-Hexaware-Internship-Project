@@ -10,6 +10,8 @@ public record TripTemplateDto(
         UUID templateId,
         UUID routeId,
         String routeName,
+        String origin,
+        String destination,
         UUID busId,
         String busName,
         UUID companyId,

@@ -1,0 +1,74 @@
+<section class="min-h-screen bg-slate-950 pt-24 pb-12 px-4 flex justify-center items-start">
+  <div class="w-full max-w-4xl bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl">
+    
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+      <div>
+        <h2 class="text-white text-4xl font-bold mb-2">Confirm Booking</h2>
+        <p class="text-white/50">Review your trip details before proceeding to payment.</p>
+      </div>
+      <div class="text-right">
+        <span class="text-emerald-400 text-5xl font-mono font-bold">₹{{ bus?.fare }}</span>
+        <p class="text-white/30 text-xs uppercase tracking-tighter mt-1">Final Ticket Price</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+      <div class="space-y-6">
+        <div>
+          <label class="text-white/30 text-xs uppercase font-bold tracking-widest block mb-2">Bus Service</label>
+          <p class="text-white text-xl font-semibold">{{ bus?.busName }}</p>
+        </div>
+        <div>
+          <label class="text-white/30 text-xs uppercase font-bold tracking-widest block mb-2">Route</label>
+          <p class="text-white text-lg">{{ bus?.routeName }}</p>
+        </div>
+      </div>
+      
+      <div class="bg-white/5 rounded-2xl p-6 border border-white/5">
+        <label class="text-white/30 text-xs uppercase font-bold tracking-widest block mb-4">Journey Summary</label>
+        <div class="flex items-center gap-4">
+            <div class="text-center">
+                <p class="text-white font-bold text-xl">Outbound</p>
+                <p class="text-white/40 text-sm">Departure Date</p>
+            </div>
+            <div class="flex-1 h-px bg-white/10 relative">
+                <div class="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blue-500"></div>
+            </div>
+            <div class="text-right">
+                <p class="text-white font-bold text-xl">{{ bus?.direction }}</p>
+                <p class="text-white/40 text-sm">Trip Direction</p>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-white/5 pt-10">
+      @if (!viewMore) {
+        <div class="text-center py-8">
+          <p class="text-white/60 mb-6">Unlock seat availability, boarding points, and amenities by viewing more details.</p>
+          <button (click)="onViewMore()" 
+            class="px-10 py-4 bg-white text-slate-950 font-bold rounded-2xl hover:bg-blue-500 hover:text-white transition-all transform hover:scale-105">
+            View More Details
+          </button>
+        </div>
+      } @else {
+        <div class="animate-slide-up space-y-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl">
+                    <p class="text-blue-400 text-[10px] uppercase font-bold">Seats Left</p>
+                    <p class="text-white text-lg font-bold">Available</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 p-4 rounded-xl">
+                    <p class="text-white/40 text-[10px] uppercase font-bold">Bus ID</p>
+                    <p class="text-white text-sm font-mono truncate">{{ bus?.instanceId }}</p>
+                </div>
+                </div>
+            
+            <button class="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xl rounded-2xl shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all">
+                Proceed to Checkout
+            </button>
+        </div>
+      }
+    </div>
+  </div>
+</section>

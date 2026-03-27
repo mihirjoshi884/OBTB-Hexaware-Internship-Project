@@ -44,7 +44,7 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
 
     @Override
     @Transactional
-    public void processLifecycle() {
+    public synchronized void processLifecycle() {
         LocalDateTime now = LocalDateTime.now();
 
         // 1. Get the stale instances

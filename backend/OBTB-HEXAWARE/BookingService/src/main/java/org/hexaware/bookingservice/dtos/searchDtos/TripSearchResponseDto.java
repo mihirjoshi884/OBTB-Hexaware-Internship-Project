@@ -7,6 +7,9 @@ import java.util.UUID;
 public record TripSearchResponseDto(
         UUID instanceId,
         String routeName,
+        String busName,
+        String source,
+        String destination,
         LocalDateTime departureTime,
         LocalDateTime arrivalTime,
         Double fare,

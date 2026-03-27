@@ -1,6 +1,7 @@
 package org.hexaware.bookingservice.services.serviceImpl;
 
 
+import org.hexaware.bookingservice.dtos.busDtos.BusFleetResponse;
 import org.hexaware.bookingservice.dtos.routeDtos.RouteResponse;
 import org.hexaware.bookingservice.dtos.searchDtos.FetchRoute;
 import org.hexaware.bookingservice.entites.TripInstance;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,21 +42,25 @@ public class BusSearchServiceImpl implements BusSearchService {
     @Transactional(readOnly = true)
     @Override
     public ResponseDto<List<TripSearchResponseDto>> searchBuses(SearchRequestDto request) {
+        // 1. Trim the source and destination to remove trailing spaces/formatting
+        String cleanSource = request.source().trim().toLowerCase();
+        String cleanDest = request.destination().trim().toLowerCase();
+
         LocalDateTime departureDateTime = LocalDateTime.parse(request.departureDate() + "T00:00:00");
         List<TripSearchResponseDto> allResults = new ArrayList<>();
 
-        // 1. Fetch Outbound leg
+        // 2. Fetch Outbound leg using cleaned strings
         allResults.addAll(searchJourney(
-                new FetchRoute(request.source(), request.destination()),
+                new FetchRoute(cleanSource, cleanDest),
                 departureDateTime,
                 "OUTBOUND"
         ));
 
-        // 2. Fetch Inbound leg if Round Trip
+        // 3. Fetch Inbound leg if Round Trip
         if (JourneyType.ROUND_TRIP.equals(request.journeyType()) && request.returnDate() != null) {
             LocalDateTime returnDateTime = LocalDateTime.parse(request.returnDate() + "T00:00:00");
             allResults.addAll(searchJourney(
-                    new FetchRoute(request.destination(), request.source()),
+                    new FetchRoute(cleanDest, cleanSource),
                     returnDateTime,
                     "INBOUND"
             ));
@@ -62,7 +68,6 @@ public class BusSearchServiceImpl implements BusSearchService {
 
         return new ResponseDto<>(allResults, 200, "success");
     }
-
     private List<TripSearchResponseDto> searchJourney(FetchRoute fetchRequest, LocalDateTime searchDate, String direction) {
         var routesResults = fetchRouteDetails(fetchRequest);
 
@@ -81,12 +86,19 @@ public class BusSearchServiceImpl implements BusSearchService {
         }
 
         List<UUID> templateIds = activeTemplates.stream().map(TripTemplate::getTemplateId).toList();
-        List<TripInstance> instances = repository.findAvailableTrips(templateIds, searchDate);
+
+        // FIX: Define the full day range
+        LocalDateTime startOfDay = searchDate.toLocalDate().atStartOfDay();
+        LocalDateTime endOfDay = searchDate.toLocalDate().atTime(LocalTime.MAX);
+
+        // FIX: Pass the range to the repository
+        List<TripInstance> instances = repository.findAvailableTripsInRange(templateIds, startOfDay, endOfDay);
 
         return instances.stream()
                 .map(instance -> {
                     String routeName = routeNameMap.get(instance.getTemplate().getRouteId());
-                    return mapInstancesToSearchResponseDto(instance, routeName, direction);
+                    var busResponse = fetchBusFromService(instance.getTemplate().getCompanyId(),instance.getTemplate().getBusId());
+                    return mapInstancesToSearchResponseDto(instance, routeName, busResponse.busName(), direction);
                 })
                 .collect(Collectors.toList());
     }
@@ -103,10 +115,28 @@ public class BusSearchServiceImpl implements BusSearchService {
         return routes;
     }
 
-    private TripSearchResponseDto mapInstancesToSearchResponseDto(TripInstance instance, String routeName, String direction){
+    private BusFleetResponse fetchBusFromService(UUID companyId, UUID busId) {
+        String fullUrl = busServiceUrl + "/bus/get-buses/{companyId}";
+        ResponseDto<List<BusFleetResponse>> response = bookingWebClient.get()
+                .uri(fullUrl, companyId)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<ResponseDto<List<BusFleetResponse>>>() {})
+                .block();
+
+        return response.getBody().stream()
+                .filter(b -> b.busId().equals(busId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Bus details not found"));
+    }
+
+
+    private TripSearchResponseDto mapInstancesToSearchResponseDto(TripInstance instance, String routeName,String busName, String direction){
         return new TripSearchResponseDto(
                 instance.getInstanceId(),
                 routeName,
+                busName,
+                instance.getTemplate().getSource(),
+                instance.getTemplate().getDestination(),
                 instance.getActualDeparture(),
                 instance.getActualArrival(),
                 instance.getTemplate().getBaseFare(),

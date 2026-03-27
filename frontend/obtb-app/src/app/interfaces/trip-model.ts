@@ -82,6 +82,8 @@ export interface TripTemplateDto {
     templateId: string; // UUID
     routeId: string;
     routeName: string;
+    origin: string;
+    destination: string;
     busId: string;
     busName: string;
     companyId: string;
@@ -106,6 +108,8 @@ export interface StopsDto{
 export interface TripInstanceDto{
     instanceId: string;
     templateId: string;
+    source: string;
+    destination: string;
     actualDeparture: string;
     actualArrival: string;
     stops: StopsDto [];

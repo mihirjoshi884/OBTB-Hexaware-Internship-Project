@@ -19,10 +19,14 @@ export interface TripSearchResponseDto {
 
     instanceId: string;
     routeName: string;
+    busName: string;
+    source: string;
+    destination: string;
     departureTime: string;
     arrivalTime: string;
     fare: number;
     availableSeats: number;
-    tripStatus: TripStatus;
+    status: TripStatus;
+    direction: string;
 
 }

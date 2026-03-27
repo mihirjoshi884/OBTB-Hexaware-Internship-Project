@@ -65,4 +65,12 @@ public interface TripInstanceRepository extends JpaRepository<TripInstance, UUID
             @Param("departureDate") LocalDateTime departureDate
     );
 
+    @Query("SELECT ti FROM TripInstance ti WHERE ti.template.templateId IN :templateIds " +
+            "AND ti.actualDeparture BETWEEN :start AND :end " +
+            "AND ti.status = 'SCHEDULED'")
+    List<TripInstance> findAvailableTripsInRange(
+            @Param("templateIds") List<UUID> templateIds,
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end
+    );
 }

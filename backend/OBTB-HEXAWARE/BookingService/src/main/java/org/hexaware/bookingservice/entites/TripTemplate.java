@@ -29,7 +29,8 @@ public class TripTemplate {
     private UUID busId;
     private UUID companyId;
     private Double baseFare;
-
+    private String Source;
+    private String destination;
     @Enumerated(EnumType.STRING)
     private TripType tripType; // REGULAR or ONE_TIME
 

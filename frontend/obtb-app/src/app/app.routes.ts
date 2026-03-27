@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guard/auth-guard-guard';
 import { ActivateAccount } from './features/activate-account/activate-account';
+import { BookingComponent } from './features/booking-component/booking-component';
 import { ChangePasswordComponent } from './features/change-password/change-password';
 import { ForgotPassword } from './features/forgot-password/forgot-password';
 import { Home } from './features/home/home';
@@ -21,6 +22,7 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'login/callback', component: LoginCallbackComponent },
     {path: 'forgot-password', component: ForgotPassword}, 
+    {path: 'booking/:id', component: BookingComponent},
     {
         path: 'signup',
         loadComponent: () =>

@@ -1,10 +1,10 @@
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SearchService } from 'src/app/core/services/search-service';
-import { JourneyType, SearchRequestDto } from 'src/app/interfaces/search-interface';
+import { JourneyType, SearchRequestDto, TripSearchResponseDto } from 'src/app/interfaces/search-interface';
 import { AuthService } from '../../../core/services/auth-service';
 
 @Component({
@@ -16,11 +16,17 @@ export class BusSearchEngine {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly searchService: SearchService
+    private readonly searchService: SearchService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly router: Router
   ){}
 
   public JourneyType = JourneyType;
 
+
+  isSearchPerformed: boolean = false;
+  isSearching: boolean = false;
+  moveToBooking: boolean = false;
 
   // Form state
   selectedJourneyType: JourneyType | "" = JourneyType.ONE_WAY;
@@ -28,6 +34,11 @@ export class BusSearchEngine {
   selectedDestinationLocation = '';
   selectedDepartureDate = '';
   selectedReturnDate = '';
+  departureBuses: TripSearchResponseDto [] | null = null;
+  returnBuses: TripSearchResponseDto [] | null = null;
+  selectedBus: TripSearchResponseDto | null = null;
+  
+
 
   onSelectJourneyType(event: Event): void{
     const val = this.getElementValue(event);
@@ -50,6 +61,13 @@ export class BusSearchEngine {
     this.selectedReturnDate = this.getElementValue(event);
   }
 
+  onSelectBus(bus: TripSearchResponseDto): void {
+    this.selectedBus = bus;
+    sessionStorage.setItem('selected_bus_cache', JSON.stringify(bus));
+    this.router.navigate(['/booking', bus.instanceId]);
+  }
+
+
   constructSearchRequest(): SearchRequestDto {
     const request: SearchRequestDto = {
       source: this.selectedSourceLocation,
@@ -63,18 +81,38 @@ export class BusSearchEngine {
   }
   searchBuses(): void {
     
+    this.isSearching = true;
     const request:SearchRequestDto = this.constructSearchRequest();
     console.log(request); 
     this.searchService.findBusesInstances(request).subscribe({
       next: response => {
-        console.log("Full Response:", response); 
+        console.log("Full Response:", response.body); 
         // If your backend DTO has a field called 'body':
-        if (response && response.body) {
-            console.log("Data:", response.body);
+        if (response && response.body && response.body.length > 0) {
+          this.departureBuses = response.body.filter(bus => 
+            bus.direction?.toUpperCase() === 'OUTBOUND'
+          );
+          this.returnBuses = response.body.filter(bus => 
+            bus.direction?.toUpperCase() === 'INBOUND'
+          );
+          this.isSearchPerformed = true;
+          console.log("Outbound Count:", this.departureBuses.length);
+          console.log("Inbound Count:", this.returnBuses.length);
+        } else {
+          // 3. Logic when data is NOT present (empty array)
+          this.departureBuses = [];
+          this.returnBuses = [];
+          console.warn("No buses found for this route.");
         }
+        this.isSearching = false;
+        this.cdr.detectChanges();
       },
       error: error => {
         console.error("Error occurred:", error);
+        alert("Error occurred:"+ error);
+        this.isSearching = false;
+        this.cdr.detectChanges();
+
       }
     });
   }

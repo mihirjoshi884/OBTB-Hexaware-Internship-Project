@@ -41,38 +41,63 @@
                 <p class="text-slate-500 text-[14px] font-medium tracking-tight">Route Name</p>
             </div>
             <div>
-                <span class="text-white text-[14px] font-bold uppercase tracking-tight flex items-center gap-2">
+                <span class="text-white text-[14px] font-bold uppercase tracking-tight">
                     {{template?.routeName}} 
                 </span>
             </div>
         </div>
+
         <div class="flex justify-between items-center border-t border-slate-700/30 pt-4">
             <div>
-                <p class="text-slate-500 text-[14px] font-medium tracking-tight">Route Id</p>
+                <p class="text-slate-500 text-[14px] font-medium tracking-tight">Origin</p>
             </div>
             <div>
-                <span class="text-white text-[14px] font-bold uppercase tracking-tight flex items-center gap-2">
-                    route: {{template?.routeId?.slice(0,10)}}... 
+                <span class="text-blue-400 text-[14px] font-bold uppercase tracking-tight">
+                    {{template?.origin}} 
                 </span>
             </div>
         </div>
+
+        <div class="flex justify-between items-center border-t border-slate-700/30 pt-4">
+            <div>
+                <p class="text-slate-500 text-[14px] font-medium tracking-tight">Destination</p>
+            </div>
+            <div>
+                <span class="text-emerald-400 text-[14px] font-bold uppercase tracking-tight">
+                    {{template?.destination}} 
+                </span>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-center border-t border-slate-700/30 pt-4">
+            <div>
+                <p class="text-slate-500 text-[14px] font-medium tracking-tight">Route ID</p>
+            </div>
+            <div>
+                <span class="text-slate-400 text-[12px] font-mono tracking-tight">
+                    {{template?.routeId}} 
+                </span>
+            </div>
+        </div>
+
         <div class="flex justify-between items-center border-t border-slate-700/30 pt-4">
             <div>
                 <p class="text-slate-500 text-[14px] font-medium tracking-tight">Bus Name</p>
             </div>
             <div>
-                <span class="text-white text-[14px] font-bold uppercase tracking-tight flex items-center gap-2">
+                <span class="text-white text-[14px] font-bold uppercase tracking-tight">
                     {{template?.busName}} 
                 </span>
             </div>
         </div>
+
         <div class="flex justify-between items-center border-t border-slate-700/30 pt-4">
             <div>
-                <p class="text-slate-500 text-[14px] font-medium tracking-tight">Bus Id</p>
+                <p class="text-slate-500 text-[14px] font-medium tracking-tight">Bus ID</p>
             </div>
             <div>
-                <span class="text-white text-[14px] font-bold uppercase tracking-tight flex items-center gap-2">
-                    bus: {{template?.busId?.slice(0,10)}}...
+                <span class="text-slate-400 text-[12px] font-mono tracking-tight">
+                    {{template?.busId}}
                 </span>
             </div>
         </div>

@@ -9,6 +9,8 @@ import java.util.UUID;
 public record InstanceDto(
         UUID instanceId,
         UUID templateId,
+        String source,
+        String destination,
         LocalDateTime actualDeparture,
         LocalDateTime actualArrival,
         List<StopsDto> stops,

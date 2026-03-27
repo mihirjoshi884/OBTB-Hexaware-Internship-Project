@@ -49,8 +49,12 @@ public class TripServiceImpl implements TripService {
     @Override
     @Transactional
     public ResponseDto<TripDetails> createTrip(TripCreationRequest request) {
+        RouteResponse routeDetails = fetchRouteFromService(request.routeId());
+
         TripTemplate template = new TripTemplate();
         template.setRouteId(request.routeId());
+        template.setSource(routeDetails.origin()); // Matches your "Source" field
+        template.setDestination(routeDetails.destination());
         template.setBusId(request.busId());
         template.setCompanyId(request.companyId());
         template.setTripType(request.tripType());
@@ -129,6 +133,7 @@ public class TripServiceImpl implements TripService {
                 ? routeResponse.getBody().stream().collect(Collectors.toMap(RouteResponse::routeId, r -> r))
                 : Collections.emptyMap();
 
+
         List<TripTemplateDto> dtoList = templates.stream().map(t -> {
             BusFleetResponse busInfo = busMap.get(t.getBusId());
             RouteResponse routeInfo = routeMap.get(t.getRouteId());
@@ -138,6 +143,8 @@ public class TripServiceImpl implements TripService {
                     t.getTemplateId(),
                     routeInfo.routeId(),
                     routeInfo.routeName(),
+                    routeInfo.origin(),
+                    routeInfo.destination(),
                     busInfo.busId(),
                     busInfo.busName(),
                     busInfo.company().companyId(),
@@ -217,11 +224,39 @@ public class TripServiceImpl implements TripService {
         return new InstanceDto(
                 instance.getInstanceId(),
                 instance.getTemplate().getTemplateId(),
+                instance.getTemplate().getSource(),
+                instance.getTemplate().getDestination(),
                 instance.getActualDeparture(),
                 instance.getActualArrival(),
                 stops,
                 instance.getStatus()
 
         );
+    }
+    private RouteResponse fetchRouteFromService(UUID routeId) {
+        // 1. Point to the existing bulk endpoint
+        String bulkRouteUrl = busServiceUrl + "/bus-api/private/v1/bus/routes/get-routes-bulk";
+
+        // 2. Wrap the single ID in a List to satisfy the @RequestBody List<UUID>
+        List<UUID> routeIds = Collections.singletonList(routeId);
+
+        // 3. Define the type reference for List<RouteResponse>
+        ParameterizedTypeReference<ResponseDto<List<RouteResponse>>> responseType =
+                new ParameterizedTypeReference<>() {};
+
+        // 4. Make the POST call
+        ResponseDto<List<RouteResponse>> response = bookingWebClient.post()
+                .uri(bulkRouteUrl)
+                .bodyValue(routeIds)
+                .retrieve()
+                .bodyToMono(responseType)
+                .block();
+
+        // 5. Extract the first (and only) route from the list
+        if (response == null || response.getBody() == null || response.getBody().isEmpty()) {
+            throw new RuntimeException("Route details not found for ID: " + routeId);
+        }
+
+        return response.getBody().get(0);
     }
 }

@@ -15,8 +15,8 @@ export class SearchService {
   ){}
   baseUrl: string = environment.baseUrls['bookingService.base-uri']+"/booking-api/public/v1";
 
-  findBusesInstances(request: SearchRequestDto): Observable<ResponseDto<TripSearchResponseDto>>{
-    return this.http.post<ResponseDto<TripSearchResponseDto>>(`${this.baseUrl}/find`,request);
+  findBusesInstances(request: SearchRequestDto): Observable<ResponseDto<TripSearchResponseDto []>>{
+    return this.http.post<ResponseDto<TripSearchResponseDto []>>(`${this.baseUrl}/find`,request);
   }
 
 }

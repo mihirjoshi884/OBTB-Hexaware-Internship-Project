@@ -23,6 +23,6 @@ public class PublicController {
     @PostMapping("/find")
     public ResponseEntity<?> searchBuses(@RequestBody SearchRequestDto request) {
         var results = searchService.searchBuses(request);
-        return ResponseEntity.status(results.getStatus()).body(results.getBody());
+        return ResponseEntity.status(results.getStatus()).body(results);
     }
 }

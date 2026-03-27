@@ -96,6 +96,7 @@ public class RouteServiceImpl implements RouteService {
         var routes = routeRepository.findRoutesByOriginAndDestination(route.source(), route.destination());
         var response = routes.stream().map(this::mapToResponse).collect(Collectors.toList());
         String message = response.isEmpty() ? "No routes available for this path." : "Routes found successfully!";
+        System.out.println(response);
         return new ResponseDto<>(response, 200, message);
     }
 
