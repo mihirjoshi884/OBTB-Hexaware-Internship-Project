@@ -6,6 +6,7 @@ import java.util.UUID;
 public record BusFleetResponse(
         UUID busId,
         String busName,
+
         VerificationStatus status,
         String registrationNumber,
         CompanySummaryDTO company,

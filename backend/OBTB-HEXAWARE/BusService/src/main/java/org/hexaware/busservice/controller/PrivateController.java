@@ -249,4 +249,10 @@ public class PrivateController {
         ResponseDto<?> response = routeService.fetchRouteBetweenSourceAndDestination(route);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
+
+    @GetMapping("/bus/{busId}")
+    public ResponseEntity<?> getBusDetails(@PathVariable UUID busId){
+        ResponseDto<?> response = busService.getBusDetails(busId);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
 }

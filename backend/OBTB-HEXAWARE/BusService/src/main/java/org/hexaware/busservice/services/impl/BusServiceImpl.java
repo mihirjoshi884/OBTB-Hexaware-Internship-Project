@@ -611,6 +611,12 @@ public class BusServiceImpl implements BusService {
         return new   ResponseDto<>(response, 200, "All routes found");
     }
 
+    @Override
+    public ResponseDto<BusFleetResponse> getBusDetails(UUID busId) {
+        var busResponse = busRepository.findById(busId).orElseThrow(()-> new BusNotFoundException("bus not found with the id:\t"+busId));
+        return new ResponseDto<>(mapToBusFleetResponse(busResponse),200,"bus found");
+    }
+
     private RouteResponse mapToRouteResponse(Route route) {
         return new RouteResponse(
                 route.getRouteId(),

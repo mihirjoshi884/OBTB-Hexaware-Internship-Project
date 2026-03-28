@@ -1,72 +1,148 @@
 <section class="min-h-screen bg-slate-950 pt-24 pb-12 px-4 flex justify-center items-start">
-  <div class="w-full max-w-4xl bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl">
-    
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
-      <div>
-        <h2 class="text-white text-4xl font-bold mb-2">Confirm Booking</h2>
-        <p class="text-white/50">Review your trip details before proceeding to payment.</p>
-      </div>
-      <div class="text-right">
-        <span class="text-emerald-400 text-5xl font-mono font-bold">₹{{ bus?.fare }}</span>
-        <p class="text-white/30 text-xs uppercase tracking-tighter mt-1">Final Ticket Price</p>
-      </div>
-    </div>
+  <div class="w-full max-w-5xl bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl">
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-      <div class="space-y-6">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
         <div>
-          <label class="text-white/30 text-xs uppercase font-bold tracking-widest block mb-2">Bus Service</label>
-          <p class="text-white text-xl font-semibold">{{ bus?.busName }}</p>
+            <h2 class="text-white text-4xl font-bold mb-2">Confirm Booking</h2>
+            <p class="text-white/50">{{ bus?.busName }} • {{ bus?.routeName }}</p>
         </div>
-        <div>
-          <label class="text-white/30 text-xs uppercase font-bold tracking-widest block mb-2">Route</label>
-          <p class="text-white text-lg">{{ bus?.routeName }}</p>
+        <div class="text-right">
+            <span class="text-emerald-400 text-5xl font-mono font-bold">
+                ₹{{ totalFare }}
+            </span>
+            <p class="text-white/30 text-xs uppercase tracking-widest mt-1">Total Fare</p>
         </div>
-      </div>
-      
-      <div class="bg-white/5 rounded-2xl p-6 border border-white/5">
-        <label class="text-white/30 text-xs uppercase font-bold tracking-widest block mb-4">Journey Summary</label>
-        <div class="flex items-center gap-4">
-            <div class="text-center">
-                <p class="text-white font-bold text-xl">Outbound</p>
-                <p class="text-white/40 text-sm">Departure Date</p>
-            </div>
-            <div class="flex-1 h-px bg-white/10 relative">
-                <div class="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blue-500"></div>
-            </div>
-            <div class="text-right">
-                <p class="text-white font-bold text-xl">{{ bus?.direction }}</p>
-                <p class="text-white/40 text-sm">Trip Direction</p>
-            </div>
-        </div>
-      </div>
     </div>
 
     <div class="border-t border-white/5 pt-10">
       @if (!viewMore) {
-        <div class="text-center py-8">
-          <p class="text-white/60 mb-6">Unlock seat availability, boarding points, and amenities by viewing more details.</p>
-          <button (click)="onViewMore()" 
-            class="px-10 py-4 bg-white text-slate-950 font-bold rounded-2xl hover:bg-blue-500 hover:text-white transition-all transform hover:scale-105">
-            View More Details
+        <div class="text-center py-12">
+          <button (click)="onViewMore()"
+            class="px-12 py-4 bg-white text-slate-950 font-bold rounded-2xl hover:bg-blue-600 hover:text-white transition-all">
+            Select Seats
           </button>
         </div>
+
+      } @else if (seats.length === 0) {
+        <!-- Loading / Empty state -->
+        <div class="flex flex-col items-center justify-center py-20 gap-4">
+          <div class="w-10 h-10 rounded-full border-2 border-white/10 border-t-blue-500 animate-spin"></div>
+          <p class="text-white/30 text-sm">Loading seat map…</p>
+          <p class="text-white/15 text-xs font-mono">instanceId: {{ bus?.instanceId ?? 'missing' }}</p>
+        </div>
+
       } @else {
-        <div class="animate-slide-up space-y-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl">
-                    <p class="text-blue-400 text-[10px] uppercase font-bold">Seats Left</p>
-                    <p class="text-white text-lg font-bold">Available</p>
+        <div class="space-y-16">
+
+          <!-- Decks -->
+          <div class="flex flex-col lg:flex-row gap-12 items-start justify-center">
+            @for (deckNum of [0, 1]; track deckNum) {
+              @if (hasSeatsInDeck(deckNum)) {
+                <div class="flex flex-col items-center gap-4">
+
+                  <!-- Deck Label -->
+                  <span class="text-white/30 text-[10px] uppercase font-black tracking-widest bg-white/5 px-6 py-2 rounded-full border border-white/10">
+                    {{ deckNum === 0 ? 'Lower Deck' : 'Upper Deck' }}
+                  </span>
+
+                  <!-- Legend -->
+                  <div class="flex items-center gap-5 text-[11px] text-white/30">
+                    <span class="flex items-center gap-1.5">
+                      <span class="w-3 h-3 rounded bg-slate-800 border border-slate-600 inline-block"></span>Available
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                      <span class="w-3 h-3 rounded bg-blue-600 border border-blue-400 inline-block"></span>Selected
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                      <span class="w-3 h-3 rounded bg-red-900/30 border border-red-800/40 inline-block"></span>Booked
+                    </span>
+                  </div>
+
+                  <!-- Bus Frame -->
+
+                <div class="bg-slate-900 border-4 border-slate-800 p-8 rounded-[3rem] relative inline-grid gap-3 shadow-2xl"
+                        [style.grid-template-columns]="'repeat(' + getColumns(deckNum) + ', 52px)'">
+
+                    @for (seat of getSeatsByDeck(deckNum); track seat.tripSeatId) {
+
+                      @if (seat.seatType === SeatType.WALKWAY) {
+                        <div
+                          [style.grid-column]="(+seat.x_coordinate) + 1"
+                          [style.grid-row]="(+seat.y_coordinate) + 1"
+                          class="w-[52px] h-[52px]">
+                        </div>
+
+                      } @else if (seat.seatStatus === SeatStatus.AVAILABLE) {
+                        <div (click)="toggleSeat(seat)"
+                          [style.grid-column]="(+seat.x_coordinate) + 1"
+                          [style.grid-row]="(+seat.y_coordinate) + 1"
+                          [style.height]="seat.seatType === 'SLEEPER' ? '104px' : '52px'"
+                          [ngClass]="isSelected(seat)
+                            ? 'bg-blue-600 border-blue-400 text-white shadow-[0_0_20px_rgba(37,99,235,0.5)] scale-110 z-10'
+                            : 'bg-slate-800 border-slate-600 text-slate-300 hover:border-blue-500 hover:bg-slate-700 hover:scale-105'"
+                          class="relative w-[52px] flex flex-col items-center justify-center rounded-xl border-2 transition-all duration-200 text-[11px] font-bold cursor-pointer">
+                          @if (seat.isWindow) {
+                            <div class="absolute left-0 top-1/4 w-0.5 h-1/2 bg-sky-400/30 rounded-r-full"></div>
+                          }
+                          {{ seat.seatNumber }}
+                        </div>
+
+                      } @else {
+                        <div
+                          [style.grid-column]="(+seat.x_coordinate) + 1"
+                          [style.grid-row]="(+seat.y_coordinate) + 1"
+                          [style.height]="seat.seatType === 'SLEEPER' ? '104px' : '52px'"
+                          class="relative w-[52px] flex flex-col items-center justify-center rounded-xl border-2 transition-all duration-200 text-[10px] font-bold cursor-not-allowed bg-red-900/10 border-red-900/30 text-red-900/40 gap-0.5">
+                          {{ seat.seatNumber }}
+                          <span class="text-[8px] font-normal opacity-70">
+                            {{ seat.seatStatus === 'BOOKED' ? 'Booked' : 'Blocked' }}
+                          </span>
+                        </div>
+                      }
+                    }
+                  </div>
+
+                  <p class="text-white/20 text-[11px]">
+                    {{ getAvailableCount(deckNum) }} of {{ getNonWalkwayCount(deckNum) }} seats available
+                  </p>
+
                 </div>
-                <div class="bg-white/5 border border-white/10 p-4 rounded-xl">
-                    <p class="text-white/40 text-[10px] uppercase font-bold">Bus ID</p>
-                    <p class="text-white text-sm font-mono truncate">{{ bus?.instanceId }}</p>
-                </div>
-                </div>
-            
-            <button class="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xl rounded-2xl shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all">
+              }
+            }
+          </div>
+
+          <!-- Selection Bar -->
+          <div class="bg-white/5 border border-white/10 rounded-3xl p-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="w-full md:w-auto">
+              <p class="text-white/40 text-xs uppercase font-bold mb-3">Selected Seats</p>
+              <div class="flex flex-wrap gap-2">
+                @if (selectedSeats.length === 0) {
+                  <span class="text-white/20 italic">No seats selected</span>
+                } @else {
+                  @for (s of selectedSeats; track s.tripSeatId) {
+                    <span class="bg-blue-500/20 text-blue-400 px-4 py-2 rounded-xl border border-blue-500/30 text-sm font-mono font-bold">
+                      {{ s.seatNumber }}
+                    </span>
+                  }
+                }
+              </div>
+            </div>
+            <div class="flex flex-col items-end gap-2 shrink-0">
+              @if (selectedSeats.length > 0) {
+                <p class="text-white/30 text-xs">
+                  {{ selectedSeats.length }} seat{{ selectedSeats.length > 1 ? 's' : '' }} &times; ₹{{ bus?.fare || 0 }}
+                </p>
+              }
+              <button
+                [disabled]="selectedSeats.length === 0"
+                (click)="onProceedToCheckout()"
+                class="w-full md:w-auto px-16 py-5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black text-lg rounded-2xl shadow-xl hover:shadow-blue-500/40 transition-all disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed">
                 Proceed to Checkout
-            </button>
+              </button>
+            </div>
+          </div>
+
         </div>
       }
     </div>

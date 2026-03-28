@@ -2,6 +2,7 @@ package org.hexaware.bookingservice.services;
 
 import org.hexaware.bookingservice.dtos.ResponseDto;
 import org.hexaware.bookingservice.dtos.instanceDtos.InstanceDto;
+import org.hexaware.bookingservice.dtos.instanceDtos.SeatMappingDto;
 import org.hexaware.bookingservice.dtos.tripDtos.TripCreationRequest;
 import org.hexaware.bookingservice.dtos.tripDtos.TripDetails;
 import org.hexaware.bookingservice.dtos.tripDtos.TripTemplateDto;
@@ -18,5 +19,5 @@ public interface TripService {
     public ResponseDto<List<InstanceDto>> getUpcomingInstancesByTemplateIds(List<UUID> templateIds);
     public void toggleTemplateStatus(UUID templateId, boolean active);
     public void deleteTemplate(UUID templateId);
-
+    ResponseDto<SeatMappingDto> getSeatMappings(UUID instanceId);
 }

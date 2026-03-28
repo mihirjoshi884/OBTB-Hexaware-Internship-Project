@@ -1,10 +1,15 @@
 package org.hexaware.bookingservice.services.serviceImpl;
 
 import jakarta.transaction.Transactional;
-import org.apache.logging.log4j.CloseableThreadContext;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.hexaware.bookingservice.dtos.ResponseDto;
 import org.hexaware.bookingservice.dtos.busDtos.BusFleetResponse;
+import org.hexaware.bookingservice.dtos.busDtos.SeatLayout;
+import org.hexaware.bookingservice.dtos.instanceDtos.EnrichedSeatDto;
 import org.hexaware.bookingservice.dtos.instanceDtos.InstanceDto;
+import org.hexaware.bookingservice.dtos.instanceDtos.SeatMappingDto;
 import org.hexaware.bookingservice.dtos.instanceDtos.StopsDto;
 import org.hexaware.bookingservice.dtos.routeDtos.RouteResponse;
 import org.hexaware.bookingservice.dtos.tripDtos.TripCreationRequest;
@@ -15,6 +20,7 @@ import org.hexaware.bookingservice.entites.TripSeat;
 import org.hexaware.bookingservice.entites.TripStopInstance;
 import org.hexaware.bookingservice.entites.TripTemplate;
 import org.hexaware.bookingservice.enums.DayOfWeek;
+import org.hexaware.bookingservice.enums.SeatStatus;
 import org.hexaware.bookingservice.enums.TripStatus;
 import org.hexaware.bookingservice.enums.TripType;
 import org.hexaware.bookingservice.repositories.TripInstanceRepository;
@@ -45,6 +51,8 @@ public class TripServiceImpl implements TripService {
     private WebClient bookingWebClient;
     @Value("${busService.base-uri}")
     private String busServiceUrl;
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     @Transactional
@@ -184,19 +192,7 @@ public class TripServiceImpl implements TripService {
         templateRepository.deleteById(templateId);
     }
 
-    private BusFleetResponse fetchBusFromService(UUID companyId, UUID busId) {
-        String fullUrl = busServiceUrl + "/bus-api/private/v1/bus/get-buses/{companyId}";
-        ResponseDto<List<BusFleetResponse>> response = bookingWebClient.get()
-                .uri(fullUrl, companyId)
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<ResponseDto<List<BusFleetResponse>>>() {})
-                .block();
 
-        return response.getBody().stream()
-                .filter(b -> b.busId().equals(busId))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Bus details not found"));
-    }
 
     @Override
     public ResponseDto<List<InstanceDto>> getUpcomingInstancesByTemplateIds(List<UUID> templateIds) {
@@ -209,6 +205,65 @@ public class TripServiceImpl implements TripService {
         var response = new  ResponseDto<>(instanceResult, 200, "Instances retrieved successfully");
         return response;
     }
+
+    @Override
+    public ResponseDto<SeatMappingDto> getSeatMappings(UUID instanceId) {
+        TripInstance instance = instanceRepository.findById(instanceId).orElseThrow(()-> new RuntimeException("instance not found"));
+
+        // 1. Parse the JSON Layout String into a list of SeatLayout objects
+        BusFleetResponse busDetails = getLayoutData(instance.getTemplate().getBusId());
+        String rawLayoutJson = busDetails.template().layoutData();
+
+        List<SeatLayout> staticLayouts = parseJsonLayout(rawLayoutJson);
+
+        // 2. Map TripSeats by their Number for fast lookup
+        Map<String, TripSeat> dynamicStatusMap = instance.getSeatMap().stream()
+                .collect(Collectors.toMap(TripSeat::getSeatNumber, s -> s));
+
+        // 3. Create the Enriched List
+        List<EnrichedSeatDto> enrichedSeats = staticLayouts.stream().map(layout -> {
+            // Find the matching seat record in our database using the label/id
+            TripSeat dynamicInfo = dynamicStatusMap.get(layout.id());
+
+            return new EnrichedSeatDto(
+                    layout.id(),
+                    layout.x_coordinate(),
+                    layout.y_coordinate(),
+                    layout.deck(),
+                    layout.type(),
+                    layout.isWindow(),
+                    dynamicInfo != null ? dynamicInfo.getTripSeatId() : null,
+                    dynamicInfo != null ? dynamicInfo.getStatus() : SeatStatus.NONE
+            );
+        }).toList();
+
+        return new ResponseDto<>(new SeatMappingDto(instanceId, enrichedSeats), 200, "Success");
+    }
+
+    private List<SeatLayout> parseJsonLayout(String layoutData) {
+        try {
+            if (layoutData == null || layoutData.isEmpty()) return Collections.emptyList();
+            return objectMapper.readValue(layoutData, new TypeReference<List<SeatLayout>>() {});
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to parse seat layout JSON", e);
+        }
+    }
+
+    private BusFleetResponse getLayoutData(UUID busId){
+        String fullUrl = busServiceUrl + "/bus-api/private/v1/bus/{busId}";
+        ParameterizedTypeReference<ResponseDto<BusFleetResponse>> busResponseType =  new ParameterizedTypeReference<>() {};
+        ResponseDto<BusFleetResponse> response = bookingWebClient.get()
+                .uri(fullUrl,busId)
+                .retrieve()
+                .bodyToMono(busResponseType)
+                .block();
+
+        if (response == null || response.getBody() == null || response.getBody().equals(null)) {
+            throw new RuntimeException("Bus details not found for ID: " + busId);
+        }
+        return response.getBody();
+    }
+
 
     private InstanceDto mapInstanceToInstanceDto(TripInstance instance) {
         List<StopsDto> stops = new ArrayList<>();
@@ -233,6 +288,21 @@ public class TripServiceImpl implements TripService {
 
         );
     }
+
+    private BusFleetResponse fetchBusFromService(UUID companyId, UUID busId) {
+        String fullUrl = busServiceUrl + "/bus-api/private/v1/bus/get-buses/{companyId}";
+        ResponseDto<List<BusFleetResponse>> response = bookingWebClient.get()
+                .uri(fullUrl, companyId)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<ResponseDto<List<BusFleetResponse>>>() {})
+                .block();
+
+        return response.getBody().stream()
+                .filter(b -> b.busId().equals(busId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Bus details not found"));
+    }
+
     private RouteResponse fetchRouteFromService(UUID routeId) {
         // 1. Point to the existing bulk endpoint
         String bulkRouteUrl = busServiceUrl + "/bus-api/private/v1/bus/routes/get-routes-bulk";

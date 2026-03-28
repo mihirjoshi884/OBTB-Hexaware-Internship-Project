@@ -41,4 +41,5 @@ public interface BusService {
     public ResponseDto<String> deleteOperatorDocuments(UUID userId) throws IOException;
     public ResponseDto<List<BusFleetResponse>> getAllBuses(List<UUID> busIds);
     public ResponseDto<List<RouteResponse>> getAllRoutes(List<UUID> routeIds);
+    ResponseDto<BusFleetResponse> getBusDetails(UUID busId);
 }
