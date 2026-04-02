@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hexaware.bookingservice.enums.SeatStatus;
 import org.hexaware.bookingservice.enums.SeatType;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -34,6 +35,8 @@ public class TripSeat {
 
     @Enumerated(EnumType.STRING)
     private SeatStatus status;
+
+    private LocalDateTime lockedAt;
 
     @Version
     private Integer version;

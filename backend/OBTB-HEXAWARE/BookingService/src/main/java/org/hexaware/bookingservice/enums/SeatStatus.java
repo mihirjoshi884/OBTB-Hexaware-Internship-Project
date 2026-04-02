@@ -1,5 +1,5 @@
 package org.hexaware.bookingservice.enums;
 
 public enum SeatStatus {
-    AVAILABLE, BOOKED, BLOCKED, NONE;
+    AVAILABLE, BOOKED, LOCKED, NONE;
 }

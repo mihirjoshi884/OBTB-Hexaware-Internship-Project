@@ -9,14 +9,15 @@ import org.hexaware.bookingservice.dtos.busDtos.SeatLayout;
 import org.hexaware.bookingservice.dtos.routeDtos.RouteResponse;
 import org.hexaware.bookingservice.entites.*;
 import org.hexaware.bookingservice.enums.*;
-import org.hexaware.bookingservice.repositories.ArchiveRepository;
+import org.hexaware.bookingservice.repositories.BookingRepository;
 import org.hexaware.bookingservice.repositories.TripInstanceRepository;
 import org.hexaware.bookingservice.repositories.TripTemplateRepository;
+import org.hexaware.bookingservice.services.ArchiveService;
+import org.hexaware.bookingservice.services.BookingLifecycleEngine;
 import org.hexaware.bookingservice.services.TripLifecycleEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -34,10 +35,18 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
     private TripInstanceRepository instanceRepository;
     @Autowired
     private TripTemplateRepository templateRepository;
+
+    // Inject the isolated archive service
     @Autowired
-    private ArchiveRepository archiveRepository;
+    private ArchiveService archiveService;
+
     @Autowired
     private WebClient bookingWebClient;
+    @Autowired
+    private BookingLifecycleEngine bookingLifecycleEngine;
+
+    @Autowired
+    private BookingRepository bookingRepository;
 
     @Value("${busService.base-uri}")
     private String busServiceUrl;
@@ -46,38 +55,41 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
     @Transactional
     public synchronized void processLifecycle() {
         LocalDateTime now = LocalDateTime.now();
+        bookingLifecycleEngine.processBookingLifecycle();
 
         // 1. Get the stale instances
         List<TripInstance> staleInstances = instanceRepository.findByStatusAndActualArrivalBefore(
                 TripStatus.SCHEDULED, now);
 
         for (TripInstance ti : staleInstances) {
-            // CHECK: Does this archive already exist?
-            if (!archiveRepository.existsById(ti.getInstanceId())) {
-                // 1. Create Archive Record only if it's missing
-                TripArchive archive = new TripArchive();
-                archive.setInstanceId(ti.getInstanceId());
-                archive.setTemplateId(ti.getTemplate().getTemplateId());
-                archive.setActualDeparture(ti.getActualDeparture());
-                archive.setActualArrival(ti.getActualArrival());
-                archive.setFinalFare(ti.getTemplate().getBaseFare());
-                archive.setArchivedAt(LocalDateTime.now());
 
-                archiveRepository.save(archive);
-            } else {
-                System.out.println("Archive already exists for instance: " + ti.getInstanceId() + ". Skipping insert.");
+            if (!instanceRepository.existsById(ti.getInstanceId())) {
+                System.out.println("Trip " + ti.getInstanceId() + " was already processed/deleted by another thread. Skipping.");
+                continue;
             }
 
-            // 2. The "Nuclear" Clean Slate - ALWAYS delete from active instances
-            instanceRepository.delete(ti);
+            // 🛡️ Step 1: Attempt archiving in an isolated transaction
+            try {
+                archiveService.attemptArchive(ti);
+            } catch (Exception e) {
+                System.out.println("Archive failed entirely on transaction boundary. Moving on to delete.");
+            }
 
-            // 3. One-Time Template Management
+            // 🛡️ Step 2: Break the foreign key constraint on bookings
+            bookingRepository.nullifyTripReference(ti.getInstanceId());
+
+            // 🛡️ Step 2.5: Hard purge children to bypass Hibernate version lock checks
+            instanceRepository.deleteSeatsByTripInstanceId(ti.getInstanceId());
+            instanceRepository.deleteStopsByTripInstanceId(ti.getInstanceId());
+
+            instanceRepository.hardDeleteByInstanceId(ti.getInstanceId());
+
+
             if (ti.getTemplate().getTripType() == TripType.ONE_TIME) {
                 ti.getTemplate().setActive(false);
             }
         }
 
-        // Final flush
         instanceRepository.flush();
 
         // PART 2: REGULATION
@@ -105,12 +117,10 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
         TripInstance instance = new TripInstance();
         instance.setTemplate(template);
 
-        // 1. Calculate Target Date and Start Time
         LocalDate targetDate = (template.getTripType() == TripType.ONE_TIME)
                 ? template.getDepartureDate()
                 : LocalDate.now().with(TemporalAdjusters.nextOrSame(java.time.DayOfWeek.valueOf(template.getScheduledDay().name())));
 
-        // Determine start time based on TripType
         LocalTime startTime = (template.getTripType() == TripType.ONE_TIME)
                 ? template.getDepartureTime()
                 : template.getRegularTime();
@@ -119,8 +129,6 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
         instance.setActualDeparture(tripStart);
         instance.setStatus(TripStatus.SCHEDULED);
 
-        // 2. Fetch External Data
-        // Note: It's better to fetch all but keep filtering logic clear
         ResponseDto<List<BusFleetResponse>> busResponse = bookingWebClient.get()
                 .uri(busServiceUrl + "/bus-api/private/v1/bus/get-buses/{companyId}", template.getCompanyId())
                 .retrieve()
@@ -133,7 +141,6 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
                 .bodyToMono(new ParameterizedTypeReference<ResponseDto<List<RouteResponse>>>() {})
                 .block();
 
-        // 3. Process Route and Stop Timings
         var route = routeResponse.getBody().stream()
                 .filter(r -> r.routeId().equals(template.getRouteId()))
                 .findFirst()
@@ -146,11 +153,9 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
             tsi.setStopName(stop.stopName());
             tsi.setStopOrder(stop.stopOrder());
 
-            // Logic: Offset is cumulative minutes from Origin
             LocalDateTime arrivalTime = tripStart.plusMinutes(stop.timeOffsetFromOrigin());
             tsi.setArrivalTime(arrivalTime);
 
-            // Logic: Destination doesn't "depart"
             boolean isLastStop = stop.stopOrder().equals(route.stops().size() - 1);
             if (isLastStop) {
                 tsi.setDepartureTime(arrivalTime);
@@ -162,12 +167,10 @@ public class TripLifeCycleEngineImpl implements TripLifecycleEngine {
 
         instance.setStops(tripStops);
 
-        // Set Instance Arrival to the final stop's arrival time
         if (!tripStops.isEmpty()) {
             instance.setActualArrival(tripStops.get(tripStops.size() - 1).getArrivalTime());
         }
 
-        // 4. Seat Map Generation
         var bus = busResponse.getBody().stream()
                 .filter(b -> b.busId().equals(template.getBusId()))
                 .findFirst()

@@ -144,6 +144,14 @@ public class PrivateController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    // http://localhost:8086/bus-api/private/v1/company/get-company-details/{companyId}
+    @GetMapping("/company/get-company-details/{companyId}")
+    public ResponseEntity<?> getCompanyDetailsByCompanyId(@PathVariable UUID companyId){
+        var response = busService.getCompanyDetailByCompanyId(companyId);
+        return ResponseEntity.status(response.getStatus()).body(response);
+
+    }
+
     @GetMapping("/layout-template/templates")
     public ResponseEntity<?> getLayoutTemplates(){
         var response = layoutTemplateService.getLayoutTemplates();

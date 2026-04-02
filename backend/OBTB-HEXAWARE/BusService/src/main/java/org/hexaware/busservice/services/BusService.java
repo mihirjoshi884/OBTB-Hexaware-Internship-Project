@@ -5,6 +5,7 @@ import org.hexaware.busservice.dtos.*;
 import org.hexaware.busservice.dtos.busDtos.*;
 import org.hexaware.busservice.dtos.companyDtos.CompanyCreationRequest;
 import org.hexaware.busservice.dtos.companyDtos.CompanyCreationResponse;
+import org.hexaware.busservice.dtos.companyDtos.CompanySummaryDTO;
 import org.hexaware.busservice.dtos.documentDtos.*;
 import org.hexaware.busservice.dtos.routeDtos.RouteResponse;
 import org.hexaware.busservice.dtos.staffDtos.AddBusStaffRequest;
@@ -27,6 +28,7 @@ public interface BusService {
     public ResponseDto<BusTemplateCreationResponse> saveBusTemplate(BusTemplateCreationRequest busTemplateCreationRequest);
     public ResponseDto<BusFleetResponse> createBus(BusCreationRequest busCreationRequest);
     public ResponseDto<CompanyCreationResponse> getCompanyDetail(UUID userId);
+    public ResponseDto<CompanySummaryDTO> getCompanyDetailByCompanyId(UUID companyId);
     public ResponseDto<List<BusTemplateResponse>> getBusTemplates(UUID userId);
     public ResponseDto<List<BusFleetResponse>> getAllExistingCompanyBuses(UUID companyId);
     public ResponseDto<BusStaffCreationResponse> createBusStaff(BusStaffCreationRequest request,MultipartFile driverLicense);

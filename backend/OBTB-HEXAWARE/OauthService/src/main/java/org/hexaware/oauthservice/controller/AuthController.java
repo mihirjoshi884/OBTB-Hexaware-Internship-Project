@@ -12,10 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth-api/v1")
@@ -59,16 +62,55 @@ public class AuthController {
         return ResponseEntity.ok(userResponse);
     }
 
-    @GetMapping("user/get-current-user")
-    public CurrentUserResponse getPrincipal(Authentication authentication) {
-        PrincipleUser user = (PrincipleUser) authentication.getPrincipal();
+    @GetMapping("/user/get-current-user")
+    public ResponseEntity<?> getPrincipal(
+            @AuthenticationPrincipal org.springframework.security.oauth2.jwt.Jwt jwt
+    ) {
+        // 🛡️ Safety check
+        if (jwt == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "No valid token provided"));
+        }
 
-        return new CurrentUserResponse(
-                user.getUsername(),
-                user.isEnabled(),
-                user.isAccountNonLocked(),
-                user.getAuthorities()
+        // 1. Target the exact claim containing the UUID
+        String userIdStr = jwt.getClaimAsString("userId");
+
+        if (userIdStr == null || userIdStr.isBlank()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "The 'userId' claim is missing from the token payload"));
+        }
+
+        // 2. Safely parse the UUID
+        UUID userUuid;
+        try {
+            userUuid = UUID.fromString(userIdStr);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "The 'userId' claim is not a valid UUID format: " + userIdStr));
+        }
+
+        // 3. Fallback for username (your token uses the 'username' or 'sub' claim)
+        String username = jwt.getClaimAsString("username");
+        if (username == null || username.isBlank()) {
+            username = jwt.getSubject(); // Backed by "aparnajoshi@1234"
+        }
+
+        // 4. Extract roles
+        List<String> roles = jwt.getClaimAsStringList("roles");
+
+        CurrentUserResponse response = new CurrentUserResponse(
+                UUID.fromString(userIdStr),
+                username,
+                true, // enabled
+                true, // account non-locked
+                roles != null ? roles.stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList())
+                        : List.of() // Fallback to empty list if null
         );
+
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/change-password")

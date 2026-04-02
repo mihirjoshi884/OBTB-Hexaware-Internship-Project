@@ -1,0 +1,36 @@
+<div>
+  <h2 class="text-white text-3xl font-bold mb-6">Create Primary Passenger Profile</h2>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
+    <div>
+      <label class="opacity-50 text-sm">Full Name</label>
+      <input [(ngModel)]="profile.name" 
+             class="w-full bg-white/5 border border-white/10 p-3 rounded-lg mt-1 focus:border-blue-500/50 focus:outline-none transition-all">
+    </div>
+    <div>
+      <label class="opacity-50 text-sm">Phone</label>
+      <input [(ngModel)]="profile.phone" 
+             class="w-full bg-white/5 border border-white/10 p-3 rounded-lg mt-1 focus:border-blue-500/50 focus:outline-none transition-all">
+    </div>
+    <div>
+      <label class="opacity-50 text-sm">Email</label>
+      <input [(ngModel)]="profile.email" 
+             class="w-full bg-white/5 border border-white/10 p-3 rounded-lg mt-1 focus:border-blue-500/50 focus:outline-none transition-all">
+    </div>
+    <div>
+      <label class="opacity-50 text-sm">Emergency Name</label>
+      <input [(ngModel)]="profile.emergencyContactName" 
+             class="w-full bg-white/5 border border-white/10 p-3 rounded-lg mt-1 focus:border-blue-500/50 focus:outline-none transition-all">
+    </div>
+    <div>
+      <label class="opacity-50 text-sm">Emergency Phone</label>
+      <input [(ngModel)]="profile.emergencyContact" 
+             class="w-full bg-white/5 border border-white/10 p-3 rounded-lg mt-1 focus:border-blue-500/50 focus:outline-none transition-all">
+    </div>
+  </div>
+
+  <button (click)="onSubmit()" 
+          class="mt-8 px-10 py-4 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all">
+    Save & Continue
+  </button>
+</div>

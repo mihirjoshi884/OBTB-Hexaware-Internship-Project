@@ -226,7 +226,8 @@ public class BusServiceImpl implements BusService {
                 savedBus.getRegistrationNumber(),
                 new CompanySummaryDTO(
                         savedBus.getCompany().getCompanyName(),
-                        savedBus.getCompany().getCompanyId()
+                        savedBus.getCompany().getCompanyId(),
+                        savedBus.getCompany().getOwnerId()
                 ),
                 new TemplateSummaryDTO(
                         savedBus.getTemplate().getTemplateName(),
@@ -251,6 +252,13 @@ public class BusServiceImpl implements BusService {
                 fetchedCompany.getOwnerId(),
                 fetchedCompany.getStatus()
         );
+        return new ResponseDto<>(companyResponse,200,"company found by id-"+fetchedCompany.getCompanyId());
+    }
+
+    @Override
+    public ResponseDto<CompanySummaryDTO> getCompanyDetailByCompanyId(UUID companyId){
+        var fetchedCompany = companyRepository.findById(companyId).orElseThrow(()-> new CompanyNotFoundException("company not found with the id:\t"+companyId));
+        var companyResponse = mapToCompanySummaryDto(fetchedCompany);
         return new ResponseDto<>(companyResponse,200,"company found by id-"+fetchedCompany.getCompanyId());
     }
 
@@ -291,7 +299,7 @@ public class BusServiceImpl implements BusService {
                         bus.getBusName(),
                         bus.getStatus(),
                         bus.getRegistrationNumber(),
-                        new CompanySummaryDTO(bus.getCompany().getCompanyName(), bus.getCompany().getCompanyId()),
+                        new CompanySummaryDTO(bus.getCompany().getCompanyName(), bus.getCompany().getCompanyId(),bus.getCompany().getOwnerId()) ,
                         new TemplateSummaryDTO(bus.getTemplate().getTemplateName(),
                                 bus.getTemplate().getBusType().toString(),
                                 bus.getTemplate().getLayoutData())
@@ -636,6 +644,13 @@ public class BusServiceImpl implements BusService {
                 routeStop.getTimeOffsetFromOrigin()
         );
     }
+    private CompanySummaryDTO mapToCompanySummaryDto(Company company){
+        return new CompanySummaryDTO(
+                company.getCompanyName(),
+                company.getCompanyId(),
+                company.getOwnerId()
+        );
+    }
     private BusFleetResponse mapToBusFleetResponse(Bus bus) {
         return new BusFleetResponse(
                 bus.getBusId(),
@@ -644,7 +659,8 @@ public class BusServiceImpl implements BusService {
                 bus.getRegistrationNumber(),
                 new CompanySummaryDTO(
                         bus.getCompany().getCompanyName(),
-                        bus.getCompany().getCompanyId()
+                        bus.getCompany().getCompanyId(),
+                        bus.getCompany().getOwnerId()
                 ),
                 new TemplateSummaryDTO(
                         bus.getTemplate().getTemplateName(),

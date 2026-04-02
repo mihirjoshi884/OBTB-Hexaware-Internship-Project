@@ -1,0 +1,103 @@
+<div class="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6">
+  
+  <div class="max-w-md w-full bg-slate-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-8 shadow-2xl text-center">
+    
+    @if (currentStep === 'summary') {
+      <div class="mb-6 flex justify-center">
+        <div class="w-16 h-16 bg-blue-500/10 border border-blue-500/20 rounded-full flex items-center justify-center text-blue-500 text-3xl font-bold">
+          i
+        </div>
+      </div>
+
+      <h2 class="text-white text-2xl font-bold mb-2">Booking Summary</h2>
+      <p class="text-white/40 text-sm mb-6">Please review your journey details before completing the payment.</p>
+
+      @if (bookingData) {
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-left mb-6">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-white/40 text-xs uppercase font-bold">PNR Number</span>
+            <span class="text-blue-400 font-mono text-sm font-bold">{{ bookingData.pnr }}</span>
+          </div>
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-white/40 text-xs uppercase font-bold">Route</span>
+            <span class="text-white text-sm font-medium">{{ bookingData.source }} → {{ bookingData.destination }}</span>
+          </div>
+          <div class="flex justify-between items-center border-t border-white/5 pt-2 mt-2">
+            <span class="text-white/40 text-xs uppercase font-bold">Fare Amount</span>
+            <span class="text-emerald-400 font-bold text-sm">₹{{ bookingData.amountToPay }}</span>
+          </div>
+        </div>
+      }
+
+      <button (click)="onPayNow()" class="w-full py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all focus:outline-none shadow-lg shadow-blue-600/20">
+        Pay Now
+      </button>
+    }
+
+    @if (currentStep === 'processing') {
+      <div class="mb-6 flex justify-center">
+        
+        @if (currentStatus === 'WAITING') {
+          <div class="w-16 h-16 border-4 border-blue-600/20 border-t-blue-500 rounded-full animate-spin"></div>
+        }
+        
+        @if (currentStatus === 'CONFIRMED') {
+          <div class="w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center justify-center text-emerald-500 text-3xl font-bold">
+            ✓
+          </div>
+        }
+
+        @if (currentStatus === 'FAILED') {
+          <div class="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-full flex items-center justify-center text-red-500 text-3xl font-bold">
+            ✕
+          </div>
+        }
+      </div>
+
+      @if (currentStatus === 'WAITING') {
+        <h2 class="text-white text-2xl font-bold mb-2">Securing Your Ticket</h2>
+        <p class="text-white/40 text-sm mb-6">Please do not refresh the page. We are validating your payment and reserving your seats.</p>
+        <div class="text-xs text-white/20 mt-2">Attempt {{ pollCount }} of {{ MAX_POLL_ATTEMPTS }}</div>
+      }
+
+      @if (currentStatus === 'CONFIRMED') {
+        <h2 class="text-emerald-500 text-2xl font-bold mb-2">Booking Confirmed!</h2>
+        <p class="text-white/40 text-sm mb-6">Awesome! Your payment cleared and your reservation is securely booked.</p>
+      }
+
+      @if (currentStatus === 'FAILED') {
+        <h2 class="text-red-500 text-2xl font-bold mb-2">Transaction Failed</h2>
+        <p class="text-white/40 text-sm mb-6">Something went wrong while processing the transaction or network timed out. Any deducted funds will automatically be refunded.</p>
+      }
+
+      @if (bookingData) {
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-left mb-6">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-white/40 text-xs uppercase font-bold">PNR Number</span>
+            <span class="text-blue-400 font-mono text-sm font-bold">{{ bookingData.pnr }}</span>
+          </div>
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-white/40 text-xs uppercase font-bold">Route</span>
+            <span class="text-white text-sm font-medium">{{ bookingData.source }} → {{ bookingData.destination }}</span>
+          </div>
+          <div class="flex justify-between items-center border-t border-white/5 pt-2 mt-2">
+            <span class="text-white/40 text-xs uppercase font-bold">Total Amount Paid</span>
+            <span class="text-emerald-400 font-bold text-sm">₹{{ bookingData.amountToPay }}</span>
+          </div>
+        </div>
+      }
+
+      @if (currentStatus === 'CONFIRMED') {
+        <button routerLink="/profile" class="w-full py-4 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all focus:outline-none">
+          View My Bookings
+        </button>
+      }
+
+      @if (currentStatus === 'FAILED') {
+        <button routerLink="/home" class="w-full py-4 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-700 transition-all focus:outline-none">
+          Back to Search
+        </button>
+      }
+    }
+  </div>
+</div>

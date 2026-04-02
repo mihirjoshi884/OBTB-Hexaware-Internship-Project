@@ -36,9 +36,9 @@ public class UserController {
     // /user-api/v1/update-user/{username}
     @PutMapping(value = "/update-user/{username}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateUserProfile(@Valid
-                                        @PathVariable String username,
-                                        @RequestPart(value = "profileImage", required = false) MultipartFile file,
-                                        @RequestPart(value = "updatedFields") String updateFieldsJson) throws JsonProcessingException, FileUploadException {
+                                               @PathVariable String username,
+                                               @RequestPart(value = "profileImage", required = false) MultipartFile file,
+                                               @RequestPart(value = "updatedFields") String updateFieldsJson) throws JsonProcessingException, FileUploadException {
         ObjectMapper objectMapper = new ObjectMapper();
         UpdateUserRequest updateRequest = objectMapper.readValue(updateFieldsJson, UpdateUserRequest.class);
 
@@ -87,7 +87,7 @@ public class UserController {
     //http://localhost:9090/user/user-api/v1/add-funds/{username}
     @PutMapping("/add-funds/{username}")
     public ResponseEntity<?> addFundsToWallet(@PathVariable String username,
-                                                                         @RequestBody Double amount){
+                                              @RequestBody Double amount){
         ResponseDto<FundsSummaryDto> results = userService.addFunds(username,amount);
         return ResponseEntity.status(results.getStatus()).body(results); // Return 'results' instead of 'results.getBody()'
     }

@@ -7,6 +7,7 @@ import { ForgotPassword } from './features/forgot-password/forgot-password';
 import { Home } from './features/home/home';
 import { LoginComponent } from './features/login/login';
 import { LoginCallbackComponent } from './features/login/login-callback/login-callback-component/login-callback-component';
+import { PaymentComponent } from './features/payment-component/payment-component';
 import { UserDashboard } from './features/profile/user-dashboard';
 import { VerifyAccount } from './features/verify-account/verify-account';
 
@@ -22,7 +23,6 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'login/callback', component: LoginCallbackComponent },
     {path: 'forgot-password', component: ForgotPassword}, 
-    {path: 'booking/:id', component: BookingComponent},
     {
         path: 'signup',
         loadComponent: () =>
@@ -41,7 +41,15 @@ export const routes: Routes = [
         children:[
             { path: 'profile', component: UserDashboard }
         ]
+    },
+    {   path: 'booking/:id',
+        component: BookingComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'payment',
+        component: PaymentComponent,
+        canActivate: [authGuard]
     }
-    
     
 ];

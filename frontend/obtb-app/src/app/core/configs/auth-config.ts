@@ -24,6 +24,7 @@ export const authConfig: AuthConfig = {
   sessionChecksEnabled: false,
   strictDiscoveryDocumentValidation: false,
   skipIssuerCheck: false
+
 };
 
 

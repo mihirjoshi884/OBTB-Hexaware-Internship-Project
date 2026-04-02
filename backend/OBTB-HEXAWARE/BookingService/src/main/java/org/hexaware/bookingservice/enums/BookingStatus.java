@@ -1,5 +1,5 @@
 package org.hexaware.bookingservice.enums;
 
 public enum BookingStatus {
-    CONFIRMED, CANCELLED, COMPLETED;
+    CONFIRMED, CANCELLED, COMPLETED, WAITING, FAILED;
 }

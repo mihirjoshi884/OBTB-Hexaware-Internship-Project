@@ -199,6 +199,12 @@
                                         <button (click)="toggleWithdrawFunds()" class="px-8 py-4 bg-slate-700 hover:bg-slate-600 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all">
                                             Withdraw Funds
                                         </button>
+                                        @if (isAddingFunds) {
+                                            <app-add-funds
+                                                (complete)="onFundsAdded($event)"
+                                                (closed)="toggleAddFunds()">
+                                            </app-add-funds>
+                                        }
                                         @if (isWithdrawingFunds) {
                                             <app-withdraw-funds 
                                                 [currentBalance]="walletBalance"

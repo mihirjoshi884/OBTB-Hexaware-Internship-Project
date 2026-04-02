@@ -1,12 +1,12 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 
-
 /**
  * User information model
  * Holds all data related to current logged-in user
  */
 export interface CurrentUser {
+    id: string;
     username: string;
     email: string;
     givenName?: string;
@@ -21,11 +21,9 @@ export interface CurrentUser {
     roles?: string[];
 }
 
-
 @Injectable({ providedIn: 'root' })
 export class CurrentUserService {
     private readonly oauthService = inject(OAuthService);
-    
 
     /**
      * Reactive signal holding current user information
@@ -46,7 +44,6 @@ export class CurrentUserService {
     constructor() {
         // Try to restore user info from session storage on service initialization
         this.restoreUserFromStorage();
-        
     }
 
     /**
@@ -55,55 +52,59 @@ export class CurrentUserService {
      */
     initializeUser(claims: any): void {
         try {
-        this.isLoading.set(true);
+            this.isLoading.set(true);
+            console.log('🔍 RAW DECODED CLAIMS SEEN BY ANGULAR:', claims);
+            const username = claims?.preferred_username || claims?.username || claims?.name || '';
+            const accessToken = this.oauthService.getAccessToken() || '';
+            const idToken = this.oauthService.getIdToken() || '';
+            const expiresIn = this.oauthService.getAccessTokenExpiration();
+            
+            // 🚀 FIX 1: Look for the custom 'userId' claim first to get the actual UUID!
+            const userId = claims?.userId || claims?.sub || '';
 
-        const username = claims?.preferred_username || claims?.username || claims?.name || '';
-        const accessToken = this.oauthService.getAccessToken() || '';
-        const idToken = this.oauthService.getIdToken() || '';
-        const expiresIn = this.oauthService.getAccessTokenExpiration();
+            if (!username || !accessToken) {
+                console.warn('⚠️ Missing username or access token');
+                this.currentUser.set(null);
+                this.isUserAvailable.set(false);
+                return;
+            }
 
-        if (!username || !accessToken) {
-            console.warn('⚠️ Missing username or access token');
-            this.currentUser.set(null);
-            this.isUserAvailable.set(false);
-            return;
-        }
+            const user: CurrentUser = {
+                id: userId,
+                username: username,
+                email: claims?.email || '',
+                givenName: claims?.given_name || '',
+                familyName: claims?.family_name || '',
+                preferredUsername: claims?.preferred_username || '',
+                fullName: claims?.name || '',
+                accessToken: accessToken,
+                idToken: idToken,
+                expiresIn: expiresIn,
+                tokenExpiration: new Date(expiresIn * 1000),
+                claims: claims,
+                roles: claims?.roles || []
+            };
 
-        const user: CurrentUser = {
-            username: username,
-            email: claims?.email || '',
-            givenName: claims?.given_name || '',
-            familyName: claims?.family_name || '',
-            preferredUsername: claims?.preferred_username || '',
-            fullName: claims?.name || '',
-            accessToken: accessToken,
-            idToken: idToken,
-            expiresIn: expiresIn,
-            tokenExpiration: new Date(expiresIn * 1000),
-            claims: claims,
-            roles: claims?.roles || []
-        };
+            // Store in signal
+            this.currentUser.set(user);
+            this.isUserAvailable.set(true);
 
-        // Store in signal
-        this.currentUser.set(user);
-        this.isUserAvailable.set(true);
+            // Store in sessionStorage for persistence
+            this.saveUserToStorage(user);
 
-        // Store in sessionStorage for persistence
-        this.saveUserToStorage(user);
-
-        console.log('👤 Current user initialized:', {
-            username: user.username,
-            email: user.email,
-            accessTokenLength: user.accessToken.length,
-            expiresAt: user.tokenExpiration
-        });
+            console.log('👤 Current user initialized:', {
+                username: user.username,
+                email: user.email,
+                accessTokenLength: user.accessToken.length,
+                expiresAt: user.tokenExpiration
+            });
 
         } catch (error) {
-        console.error('❌ Error initializing user:', error);
-        this.currentUser.set(null);
-        this.isUserAvailable.set(false);
+            console.error('❌ Error initializing user:', error);
+            this.currentUser.set(null);
+            this.isUserAvailable.set(false);
         } finally {
-        this.isLoading.set(false);
+            this.isLoading.set(false);
         }
     }
 
@@ -186,19 +187,20 @@ export class CurrentUserService {
      */
     private saveUserToStorage(user: CurrentUser): void {
         try {
-        const userData = {
-            username: user.username,
-            email: user.email,
-            givenName: user.givenName,
-            familyName: user.familyName,
-            preferredUsername: user.preferredUsername,
-            fullName: user.fullName,
-            roles: user.roles
-        };
-        sessionStorage.setItem('currentUser', JSON.stringify(userData));
-        console.log('💾 User data saved to sessionStorage');
+            const userData = {
+                id: user.id, // 🚀 FIX 2: Save the ID here so it survives page refresh
+                username: user.username,
+                email: user.email,
+                givenName: user.givenName,
+                familyName: user.familyName,
+                preferredUsername: user.preferredUsername,
+                fullName: user.fullName,
+                roles: user.roles
+            };
+            sessionStorage.setItem('currentUser', JSON.stringify(userData));
+            console.log('💾 User data saved to sessionStorage');
         } catch (error) {
-        console.error('❌ Error saving user to storage:', error);
+            console.error('❌ Error saving user to storage:', error);
         }
     }
 
@@ -207,15 +209,31 @@ export class CurrentUserService {
      */
     private restoreUserFromStorage(): void {
         try {
-        const storedUser = sessionStorage.getItem('currentUser');
-        if (storedUser) {
-            const userData = JSON.parse(storedUser);
-            console.log('📂 User data restored from sessionStorage:', userData.username);
-            // Note: We don't restore tokens from storage for security reasons
-            // User needs to complete OAuth flow to get new tokens
-        }
+            const storedUser = sessionStorage.getItem('currentUser');
+            if (storedUser) {
+                const userData = JSON.parse(storedUser);
+                console.log('📂 User data restored from sessionStorage:', userData.username);
+                
+                // Build the user object from stored data
+                const user: CurrentUser = {
+                    id: userData.id || '', // 🚀 FIX 3: Restore the ID from storage!
+                    username: userData.username || '',
+                    email: userData.email || '',
+                    givenName: userData.givenName || '',
+                    familyName: userData.familyName || '',
+                    preferredUsername: userData.preferredUsername || '',
+                    fullName: userData.fullName || '',
+                    accessToken: '', // Left blank for security on refresh
+                    idToken: '',
+                    roles: userData.roles || []
+                };
+
+                // 🚀 FIX 4: Push the restored user back into the signal!
+                this.currentUser.set(user);
+                this.isUserAvailable.set(true);
+            }
         } catch (error) {
-        console.warn('⚠️ Error restoring user from storage:', error);
+            console.warn('⚠️ Error restoring user from storage:', error);
         }
     }
 
@@ -224,10 +242,10 @@ export class CurrentUserService {
      */
     private removeUserFromStorage(): void {
         try {
-        sessionStorage.removeItem('currentUser');
-        console.log('🗑️ User data removed from sessionStorage');
+            sessionStorage.removeItem('currentUser');
+            console.log('🗑️ User data removed from sessionStorage');
         } catch (error) {
-        console.error('❌ Error removing user from storage:', error);
+            console.error('❌ Error removing user from storage:', error);
         }
     }
 
@@ -239,12 +257,12 @@ export class CurrentUserService {
         if (!user) return null;
 
         return {
-        username: user.username,
-        email: user.email,
-        fullName: user.fullName || user.givenName || '',
-        authenticated: this.isAuthenticated(),
-        tokenExpired: this.isTokenExpired(),
-        roles: user.roles
+            username: user.username,
+            email: user.email,
+            fullName: user.fullName || user.givenName || '',
+            authenticated: this.isAuthenticated(),
+            tokenExpired: this.isTokenExpired(),
+            roles: user.roles
         };
     }
 
@@ -254,11 +272,9 @@ export class CurrentUserService {
     logUserInfo(): void {
         const summary = this.getUserSummary();
         if (summary) {
-        console.log('👤 Current User Info:', summary);
+            console.log('👤 Current User Info:', summary);
         } else {
-        console.log('⚠️ No user currently logged in');
+            console.log('⚠️ No user currently logged in');
         }
     }
-
-
 }

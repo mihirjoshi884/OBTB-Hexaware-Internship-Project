@@ -4,6 +4,7 @@ import org.hexaware.bookingservice.dtos.searchDtos.TripSearchResponseDto;
 import org.hexaware.bookingservice.entites.TripInstance;
 import org.hexaware.bookingservice.enums.TripStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -73,4 +74,16 @@ public interface TripInstanceRepository extends JpaRepository<TripInstance, UUID
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end
     );
+
+    @Modifying
+    @Query("DELETE FROM TripSeat ts WHERE ts.tripInstance.instanceId = :instanceId")
+    void deleteSeatsByTripInstanceId(@Param("instanceId") UUID instanceId);
+
+    @Modifying
+    @Query("DELETE FROM TripStopInstance tsi WHERE tsi.tripInstance.instanceId = :instanceId")
+    void deleteStopsByTripInstanceId(@Param("instanceId") UUID instanceId);
+
+    @Modifying
+    @Query("DELETE FROM TripInstance ti WHERE ti.instanceId = :instanceId")
+    void hardDeleteByInstanceId(@Param("instanceId") UUID instanceId);
 }

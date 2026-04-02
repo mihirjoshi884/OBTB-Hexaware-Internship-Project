@@ -7,20 +7,22 @@ import { TransactionSkeletons } from 'src/app/shared/skeletons/transaction-skele
 import { AuthService } from '../../core/services/auth-service';
 import { UserProfileService } from '../../core/services/UserProfileService.service';
 import { UserProfile } from '../../interfaces/user-profile';
+import { AddFunds } from '../add-funds/add-funds';
 import { ChangePasswordComponent } from '../change-password/change-password';
 import { WithdrawFunds } from '../withdraw-funds/withdraw-funds';
 import { BusCompanyComponent } from './bus-company-component/bus-company-component';
 import { BusStaffComponent } from './bus-staff-component/bus-staff-component';
 import { EditUserProfile } from './edit-user-profile/edit-user-profile';
 import { RouteManagementComponent } from './route-management-component/route-management-component';
-import { UploadDocuments } from './upload-documents/upload-documents';
 import { TripManagementComponent } from './trip-management-component/trip-management-component';
+import { UploadDocuments } from './upload-documents/upload-documents';
 
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
   imports: [
     CommonModule, 
+    AddFunds,
     WithdrawFunds, 
     ChangePasswordComponent, 
     EditUserProfile,
@@ -172,7 +174,7 @@ export class UserDashboard implements OnInit {
     ];
 
     if(role === 'CUSTOMER'){
-      this.Tabs = [...commonTabs, { id: 'my-wallet', label: 'My Wallet' }, { id: 'activity', label: 'My Bookings' }];
+      this.Tabs = [...commonTabs, { id: 'my-wallet', label: 'My Wallet' }];
     }else if(role === 'BUS_OPERATOR'){
       this.Tabs = [
         ...commonTabs,

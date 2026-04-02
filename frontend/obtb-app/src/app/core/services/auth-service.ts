@@ -12,7 +12,11 @@ export class AuthService {
   private readonly oauthService = inject(OAuthService);
   private readonly router = inject(Router);
   private readonly currentUserService = inject(CurrentUserService);
+
   tokenExpired$: Subject<boolean> = new Subject<boolean>(); 
+
+  
+
 
   /**
    * Initiates the OAuth2 Authorization Code flow with PKCE
@@ -75,7 +79,19 @@ export class AuthService {
       return '';
     }
   }
-
+  getUserId(): string{
+    try{
+      const claims = this.oauthService.getIdentityClaims() as any;
+      const userId = claims?.userId;
+      if(userId){
+        console.log('Current user id:\t', userId);
+      }
+      return userId;
+    }catch (err){
+      console.warn('⚠️ Error getting username:', err);
+      return '';
+    }
+  }
   /**
    * Returns the current access token
    */

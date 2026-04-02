@@ -1,12 +1,13 @@
 package org.hexaware.oauthservice.dtos;
 
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.Collection;
+import java.util.UUID;
 
 public record CurrentUserResponse(
+        UUID userId,
         String username,
         boolean enabled,
         boolean accountNonLocked,
-        Collection<? extends GrantedAuthority> authorities
+        java.util.List<SimpleGrantedAuthority> authorities
 ) {}
