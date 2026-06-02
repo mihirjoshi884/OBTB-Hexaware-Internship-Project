@@ -1,36 +1,21 @@
-# -------------------------------------------------------------------------
-# Stage 1: Build the Application
-# -------------------------------------------------------------------------
-FROM eclipse-temurin:17-jdk-jammy AS build
+# --- STAGE 1: Build Stage ---
+FROM maven:3.9.4-eclipse-temurin-17 AS builder
 WORKDIR /app
 
-# 1. Copy only the build configuration files first
-COPY .mvn .mvn
-COPY mvnw .
+# Copy only what's needed for a build
 COPY pom.xml .
-
-
-
-RUN chmod +x mvnw
-# 2. Download dependencies (This layer is cached unless pom.xml changes)
-RUN ./mvnw dependency:go-offline -B
-
-# 3. Now copy the source code and build
 COPY src ./src
-RUN ./mvnw package -DskipTests
 
-# -------------------------------------------------------------------------
-# Stage 2: Create the Final Runtime Image
-# -------------------------------------------------------------------------
-FROM eclipse-temurin:17-jre-jammy
+# Build with maven available in the builder image
+RUN mvn -B clean package -DskipTests
+
+# --- STAGE 2: Runtime Stage ---
+FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /app
 
-# Non-root user for better security (Recommended)
-RUN addgroup --system spring && adduser --system spring -ingroup spring
-USER spring:spring
-
-
-COPY --from=build /app/target/*.jar app.jar
+# Copies the compiled jar (using a wildcard so you don't have to change the artifact name every time)
+COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 8082
+
 ENTRYPOINT ["java", "-jar", "app.jar"]

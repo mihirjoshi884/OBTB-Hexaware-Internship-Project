@@ -1,0 +1,208 @@
+
+
+networks:
+  obtb-network:
+    driver: bridge
+
+services:
+  # =========================================================================
+  # 1. FRONTEND APP
+  # =========================================================================
+  frontend-angular:
+    build:
+      context: ./frontend/obtb-app 
+      dockerfile: Dockerfile
+    container_name: obtb-frontend
+    ports:
+      - "4200:80"
+    networks:
+      - obtb-network
+
+  # =========================================================================
+  # 2. CORE GATEWAY & SERVICES
+  # =========================================================================
+  api-gateway:
+    build: ./backend/OBTB-HEXAWARE/API-GATEWAY
+    container_name: obtb-api-gateway
+    ports:
+      - "9090:9090"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${ACTIVE_PROFILE}
+      CONFIG_SERVER_URL: ${CONFIG_STAGE_SERVER}
+    networks:
+      - obtb-network
+    depends_on:
+      obtb-config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  obtb-config-server:
+    # FIXED: Explicitly defined context tells Docker this is a local build directory path
+    build:
+      context: ./backend/OBTB-HEXAWARE/Config-Server
+    container_name: obtb-config-server
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${ACTIVE_PROFILE}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/baseurls/stage"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+      start_period: 25s
+    networks:
+      - obtb-network
+
+  # =========================================================================
+  # 3. MAVEN BACKEND MICROSERVICES
+  # =========================================================================
+  oauth-service:
+    build: ./backend/OBTB-HEXAWARE/OauthService
+    container_name: obtb-oauth-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${ACTIVE_PROFILE}
+      CONFIG_SERVER_URL: ${CONFIG_STAGE_SERVER}
+    networks:
+      - obtb-network
+    depends_on:
+      obtb-config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  user-service:
+    build: ./backend/OBTB-HEXAWARE/USER-SERVICE
+    container_name: obtb-user-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${ACTIVE_PROFILE}
+      CONFIG_SERVER_URL: ${CONFIG_STAGE_SERVER}
+    networks:
+      - obtb-network
+    depends_on:
+      obtb-config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  bus-service:
+    build: ./backend/OBTB-HEXAWARE/BusService
+    container_name: obtb-bus-service
+    ports:
+      - "8086:8086"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${ACTIVE_PROFILE}
+      CONFIG_SERVER_URL: ${CONFIG_STAGE_SERVER}
+    networks:
+      - obtb-network
+    depends_on:
+      obtb-config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  booking-service:
+    build: ./backend/OBTB-HEXAWARE/BookingService
+    container_name: obtb-booking-service
+    ports:
+      - "8087:8087"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${ACTIVE_PROFILE}
+      CONFIG_SERVER_URL: ${CONFIG_STAGE_SERVER}
+    networks:
+      - obtb-network
+    depends_on:
+      obtb-config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  transaction-service:
+    build: ./backend/OBTB-HEXAWARE/TransactionService
+    container_name: obtb-transaction-service
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${ACTIVE_PROFILE}
+      CONFIG_SERVER_URL: ${CONFIG_STAGE_SERVER}
+    networks:
+      - obtb-network
+    depends_on:
+      obtb-config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  notification-service:
+    build: ./backend/OBTB-HEXAWARE/NotificationService
+    container_name: obtb-notification-service
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${ACTIVE_PROFILE}
+      CONFIG_SERVER_URL: ${CONFIG_STAGE_SERVER}
+    networks:
+      - obtb-network
+    depends_on:
+      obtb-config-server:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+
+  # =========================================================================
+  # 4. Kafka & PostgresSql
+  # =========================================================================
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres_db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    # FIXED: Keeps the container flagged as 'unhealthy' until the internal restart cycle completes
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USERNAME} -d ${POSTGRES_DB}"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - obtb-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-dbs.sh:/docker-entrypoint-initdb.d/init-dbs.sh
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: obtb-kafka
+    ports:
+      - "9094:9092"
+    networks:
+      - obtb-network
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:29093'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT'
+      KAFKA_LISTENERS: 'PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:29093'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:9092'
+      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+volumes:
+  postgres_data:
+    driver: local

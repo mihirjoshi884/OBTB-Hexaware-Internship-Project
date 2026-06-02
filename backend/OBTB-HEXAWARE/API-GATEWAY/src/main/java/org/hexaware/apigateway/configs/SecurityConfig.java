@@ -7,12 +7,11 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
-import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.*;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
@@ -22,26 +21,23 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 
 @Configuration
-@EnableWebFluxSecurity // Required for Reactive Gateway
+@EnableWebFluxSecurity
 public class SecurityConfig {
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
-                // 1. Link to the Java-based CORS configuration
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(exchanges -> exchanges
-                        // 2. Critical: Permit OPTIONS pre-flight requests globally
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .pathMatchers(
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/webjars/**",
-                                "/*/v3/api-docs/**" // Allows Gateway to fetch docs from sub-services
+                                "/*/v3/api-docs/**"
                         ).permitAll()
-                        // 3. Permit your specific public endpoints
                         .pathMatchers("/auth-api/v1/recover-account").permitAll()
                         .pathMatchers("/auth/auth-api/v1/recover-account").permitAll()
                         .pathMatchers("/user/user-api/v1/fetch-user-email/**").permitAll()
@@ -57,11 +53,23 @@ public class SecurityConfig {
                 );
         return http.build();
     }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        // This is the public URL used by Angular to identify the issuer
+        String issuerUri = "http://localhost:8081";
+
+        // This is the internal URL used by Docker services to fetch keys
+        String internalJwkSetUri = "http://obtb-oauth-service:8081/oauth2/jwks";
+
+        return NimbusJwtDecoder.withJwkSetUri(internalJwkSetUri)
+                .build();
+    }
+
     private Converter<Jwt, Mono<AbstractAuthenticationToken>> grantedAuthoritiesExtractor() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        // Use "roles" to match the actual JWT content you shared earlier
+
         grantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
         grantedAuthoritiesConverter.setAuthorityPrefix("");
 
@@ -72,7 +80,6 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        // Use exact origin for localhost development
         config.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));

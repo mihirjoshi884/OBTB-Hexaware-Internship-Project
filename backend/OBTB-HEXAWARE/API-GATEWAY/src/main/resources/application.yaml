@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: API-GATEWAY
 
@@ -15,7 +17,7 @@ spring:
         # 01. AUTH SERVICE ROUTES
         # ==========================================
         - id: auth-service-docs
-          uri: ${authservice.base-uri:http://localhost:8081}
+          uri: ${userservice.base-uri:http://localhost:8081}
           order: -1
           predicates:
             - Path=/auth/v3/api-docs
@@ -65,8 +67,6 @@ spring:
             - Path=/bus/**
           filters:
             - RewritePath=/bus/(?<segment>.*), /${segment}
-            # Add TokenRelay if Bus Service requires it
-            # - TokenRelay
 
         # ==========================================
         # 04. BOOKING SERVICE ROUTES
@@ -105,7 +105,7 @@ spring:
             - RewritePath=/txn/(?<segment>.*), /${segment}
             - TokenRelay
 
-  # --- SECURITY CONFIGURATION ---
+  # --- FIXED SECURITY OAUTH2 DEFINITIONS ---
   security:
     oauth2:
       client:
@@ -118,13 +118,19 @@ spring:
             redirect-uri: "{baseUrl}/login/oauth2/code/api-gateway"
             scope: openid, profile
             client-authentication-method: client_secret_basic
+
         provider:
           my-auth-server:
-            issuer-uri: ${authservice.base-uri:http://localhost:8081}
+            authorization-uri: http://obtb-oauth-service:8081/oauth2/authorize
+            token-uri: http://obtb-oauth-service:8081/oauth2/token
+            jwk-set-uri: http://obtb-oauth-service:8081/oauth2/jwks
+            user-info-uri: http://obtb-oauth-service:8081/userinfo
+            user-name-attribute: sub
+
       resourceserver:
         jwt:
-          issuer-uri: ${authservice.base-uri:http://localhost:8081}
-          jwk-set-uri: ${authservice.base-uri:http://localhost:8081}/oauth2/jwks
+          issuer-uri: http://localhost:8081
+          jwk-set-uri: http://obtb-oauth-service:8081/oauth2/jwks
 
 # --- SWAGGER UI AGGREGATION ---
 springdoc:

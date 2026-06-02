@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 
 
 export const authConfig: AuthConfig = {
-  issuer: environment.baseUrls['authservice.issuer'],
+  issuer: (environment.baseUrls as any)['authservice.issuer'],
   clientId: 'obtb-client-001',
   responseType: 'code',
   redirectUri: globalThis.location.origin + '/login/callback',
