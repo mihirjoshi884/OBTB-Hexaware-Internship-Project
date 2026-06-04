@@ -1,0 +1,131 @@
+name: OBTB GitOps CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  # PHASE 1: Detect which folders actually changed in the commit
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      services: ${{ steps.filter.outputs.changes }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check for Changes
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            apiGateway: 'backend/OBTB-HEXAWARE/API-GATEWAY/**'
+            bookingService: 'backend/OBTB-HEXAWARE/BookingService/**'
+            busService: 'backend/OBTB-HEXAWARE/BusService/**'
+            configServer: 'backend/OBTB-HEXAWARE/Config-Server/**'
+            notificationService: 'backend/OBTB-HEXAWARE/NotificationService/**'
+            oauthService: 'backend/OBTB-HEXAWARE/OauthService/**'
+            transactionService: 'backend/OBTB-HEXAWARE/TransactionService/**'
+            userService: 'backend/OBTB-HEXAWARE/USER-SERVICE/**'
+            frontend: 'frontend/obtb-app/**'
+
+  # PHASE 2: Build and Push only the modified components
+  build-and-push:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.services != '[]' && needs.detect-changes.outputs.services != '' }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: ${{ fromJSON(needs.detect-changes.outputs.services) }}
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Maps your matrix keys to your exact case-sensitive directory structures
+      - name: Set Service Variables
+        id: vars
+        run: |
+          declare -A PATHS=(
+            ["apiGateway"]="backend/OBTB-HEXAWARE/API-GATEWAY"
+            ["bookingService"]="backend/OBTB-HEXAWARE/BookingService"
+            ["busService"]="backend/OBTB-HEXAWARE/BusService"
+            ["configServer"]="backend/OBTB-HEXAWARE/Config-Server"
+            ["notificationService"]="backend/OBTB-HEXAWARE/NotificationService"
+            ["oauthService"]="backend/OBTB-HEXAWARE/OauthService"
+            ["transactionService"]="backend/OBTB-HEXAWARE/TransactionService"
+            ["userService"]="backend/OBTB-HEXAWARE/USER-SERVICE"
+            ["frontend"]="frontend/obtb-app"
+          )
+          echo "dir=${PATHS[${{ matrix.service }}]}" >> $GITHUB_OUTPUT
+
+      # Execution branch: If it's a backend service, set up Java and compile it
+      - name: Set up JDK 17 (Backend Only)
+        if: ${{ matrix.service != 'frontend' }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build JAR with Maven (Backend Only)
+        if: ${{ matrix.service != 'frontend' }}
+        run: |
+          cd ${{ steps.vars.outputs.dir }}
+          mvn clean package -DskipTests
+
+      # Execution branch: Build and push container using your central repository address
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./${{ steps.vars.outputs.dir }}
+          file: ./${{ steps.vars.outputs.dir }}/${{ matrix.service == 'frontend' && 'dockerfile' || 'Dockerfile' }}
+          push: true
+          tags: |
+            mikejuliet/obtb-hexaware-internship-project-docker:${{ matrix.service }}-${{ github.sha }}
+
+  # PHASE 3: Precision update of the Helm values file using yq
+  update-gitops:
+    needs: [detect-changes, build-and-push]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitOps Repository
+        uses: actions/checkout@v4
+        with:
+          repository: 'mihirjoshi884/OBTB-HEXAWARE-Internship-Project-GitOps'
+          token: ${{ secrets.GITOPS_PAT }}
+          path: gitops-repo
+
+      # Installs yq to parse and update the nested YAML keys perfectly
+      - name: Install yq
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Update Target Image Tags in Helm values.yaml
+        run: |
+          cd gitops-repo/helm/obtb
+          
+          # Loop through each modified service key and set its target image tag
+          for service in $(echo '${{ needs.detect-changes.outputs.services }}' | jq -r '.[]'); do
+            NEW_TAG="${service}-${{ github.sha }}"
+            echo "Updating Helm chart tag for services.${service}.image.tag to: ${NEW_TAG}"
+            yq -i ".services.${service}.image.tag = \"${NEW_TAG}\"" values.yaml
+          done
+
+      - name: Push Updates to GitOps Repository
+        run: |
+          cd gitops-repo
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add helm/obtb/values.yaml
+          git commit -m "chore: auto-update deployment tags to match commit ${{ github.sha }} [skip ci]" || exit 0
+          git config --global push.autoSetupRemote true
+          git push

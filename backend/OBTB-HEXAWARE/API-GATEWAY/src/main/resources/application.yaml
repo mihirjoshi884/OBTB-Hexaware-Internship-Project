@@ -105,32 +105,7 @@ spring:
             - RewritePath=/txn/(?<segment>.*), /${segment}
             - TokenRelay
 
-  # --- FIXED SECURITY OAUTH2 DEFINITIONS ---
-  security:
-    oauth2:
-      client:
-        registration:
-          api-gateway:
-            provider: my-auth-server
-            client-id: obtb-api-gateway
-            client-secret: obtb-api-gateway-secret
-            authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/api-gateway"
-            scope: openid, profile
-            client-authentication-method: client_secret_basic
 
-        provider:
-          my-auth-server:
-            authorization-uri: http://obtb-oauth-service:8081/oauth2/authorize
-            token-uri: http://obtb-oauth-service:8081/oauth2/token
-            jwk-set-uri: http://obtb-oauth-service:8081/oauth2/jwks
-            user-info-uri: http://obtb-oauth-service:8081/userinfo
-            user-name-attribute: sub
-
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8081
-          jwk-set-uri: http://obtb-oauth-service:8081/oauth2/jwks
 
 # --- SWAGGER UI AGGREGATION ---
 springdoc:
