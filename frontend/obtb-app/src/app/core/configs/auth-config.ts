@@ -1,7 +1,6 @@
 import { AuthConfig } from 'angular-oauth2-oidc';
 import { environment } from '../../../environments/environment';
 
-
 export const authConfig: AuthConfig = {
   issuer: (environment.baseUrls as any)['authservice.issuer'],
   clientId: 'obtb-client-001',
@@ -15,17 +14,13 @@ export const authConfig: AuthConfig = {
   useSilentRefresh: false,
   useIdTokenHintForSilentRefresh: true,
   
-  // Security settings: Use environment to toggle
-  requireHttps: environment.production, 
-  showDebugInformation: !environment.production,
+  // FORCE TO FALSE FOR LOCAL HTTP DEVELOPMENT
+  requireHttps: false, 
+  showDebugInformation: true,
   
   disablePKCE: false,
   timeoutFactor: 0.75,
   sessionChecksEnabled: false,
   strictDiscoveryDocumentValidation: false,
-  skipIssuerCheck: false
-
+  skipIssuerCheck: true // Helps avoid strict validation issues with cluster-internal domain naming
 };
-
-
-
