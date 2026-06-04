@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router'; // Added ActivatedRoute
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { environment } from '../../../environments/environment';
+import { authConfig } from '../../core/configs/auth-config';
 import { DataStore } from '../../core/data-store/data-store';
-import { AuthService } from '../../core/services/auth-service'; // Added AuthService import
-
+import { AuthService } from '../../core/services/auth-service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
   isPasswordVisible = false;
   errorMessage = '';
 
-  // Cleaned up injections (removed duplicates)
   private readonly http = inject(HttpClient);
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
@@ -40,7 +39,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Capture the 'memory' from the URL query params
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
   }
 
@@ -55,7 +53,7 @@ export class LoginComponent implements OnInit {
   submitLogin(): void {
     if (this.loginForm.valid) {
       this.dataStore.setLoading(true);
-      this.errorMessage = ''; // Clear previous errors
+      this.errorMessage = ''; 
       
       const { username, password } = this.loginForm.value;
 
@@ -79,11 +77,23 @@ export class LoginComponent implements OnInit {
       }).subscribe({
         next: () => {
           console.log('✅ Session established. Storing returnUrl and initiating OIDC...');
-          
-          // CRITICAL: Save returnUrl before the page redirects to the OIDC provider
           sessionStorage.setItem('auth_return_url', this.returnUrl);
           
-          this.oauthService.initCodeFlow();
+          // Ensure options are explicitly loaded into the service instance context
+          this.oauthService.configure(authConfig);
+
+          // Explicitly load the discovery document before calling initCodeFlow
+          this.oauthService.loadDiscoveryDocument()
+            .then(() => {
+              console.log('📖 Discovery document loaded successfully. Redirecting to Auth Server...');
+              this.oauthService.initCodeFlow(); 
+            })
+            .catch(err => {
+              console.error('❌ Failed to load discovery document during login redirect:', err);
+              this.dataStore.setLoading(false);
+              this.errorMessage = 'Authentication configuration loading failed.';
+              this.cdr.detectChanges();
+            });
         },
         error: (err) => {
           console.error('❌ Login failed:', err);
