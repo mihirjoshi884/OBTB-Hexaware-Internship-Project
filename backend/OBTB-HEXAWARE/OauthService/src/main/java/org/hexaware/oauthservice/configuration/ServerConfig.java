@@ -79,6 +79,8 @@ public class ServerConfig {
     private String angularBaseUri;
     @Value("${authservice.base-uri}")
     private String authServiceBaseUri;
+    @Value("${oauth.issuer-uri}")
+    private String authIssuer;
     @Autowired
     @Lazy
     private CustomUserDetailsService customUserDetailsService;
@@ -92,7 +94,7 @@ public class ServerConfig {
     @Bean
     public AuthorizationServerSettings  authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-                .issuer(authServiceBaseUri)
+                .issuer(authIssuer)
                 .build();
     }
     @Bean

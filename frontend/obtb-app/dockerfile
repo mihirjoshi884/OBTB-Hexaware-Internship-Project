@@ -11,7 +11,7 @@ RUN npm install
 COPY . .
 
 # Compile the application for production
-RUN npm run build -- --configuration=staging
+RUN npm run build -- --configuration=production
 
 # --- STAGE 2: Serve via Nginx Web Server ---
 FROM nginx:alpine
