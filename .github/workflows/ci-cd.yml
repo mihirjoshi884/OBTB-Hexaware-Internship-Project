@@ -3,18 +3,25 @@ name: OBTB GitOps CI/CD Pipeline
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      services:
+        description: 'JSON array of services e.g. ["oauthService","configServer"]'
+        required: true
+        default: '["oauthService","configServer"]'
 
 jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      services: ${{ steps.filter.outputs.changes }}
+      services: ${{ steps.set-services.outputs.services }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Check for Changes
+      - name: Check for Changes (Push Only)
         id: filter
+        if: github.event_name == 'push'
         uses: dorny/paths-filter@v3
         with:
           filters: |
@@ -28,11 +35,21 @@ jobs:
             userService: 'backend/OBTB-HEXAWARE/USER-SERVICE/**'
             frontend: 'frontend/obtb-app/**'
 
+      - name: Set Services Output
+        id: set-services
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "services=${{ github.event.inputs.services }}" >> $GITHUB_OUTPUT
+          else
+            echo "services=${{ steps.filter.outputs.changes }}" >> $GITHUB_OUTPUT
+          fi
+
   build-and-push:
     needs: detect-changes
     if: ${{ needs.detect-changes.outputs.services != '[]' && needs.detect-changes.outputs.services != '' }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false        # ← other services continue even if one fails
       matrix:
         service: ${{ fromJSON(needs.detect-changes.outputs.services) }}
 
@@ -76,7 +93,6 @@ jobs:
           cd ${{ steps.vars.outputs.dir }}
           mvn clean package -DskipTests
 
-      # ↓ Cache npm packages — frontend only, runs on the runner before Docker build
       - name: Set up Node with npm cache (Frontend Only)
         if: ${{ matrix.service == 'frontend' }}
         uses: actions/setup-node@v4
