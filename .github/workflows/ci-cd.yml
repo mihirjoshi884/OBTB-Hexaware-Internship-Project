@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
     inputs:
       services:
-        description: 'JSON array of services e.g. ["oauthService","configServer"]'
+        description: 'Comma-separated services e.g. oauthService,configServer'
         required: true
-        default: '["oauthService","configServer"]'
+        default: 'oauthService,configServer'
 
 jobs:
   detect-changes:
@@ -35,11 +35,13 @@ jobs:
             userService: 'backend/OBTB-HEXAWARE/USER-SERVICE/**'
             frontend: 'frontend/obtb-app/**'
 
-      - name: Set Services Output
+      - name: Set Services Output          # ← ADD THIS STEP HERE
         id: set-services
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            echo "services=${{ github.event.inputs.services }}" >> $GITHUB_OUTPUT
+            INPUT="${{ github.event.inputs.services }}"
+            JSON=$(echo "$INPUT" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip().split(',')))")
+            echo "services=${JSON}" >> $GITHUB_OUTPUT
           else
             echo "services=${{ steps.filter.outputs.changes }}" >> $GITHUB_OUTPUT
           fi
