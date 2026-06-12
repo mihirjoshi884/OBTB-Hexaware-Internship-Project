@@ -65,21 +65,24 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Set Service Variables
+      # Robust environment resolution that explicitly maps the directory name mapping
+      - name: Resolve Service Directory Path
         id: vars
         run: |
-          declare -A PATHS=(
-            ["apiGateway"]="backend/OBTB-HEXAWARE/API-GATEWAY"
-            ["bookingService"]="backend/OBTB-HEXAWARE/BookingService"
-            ["busService"]="backend/OBTB-HEXAWARE/BusService"
-            ["configServer"]="backend/OBTB-HEXAWARE/Config-Server"
-            ["notificationService"]="backend/OBTB-HEXAWARE/NotificationService"
-            ["oauthService"]="backend/OBTB-HEXAWARE/OauthService"
-            ["transactionService"]="backend/OBTB-HEXAWARE/TransactionService"
-            ["userService"]="backend/OBTB-HEXAWARE/USER-SERVICE"
-            ["frontend"]="frontend/obtb-app"
-          )
-          echo "dir=${PATHS[${{ matrix.service }}]}" >> $GITHUB_OUTPUT
+          SERVICE="${{ matrix.service }}"
+          case "$SERVICE" in
+            "apiGateway")           DIR="backend/OBTB-HEXAWARE/API-GATEWAY" ;;
+            "bookingService")       DIR="backend/OBTB-HEXAWARE/BookingService" ;;
+            "busService")           DIR="backend/OBTB-HEXAWARE/BusService" ;;
+            "configServer")         DIR="backend/OBTB-HEXAWARE/Config-Server" ;;
+            "notificationService")  DIR="backend/OBTB-HEXAWARE/NotificationService" ;;
+            "oauthService")         DIR="backend/OBTB-HEXAWARE/OauthService" ;;
+            "transactionService")   DIR="backend/OBTB-HEXAWARE/TransactionService" ;;
+            "userService")           DIR="backend/OBTB-HEXAWARE/USER-SERVICE" ;;
+            "frontend")              DIR="frontend/obtb-app" ;;
+            *)                       echo "Unknown service: $SERVICE"; exit 1 ;;
+          esac
+          echo "dir=$DIR" >> $GITHUB_OUTPUT
 
       - name: Set up JDK 17 (Backend Only)
         if: ${{ matrix.service != 'frontend' }}
@@ -89,10 +92,11 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      # Explicitly use working-directory to ensure maven executes inside the module target
       - name: Build JAR with Maven (Backend Only)
         if: ${{ matrix.service != 'frontend' }}
+        working-directory: ${{ steps.vars.outputs.dir }}
         run: |
-          cd ${{ steps.vars.outputs.dir }}
           mvn clean package -DskipTests
 
       - name: Set up Node with npm cache (Frontend Only)
