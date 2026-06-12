@@ -35,7 +35,7 @@ jobs:
             userService: 'backend/OBTB-HEXAWARE/USER-SERVICE/**'
             frontend: 'frontend/obtb-app/**'
 
-      - name: Set Services Output          # ← ADD THIS STEP HERE
+      - name: Set Services Output
         id: set-services
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
@@ -43,7 +43,8 @@ jobs:
             JSON=$(echo "$INPUT" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip().split(',')))")
             echo "services=${JSON}" >> $GITHUB_OUTPUT
           else
-            echo "services=${{ steps.filter.outputs.changes }}" >> $GITHUB_OUTPUT
+            # FIX: changes_modules outputs valid JSON arrays like ["apiGateway"]
+            echo "services=${{ steps.filter.outputs.changes_modules }}" >> $GITHUB_OUTPUT
           fi
 
   build-and-push:
@@ -51,7 +52,7 @@ jobs:
     if: ${{ needs.detect-changes.outputs.services != '[]' && needs.detect-changes.outputs.services != '' }}
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false        # ← other services continue even if one fails
+      fail-fast: false
       matrix:
         service: ${{ fromJSON(needs.detect-changes.outputs.services) }}
 
