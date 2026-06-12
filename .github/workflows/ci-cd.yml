@@ -116,8 +116,6 @@ jobs:
   update-gitops:
     needs: [detect-changes, build-and-push]
     runs-on: ubuntu-latest
-    env:
-      CHANGED_SERVICES: ${{ needs.detect-changes.outputs.services }}
     steps:
       - name: Checkout GitOps Repository
         uses: actions/checkout@v4
@@ -132,10 +130,15 @@ jobs:
           sudo chmod +x /usr/local/bin/yq
 
       - name: Update Target Image Tags in Helm values.yaml
+        # Move the env context block right here into the step scope!
+        env:
+          CHANGED_SERVICES: ${{ needs.detect-changes.outputs.services }}
         run: |
           cd gitops-repo/helm/obtb
           
-          # Safety mechanism to completely prevent jq parsing exceptions
+          # Print for validation tracking in logs
+          echo "Debug: CHANGED_SERVICES raw value is -> $CHANGED_SERVICES"
+          
           if [ -z "$CHANGED_SERVICES" ] || [ "$CHANGED_SERVICES" = "[]" ] || [ "$CHANGED_SERVICES" = "null" ]; then
             echo "No changed services parsed from upstream jobs. Skipping tag updates."
             exit 0
