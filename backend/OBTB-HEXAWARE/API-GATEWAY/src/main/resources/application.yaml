@@ -20,16 +20,16 @@ spring:
           uri: ${userservice.base-uri:http://localhost:8081}
           order: -1
           predicates:
-            - Path=/auth/v3/api-docs
+            - Path=/${gateway.routes.auth-prefix}/v3/api-docs
           filters:
-            - RewritePath=/auth/(?<segment>.*), /${segment}
+            - RewritePath=/${gateway.routes.auth-prefix}/(?<segment>.*), /${segment}
 
         - id: auth-service-route
           uri: ${authservice.base-uri:http://localhost:8081}
           predicates:
-            - Path=/auth/**
+            - Path=/${gateway.routes.auth-prefix}/**
           filters:
-            - RewritePath=/auth/(?<segment>.*), /${segment}
+            - RewritePath=/${gateway.routes.auth-prefix}/(?<segment>.*), /${segment}
 
         # ==========================================
         # 02. USER SERVICE ROUTES
@@ -38,16 +38,16 @@ spring:
           uri: ${userservice.base-uri:http://localhost:8082}
           order: -1
           predicates:
-            - Path=/user/v3/api-docs
+            - Path=/${gateway.routes.user-prefix}/v3/api-docs
           filters:
-            - RewritePath=/user/(?<segment>.*), /${segment}
+            - RewritePath=/${gateway.routes.user-prefix}/(?<segment>.*), /${segment}
 
         - id: user-service-route
           uri: ${userservice.base-uri:http://localhost:8082}
           predicates:
-            - Path=/user/**
+            - Path=/${gateway.routes.user-prefix}/**
           filters:
-            - RewritePath=/user/(?<segment>.*), /${segment}
+            - RewritePath=/${gateway.routes.user-prefix}/(?<segment>.*), /${segment}
             - TokenRelay
 
         # ==========================================
@@ -57,16 +57,16 @@ spring:
           uri: ${busService.base-uri:http://localhost:8086}
           order: -1
           predicates:
-            - Path=/bus/v3/api-docs
+            - Path=/${gateway.routes.bus-prefix}/v3/api-docs
           filters:
-            - RewritePath=/bus/(?<segment>.*), /${segment}
+            - RewritePath=/${gateway.routes.bus-prefix}/(?<segment>.*), /${segment}
 
         - id: bus-service-route
           uri: ${busService.base-uri:http://localhost:8086}
           predicates:
-            - Path=/bus/**
+            - Path=/${gateway.routes.bus-prefix}/**
           filters:
-            - RewritePath=/bus/(?<segment>.*), /${segment}
+            - RewritePath=/${gateway.routes.bus-prefix}/(?<segment>.*), /${segment}
 
         # ==========================================
         # 04. BOOKING SERVICE ROUTES
@@ -75,16 +75,16 @@ spring:
           uri: ${bookingService.base-uri:http://localhost:8087}
           order: -1
           predicates:
-            - Path=/booking/v3/api-docs
+            - Path=/${gateway.routes.booking-prefix}/v3/api-docs
           filters:
-            - RewritePath=/booking/(?<segment>.*), /${segment}
+            - RewritePath=/${gateway.routes.booking-prefix}/(?<segment>.*), /${segment}
 
         - id: booking-service-route
           uri: ${bookingService.base-uri:http://localhost:8087}
           predicates:
-            - Path=/booking/**
+            - Path=/${gateway.routes.booking-prefix}/**
           filters:
-            - RewritePath=/booking/(?<segment>.*), /${segment}
+            - RewritePath=/${gateway.routes.booking-prefix}/(?<segment>.*), /${segment}
 
         # ==========================================
         # 05. TRANSACTION SERVICE ROUTES
@@ -93,16 +93,16 @@ spring:
           uri: ${transactionservice.base-uri:http://localhost:8085}
           order: -1
           predicates:
-            - Path=/txn/v3/api-docs
+            - Path=/${gateway.routes.txn-prefix}/v3/api-docs
           filters:
-            - RewritePath=/txn/(?<segment>.*), /${segment}
+            - RewritePath=/${gateway.routes.txn-prefix}/(?<segment>.*), /${segment}
 
         - id: transaction-service-route
           uri: ${transactionservice.base-uri:http://localhost:8085}
           predicates:
-            - Path=/txn/**
+            - Path=/${gateway.routes.txn-prefix}/**
           filters:
-            - RewritePath=/txn/(?<segment>.*), /${segment}
+            - RewritePath=/${gateway.routes.txn-prefix}/(?<segment>.*), /${segment}
             - TokenRelay
 
 
