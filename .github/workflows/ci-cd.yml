@@ -43,7 +43,6 @@ jobs:
             JSON=$(echo "$INPUT" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip().split(',')))")
             echo "services=${JSON}" >> $GITHUB_OUTPUT
           else
-            # FIX: changes_modules outputs valid JSON arrays like ["apiGateway"]
             echo "services=${{ steps.filter.outputs.changes_modules }}" >> $GITHUB_OUTPUT
           fi
 
@@ -130,13 +129,11 @@ jobs:
           sudo chmod +x /usr/local/bin/yq
 
       - name: Update Target Image Tags in Helm values.yaml
-        # Move the env context block right here into the step scope!
         env:
           CHANGED_SERVICES: ${{ needs.detect-changes.outputs.services }}
         run: |
           cd gitops-repo/helm/obtb
           
-          # Print for validation tracking in logs
           echo "Debug: CHANGED_SERVICES raw value is -> $CHANGED_SERVICES"
           
           if [ -z "$CHANGED_SERVICES" ] || [ "$CHANGED_SERVICES" = "[]" ] || [ "$CHANGED_SERVICES" = "null" ]; then
@@ -147,7 +144,9 @@ jobs:
           for service in $(echo "$CHANGED_SERVICES" | jq -r '.[]?'); do
             NEW_TAG="${service}-${{ github.sha }}"
             echo "Updating Helm chart tag for services.${service}.image.tag to: ${NEW_TAG}"
-            yq -i ".services.${service}.image.tag = \"${NEW_TAG}\"" values.yaml
+            
+            # Executes yq cleanly without broken nested shell strings
+            SERVICE_NAME="$service" NEW_TAG_VAL="$NEW_TAG" yq -i '.services.[env(SERVICE_NAME)].image.tag = env(NEW_TAG_VAL)' values.yaml
           done
 
       - name: Push Updates to GitOps Repository
